@@ -87,9 +87,9 @@
 
             </nav>
         </div>
-        <div class="wrapper wrapper-content animated fadeInRight">
-            @yield('content')
-        </div>
+		
+		@yield('content')
+        
         <div class="footer">
             <div>
                 <strong>Copyright</strong> Kemenkopolhukam &copy; 2015
