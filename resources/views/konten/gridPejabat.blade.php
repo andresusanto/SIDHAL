@@ -70,22 +70,57 @@
                         ],
                 addrow: function (rowid, rowdata, position, commit) {
                     // synchronize with the server - send insert command
-                    // call commit with parameter true if the synchronization with the server is successful
-                    //and with parameter false if the synchronization failed.
-                    // you can pass additional argument to the commit callback which represents the new ID if it is generated from a DB.
-                    commit(true);
+                    var data = "insert=true&" + $.param(rowdata);
+                    $.ajax({
+                        dataType: 'json',
+                        url: 'data.php',
+                        data: data,
+                        cache: false,
+                        success: function (data, status, xhr) {
+                            // insert command is executed.
+                            commit(true);
+                        },
+                        error: function(jqXHR, textStatus, errorThrown)
+                        {
+                            commit(false);
+                        }
+                    });
                 },
                 deleterow: function (rowid, commit) {
                     // synchronize with the server - send delete command
-                    // call commit with parameter true if the synchronization with the server is successful
-                    //and with parameter false if the synchronization failed.
-                    commit(true);
+                    var data = "delete=true&" + $.param({EmployeeID: rowid});
+                    $.ajax({
+                        dataType: 'json',
+                        url: 'data.php',
+                        cache: false,
+                        data: data,
+                        success: function (data, status, xhr) {
+                            // delete command is executed.
+                            commit(true);
+                        },
+                        error: function(jqXHR, textStatus, errorThrown)
+                        {
+                            commit(false);
+                        }
+                    });
                 },
-                updaterow: function (rowid, newdata, commit) {
+                updaterow: function (rowid, rowdata, commit) {
                     // synchronize with the server - send update command
-                    // call commit with parameter true if the synchronization with the server is successful
-                    // and with parameter false if the synchronization failed.
-                    commit(true);
+                    var data = "update=true&" + $.param(rowdata);
+                    $.ajax({
+                        dataType: 'json',
+                        url: 'data.php',
+                        cache: false,
+                        data: data,
+                        success: function (data, status, xhr) {
+                            // update command is executed.
+                            commit(true);
+                        },
+                        error: function(jqXHR, textStatus, errorThrown)
+                        {
+                            commit(false);
+                        }
+                    });
                 }
             };
             var dataAdapter = new $.jqx.dataAdapter(source);
