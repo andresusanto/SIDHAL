@@ -15,13 +15,12 @@ class CreatePejabatsTable extends Migration {
 		Schema::create('pejabats', function(Blueprint $table)
 		{
 			$table->increments('id');
-			
-			$table->char('organisasi', 1);
-			$table->string('jabatan');
 			$table->string('nama');
+            $table->string('jabatan');
+            $table->string('instansi');
+            $table->string('alamat');
+            $table->string('telepon');
 			$table->string('email');
-			
-			$table->timestamps();
 		});
 	}
 

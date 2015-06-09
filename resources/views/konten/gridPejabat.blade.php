@@ -60,7 +60,6 @@
                 datatype: "local",
                 datafields:
                         [
-
                             { name: 'nama', type: 'string' },
                             { name: 'jabatan', type: 'string' },
                             { name: 'instansi', type: 'string' },
@@ -195,13 +194,13 @@
 @section('content')
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>Entry Rapat Baru</h2>
+        <h2>Managemen Data Pejabat</h2>
         <ol class="breadcrumb">
             <li>
                 <a href="index.html">Home</a>
             </li>
             <li class="active">
-                <strong>Entry Rapat</strong>
+                <strong>Managemen Pejabat</strong>
             </li>
         </ol>
     </div>
