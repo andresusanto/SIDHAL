@@ -91,7 +91,7 @@
             // initialize jqxGrid
             $("#jqxgrid").jqxGrid(
                     {
-                        width: 850,
+                        width: 1000,
                         height: 350,
                         source: dataAdapter,
                         showtoolbar: true,
@@ -99,10 +99,10 @@
                             var me = this;
                             var container = $("<div style='margin: 5px;'></div>");
                             toolbar.append(container);
-                            container.append('<input id="addrowbutton" type="button" value="Add New Row" />');
+                            container.append('<input id="addrowbutton" type="button" value="Tambah Data Pejabat" />');
                             container.append('<input style="margin-left: 5px;" id="addmultiplerowsbutton" type="button" value="Add Multiple New Rows" />');
-                            container.append('<input style="margin-left: 5px;" id="deleterowbutton" type="button" value="Delete Selected Row" />');
-                            container.append('<input style="margin-left: 5px;" id="updaterowbutton" type="button" value="Update Selected Row" />');
+                            container.append('<input style="margin-left: 5px;" id="deleterowbutton" type="button" value="Hapus Data Pejabat" />');
+                            container.append('<input style="margin-left: 5px;" id="updaterowbutton" type="button" value="Update Data Pejabat" />');
                             $("#addrowbutton").jqxButton();
                             $("#addmultiplerowsbutton").jqxButton();
                             $("#deleterowbutton").jqxButton();
@@ -143,12 +143,13 @@
                             });
                         },
                         columns: [
-                            { text: 'First Name', datafield: 'firstname', width: 200 },
-                            { text: 'Last Name', datafield: 'lastname', width: 200 },
-                            { text: 'Product', datafield: 'productname', width: 180 },
-                            { text: 'Quantity', datafield: 'quantity', width: 80, cellsalign: 'right' },
-                            { text: 'Unit Price', datafield: 'price', width: 90, cellsalign: 'right', cellsformat: 'c2' },
-                            { text: 'Total', datafield: 'total',  cellsalign: 'right', cellsformat: 'c2' }
+                            { text: 'No', datafield: 'no', width: 50 },
+                            { text: 'Nama', datafield: 'nama', width: 200 },
+                            { text: 'Jabatan', datafield: 'jabatan', width: 150 },
+                            { text: 'Instansi', datafield: 'instansi', width: 150 },
+                            { text: 'Alamat', datafield: 'alamat', width: 200, cellsalign: 'right' },
+                            { text: 'Telepon', datafield: 'telepon', width: 100, cellsalign: 'right', cellsformat: 'c2' },
+                            { text: 'Email', datafield: 'email',  width:150, cellsalign: 'right' }
                         ]
                     });
         });
@@ -175,10 +176,8 @@
 
 <div class="wrapper wrapper-content animated fadeInRight">   
 	<div class="row">
-		<div class="col-lg-12">
-            <div id="jqxgrid">
-            </div>
-		</div>
+        <div id="jqxgrid" class="col-lg-12">
+        </div>
 	</div>
 </div>
 @endsection
