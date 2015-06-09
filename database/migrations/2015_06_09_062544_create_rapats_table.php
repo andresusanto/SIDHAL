@@ -15,7 +15,21 @@ class CreateRapatsTable extends Migration {
 		Schema::create('rapats', function(Blueprint $table)
 		{
 			$table->increments('id');
+			
+			$table->string('jenis_rapat');
+			$table->dateTime('waktu');
+			$table->string('tempat');
+			$table->text('pembahasan');
+			$table->string('pimpinan');
+			
 			$table->timestamps();
+		});
+		
+		Schema::create('pejabat_rapat', function(Blueprint $table)
+		{
+			$table->integer('pejabat_id')->unsigned();
+			$table->integer('rapat_id')->unsigned();
+				
 		});
 	}
 

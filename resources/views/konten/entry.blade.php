@@ -1,9 +1,93 @@
 @extends('base')
 
 @section('addoncss')
+<link href="{{ asset('/css/plugins/iCheck/custom.css') }}" rel="stylesheet">
+<link href="{{ asset('/css/plugins/steps/jquery.steps.css') }}" rel="stylesheet">
 @endsection
 
 @section('addonjs')
+<script src="js/plugins/staps/jquery.steps.min.js"></script>
+<script src="js/plugins/validate/jquery.validate.min.js"></script>
+
+<script>
+$(document).ready(function(){
+	$("#form").steps({
+		bodyTag: "fieldset",
+		onStepChanging: function (event, currentIndex, newIndex)
+		{
+			// Always allow going backward even if the current step contains invalid fields!
+			if (currentIndex > newIndex)
+			{
+				return true;
+			}
+
+			// Forbid suppressing "Warning" step if the user is to young
+			if (newIndex === 3 && Number($("#age").val()) < 18)
+			{
+				return false;
+			}
+
+			var form = $(this);
+
+			// Clean up if user went backward before
+			if (currentIndex < newIndex)
+			{
+				// To remove error styles
+				$(".body:eq(" + newIndex + ") label.error", form).remove();
+				$(".body:eq(" + newIndex + ") .error", form).removeClass("error");
+			}
+
+			// Disable validation on fields that are disabled or hidden.
+			form.validate().settings.ignore = ":disabled,:hidden";
+
+			// Start validation; Prevent going forward if false
+			return form.valid();
+		},
+		onStepChanged: function (event, currentIndex, priorIndex)
+		{
+			// Suppress (skip) "Warning" step if the user is old enough.
+			if (currentIndex === 2 && Number($("#age").val()) >= 18)
+			{
+				$(this).steps("next");
+			}
+
+			// Suppress (skip) "Warning" step if the user is old enough and wants to the previous step.
+			if (currentIndex === 2 && priorIndex === 3)
+			{
+				$(this).steps("previous");
+			}
+		},
+		onFinishing: function (event, currentIndex)
+		{
+			var form = $(this);
+
+			// Disable validation on fields that are disabled.
+			// At this point it's recommended to do an overall check (mean ignoring only disabled fields)
+			form.validate().settings.ignore = ":disabled";
+
+			// Start validation; Prevent form submission if false
+			return form.valid();
+		},
+		onFinished: function (event, currentIndex)
+		{
+			var form = $(this);
+
+			// Submit form input
+			form.submit();
+		}
+	}).validate({
+				errorPlacement: function (error, element)
+				{
+					element.before(error);
+				},
+				rules: {
+					confirm: {
+						equalTo: "#password"
+					}
+				}
+			});
+});
+</script>
 @endsection
 
 @section('content')
@@ -29,31 +113,6 @@
 		
 		
 		<div class="col-lg-12">
-			<div class="ibox">
-				<div class="ibox-title">
-					<h5>Wizard with Validation</h5>
-					<div class="ibox-tools">
-						<a class="collapse-link">
-							<i class="fa fa-chevron-up"></i>
-						</a>
-						<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-							<i class="fa fa-wrench"></i>
-						</a>
-						<ul class="dropdown-menu dropdown-user">
-							<li><a href="#">Config option 1</a>
-							</li>
-							<li><a href="#">Config option 2</a>
-							</li>
-						</ul>
-						<a class="close-link">
-							<i class="fa fa-times"></i>
-						</a>
-					</div>
-				</div>
-				<div class="ibox-content">
-					<h2>
-						Validation Wizard Form
-					</h2>
 					<p>
 						This example show how to use Steps with jQuery Validation plugin.
 					</p>
@@ -127,8 +186,6 @@
 							<input id="acceptTerms" name="acceptTerms" type="checkbox" class="required"> <label for="acceptTerms">I agree with the Terms and Conditions.</label>
 						</fieldset>
 					</form>
-				</div>
-			</div>
 		</div>
 		
 		
