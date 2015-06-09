@@ -42,12 +42,12 @@
                 var productindex = Math.floor(Math.random() * productNames.length);
                 var price = parseFloat(priceValues[productindex]);
                 var quantity = 1 + Math.round(Math.random() * 10);
-                row["firstname"] = firstNames[Math.floor(Math.random() * firstNames.length)];
-                row["lastname"] = lastNames[Math.floor(Math.random() * lastNames.length)];
-                row["productname"] = productNames[productindex];
-                row["price"] = price;
-                row["quantity"] = quantity;
-                row["total"] = price * quantity;
+                row["nama"] = firstNames[Math.floor(Math.random() * firstNames.length)];
+                row["jabatan"] = lastNames[Math.floor(Math.random() * lastNames.length)];
+                row["instansi"] = productNames[productindex];
+                row["alamat"] = price;
+                row["telpon"] = quantity;
+                row["email"] = price * quantity;
                 return row;
             }
             for (var i = 0; i < 10; i++) {
@@ -60,12 +60,13 @@
                 datatype: "local",
                 datafields:
                         [
-                            { name: 'firstname', type: 'string' },
-                            { name: 'lastname', type: 'string' },
-                            { name: 'productname', type: 'string' },
-                            { name: 'quantity', type: 'number' },
-                            { name: 'price', type: 'number' },
-                            { name: 'total', type: 'number' }
+
+                            { name: 'nama', type: 'string' },
+                            { name: 'jabatan', type: 'string' },
+                            { name: 'instansi', type: 'string' },
+                            { name: 'alamat', type: 'string' },
+                            { name: 'telpon', type: 'string' },
+                            { name: 'email', type: 'string' }
                         ],
                 addrow: function (rowid, rowdata, position, commit) {
                     // synchronize with the server - send insert command
@@ -100,9 +101,9 @@
                             var container = $("<div style='margin: 5px;'></div>");
                             toolbar.append(container);
                             container.append('<input id="addrowbutton" type="button" value="Tambah Data Pejabat" />');
-                            container.append('<input style="margin-left: 5px;" id="addmultiplerowsbutton" type="button" value="Add Multiple New Rows" />');
+                            container.append('<input style="margin-left: 5px;" id="addmultiplerowsbutton" type="button" value="Tambah Data Pejabat" />');
                             container.append('<input style="margin-left: 5px;" id="deleterowbutton" type="button" value="Hapus Data Pejabat" />');
-                            container.append('<input style="margin-left: 5px;" id="updaterowbutton" type="button" value="Update Data Pejabat" />');
+                            container.append('<input style="margin-left: 5px;" id="updaterowbutton" type="button" value="Update Selected Row" />');
                             $("#addrowbutton").jqxButton();
                             $("#addmultiplerowsbutton").jqxButton();
                             $("#deleterowbutton").jqxButton();
