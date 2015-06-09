@@ -1,5 +1,11 @@
 @extends('base')
 
+@section('addoncss')
+@endsection
+
+@section('addonjs')
+@endsection
+
 @section('content')
 <div class="wrapper wrapper-content animated fadeInRight">   
 	<div class="row">

@@ -12,6 +12,8 @@
 
     <link href="{{ asset('/css/animate.css') }}" rel="stylesheet">
     <link href="{{ asset('/css/style.css') }}" rel="stylesheet">
+	
+	@yield('addoncss')
 
 </head>
 
@@ -108,7 +110,7 @@
 <!-- Custom and plugin javascript -->
 <script src="{{ asset('/js/inspinia.js') }}"></script>
 <script src="{{ asset('/js/plugins/pace/pace.min.js') }}"></script>
-
+@yield('addonjs')
 
 </body>
 
