@@ -21,10 +21,13 @@
         $(document).ready(function () {
             // prepare the data
             var data = {};
-            var firstNames =
-                    [
-                        "Andrew", "Nancy", "Shelley", "Regina", "Yoshi", "Antoni", "Mayumi", "Ian", "Peter", "Lars", "Petra", "Martin", "Sven", "Elio", "Beate", "Cheryl", "Michael", "Guylene"
-                    ];
+            var firstNames = [];
+            $.getJSON( '{{ action("PejabatController@getListPejabat") }}', function( data ) {
+            }).done(function(data){
+                alert(data.nama);
+                var firstNames = data.nama;
+            });
+
             var lastNames =
                     [
                         "Fuller", "Davolio", "Burke", "Murphy", "Nagase", "Saavedra", "Ohno", "Devling", "Wilson", "Peterson", "Winkler", "Bein", "Petersen", "Rossi", "Vileid", "Saylor", "Bjorn", "Nodier"

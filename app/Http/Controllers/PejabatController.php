@@ -34,9 +34,9 @@ class PejabatController extends Controller {
             array_push($listTelepon,$pejabat->telepon);
             array_push($listEmail,$pejabat->email);
         }
-        array_push($listPejabat,array('nama'=>$listNama,'jabatan'=>$listJabatan,'instansi'=>$listInstansi,'alamat'=>$listAlamat,'telepon'=>$listTelepon,'email'=>$listEmail));
+
         //return json_encode($listNama);
-        return json_decode(json_encode($listPejabat));
+        return json_encode(array('nama'=>$listNama,'jabatan'=>$listJabatan,'instansi'=>$listInstansi,'alamat'=>$listAlamat,'telepon'=>$listTelepon,'email'=>$listEmail));
     }
     public function getGrid()
     {
