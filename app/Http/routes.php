@@ -15,9 +15,12 @@ Route::get('/', 'WelcomeController@index');
 
 Route::get('home', 'HomeController@index');
 
+Route::get('/gridPejabat','PejabatController@getGrid');
+Route::get('/gridPejabat/getList','PejabatController@getListPejabat');
 Route::controllers([
-	'rapat' => 'DaftarRapatController',
+    'pejabat' => 'PejabatController',
 	'entry' => 'EntryController',
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
+	'rapat' => 'DaftarRapatController',
 ]);
