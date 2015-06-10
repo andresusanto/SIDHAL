@@ -20,37 +20,28 @@
     <script type="text/javascript">
         $(document).ready(function () {
             // prepare the data
-            var data = {};
-            var firstNames = [];
             $.getJSON( '{{ action("PejabatController@getListPejabat") }}', function( data ) {
             }).done(function(data){
-                var firstNames = data.nama;
-                var lastNames =
-                        [
-                            "Fuller", "Davolio", "Burke", "Murphy", "Nagase", "Saavedra", "Ohno", "Devling", "Wilson", "Peterson", "Winkler", "Bein", "Petersen", "Rossi", "Vileid", "Saylor", "Bjorn", "Nodier"
-                        ];
-                var productNames =
-                        [
-                            "Black Tea", "Green Tea", "Caffe Espresso", "Doubleshot Espresso", "Caffe Latte", "White Chocolate Mocha", "Cramel Latte", "Caffe Americano", "Cappuccino", "Espresso Truffle", "Espresso con Panna", "Peppermint Mocha Twist"
-                        ];
-                var priceValues =
-                        [
-                            "2.25", "1.5", "3.0", "3.3", "4.5", "3.6", "3.8", "2.5", "5.0", "1.75", "3.25", "4.0"
-                        ];
+                var count = data.count;
+                var nama = data.nama;
+                var jabatan = data.jabatan;
+                var instansi =  data.instansi;
+                var alamat = data.alamat;
+                var telepon =  data.telepon;
+                var email = data.email;
+
                 var generaterow = function (i) {
                     var row = {};
-                    var productindex = Math.floor(Math.random() * productNames.length);
-                    var price = parseFloat(priceValues[productindex]);
-                    var quantity = 1 + Math.round(Math.random() * 10);
-                    row["nama"] = firstNames[Math.floor(Math.random() * firstNames.length)];
-                    row["jabatan"] = lastNames[Math.floor(Math.random() * lastNames.length)];
-                    row["instansi"] = productNames[productindex];
-                    row["alamat"] = price;
-                    row["telpon"] = quantity;
-                    row["email"] = price * quantity;
+                    row["nama"] = nama[i];
+                    row["jabatan"] = jabatan[i];
+                    row["instansi"] = instansi[i];
+                    row["alamat"] = alamat[i];
+                    row["telpon"] = telepon[i];
+                    row["email"] = email[i];
                     return row;
                 }
-                for (var i = 0; i < 10; i++) {
+
+                for (var i = 0; i < count; i++) {
                     var row = generaterow(i);
                     data[i] = row;
                 }
@@ -70,56 +61,56 @@
                     addrow: function (rowid, rowdata, position, commit) {
                         // synchronize with the server - send insert command
                         var data = "insert=true&" + $.param(rowdata);
-                        $.ajax({
-                            dataType: 'json',
-                            url: 'data.php',
-                            data: data,
-                            cache: false,
-                            success: function (data, status, xhr) {
-                                // insert command is executed.
-                                commit(true);
-                            },
-                            error: function(jqXHR, textStatus, errorThrown)
-                            {
-                                commit(false);
-                            }
-                        });
+//                        $.ajax({
+//                            dataType: 'json',
+//                            url: 'data.php',
+//                            data: data,
+//                            cache: false,
+//                            success: function (data, status, xhr) {
+//                                // insert command is executed.
+//                                commit(true);
+//                            },
+//                            error: function(jqXHR, textStatus, errorThrown)
+//                            {
+//                                commit(false);
+//                            }
+//                        });
                     },
                     deleterow: function (rowid, commit) {
                         // synchronize with the server - send delete command
                         var data = "delete=true&" + $.param({EmployeeID: rowid});
-                        $.ajax({
-                            dataType: 'json',
-                            url: 'data.php',
-                            cache: false,
-                            data: data,
-                            success: function (data, status, xhr) {
-                                // delete command is executed.
-                                commit(true);
-                            },
-                            error: function(jqXHR, textStatus, errorThrown)
-                            {
-                                commit(false);
-                            }
-                        });
+//                        $.ajax({
+//                            dataType: 'json',
+//                            url: 'data.php',
+//                            cache: false,
+//                            data: data,
+//                            success: function (data, status, xhr) {
+//                                // delete command is executed.
+//                                commit(true);
+//                            },
+//                            error: function(jqXHR, textStatus, errorThrown)
+//                            {
+//                                commit(false);
+//                            }
+//                        });
                     },
                     updaterow: function (rowid, rowdata, commit) {
                         // synchronize with the server - send update command
                         var data = "update=true&" + $.param(rowdata);
-                        $.ajax({
-                            dataType: 'json',
-                            url: 'data.php',
-                            cache: false,
-                            data: data,
-                            success: function (data, status, xhr) {
-                                // update command is executed.
-                                commit(true);
-                            },
-                            error: function(jqXHR, textStatus, errorThrown)
-                            {
-                                commit(false);
-                            }
-                        });
+//                        $.ajax({
+//                            dataType: 'json',
+//                            url: 'data.php',
+//                            cache: false,
+//                            data: data,
+//                            success: function (data, status, xhr) {
+//                                // update command is executed.
+//                                commit(true);
+//                            },
+//                            error: function(jqXHR, textStatus, errorThrown)
+//                            {
+//                                commit(false);
+//                            }
+//                        });
                     }
                 };
                 var dataAdapter = new $.jqx.dataAdapter(source);
