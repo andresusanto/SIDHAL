@@ -3,14 +3,19 @@
 @section('addoncss')
 <link href="{{ asset('/css/plugins/iCheck/custom.css') }}" rel="stylesheet">
 <link href="{{ asset('/css/plugins/steps/jquery.steps.css') }}" rel="stylesheet">
+<link href="{{ asset('/js/plugins/jquery-ui/jquery-ui.min.css') }}" rel="stylesheet">
+<link href="{{ asset('/js/plugins/timepicker/jquery.timepicker.css') }}" rel="stylesheet">
+
 @endsection
 
 @section('addonjs')
-<script src="js/plugins/staps/jquery.steps.min.js"></script>
-<script src="js/plugins/validate/jquery.validate.min.js"></script>
-
+<script src="{{ asset('/js/plugins/staps/jquery.steps.min.js') }}"></script>
+<script src="{{ asset('/js/plugins/validate/jquery.validate.min.js') }}"></script>
+<script src="{{ asset('/js/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
+<script src="{{ asset('/js/plugins/timepicker/jquery.timepicker.js') }}"></script>
 <script>
 $(document).ready(function(){
+	
 	$("#form").steps({
 		bodyTag: "fieldset",
 		onStepChanging: function (event, currentIndex, newIndex)
@@ -75,17 +80,38 @@ $(document).ready(function(){
 			// Submit form input
 			form.submit();
 		}
-	}).validate({
-				errorPlacement: function (error, element)
-				{
-					element.before(error);
-				},
-				rules: {
-					confirm: {
-						equalTo: "#password"
-					}
-				}
-			});
+	});
+			
+			
+	var availableTags = [
+		"ActionScript",
+		"AppleScript",
+		"Asp",
+		"BASIC",
+		"C",
+		"C++",
+		"Clojure",
+		"COBOL",
+		"ColdFusion",
+		"Erlang",
+		"Fortran",
+		"Groovy",
+		"Haskell",
+		"Java",
+		"JavaScript",
+		"Lisp",
+		"Perl",
+		"PHP",
+		"Python",
+		"Ruby",
+		"Scala",
+		"Scheme"
+    ];
+    $( "#userName" ).autocomplete({
+      source: availableTags
+    });
+	$('#tanggal').datepicker({dateFormat: "dd-mm-yy"});
+	$('#waktu').timepicker({ 'timeFormat': 'H:i WIB' });
 });
 </script>
 @endsection
@@ -113,27 +139,20 @@ $(document).ready(function(){
 		
 		
 		<div class="col-lg-12">
-					<p>
-						This example show how to use Steps with jQuery Validation plugin.
-					</p>
-
+			<div class="ibox-content p-md">
 					<form id="form" action="#" class="wizard-big">
-						<h1>Account</h1>
+						<h1>Perihal Rapat</h1>
 						<fieldset>
-							<h2>Account Information</h2>
+							<h2>Informasi Perihal Rapat</h2>
 							<div class="row">
 								<div class="col-lg-8">
 									<div class="form-group">
-										<label>Username *</label>
+										<label>Jenis Rapat</label>
 										<input id="userName" name="userName" type="text" class="form-control required">
 									</div>
 									<div class="form-group">
-										<label>Password *</label>
+										<label>Perihal Rapat</label>
 										<input id="password" name="password" type="text" class="form-control required">
-									</div>
-									<div class="form-group">
-										<label>Confirm Password *</label>
-										<input id="confirm" name="confirm" type="text" class="form-control required">
 									</div>
 								</div>
 								<div class="col-lg-4">
@@ -146,37 +165,41 @@ $(document).ready(function(){
 							</div>
 
 						</fieldset>
-						<h1>Profile</h1>
+						<h1>Waktu dan Tempat</h1>
 						<fieldset>
-							<h2>Profile Information</h2>
+							<h2>Informasi Waktu dan Tempat Rapat</h2>
 							<div class="row">
 								<div class="col-lg-6">
 									<div class="form-group">
-										<label>First name *</label>
-										<input id="name" name="name" type="text" class="form-control required">
-									</div>
-									<div class="form-group">
-										<label>Last name *</label>
-										<input id="surname" name="surname" type="text" class="form-control required">
+										<label>Tempat</label>
+										<textarea class="form-control required" rows="4"></textarea>
 									</div>
 								</div>
 								<div class="col-lg-6">
 									<div class="form-group">
-										<label>Email *</label>
-										<input id="email" name="email" type="text" class="form-control required email">
+										<label>Tanggal</label>
+										<input id="tanggal" name="tanggal" type="text" class="form-control required">
 									</div>
 									<div class="form-group">
-										<label>Address *</label>
-										<input id="address" name="address" type="text" class="form-control">
+										<label>Waktu</label>
+										<input id="waktu" name="waktu" type="text" class="form-control required">
 									</div>
 								</div>
 							</div>
 						</fieldset>
 
-						<h1>Warning</h1>
+						<h1>Peserta</h1>
 						<fieldset>
-							<div class="text-center" style="margin-top: 120px">
-								<h2>You did it Man :-)</h2>
+							<h2>Daftar Peserta Rapat</h2>
+							<div class="row">
+								<div class="col-lg-6">
+									<div class="form-group">
+										Anggota
+									</div>
+								</div>
+								<div class="col-lg-6">
+									Anggota
+								</div>
 							</div>
 						</fieldset>
 
@@ -186,6 +209,7 @@ $(document).ready(function(){
 							<input id="acceptTerms" name="acceptTerms" type="checkbox" class="required"> <label for="acceptTerms">I agree with the Terms and Conditions.</label>
 						</fieldset>
 					</form>
+			</div>
 		</div>
 		
 		
