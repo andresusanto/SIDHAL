@@ -15,7 +15,6 @@
     <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxdropdownlist.js')}}"></script>
     <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxgrid.js')}}"></script>
     <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxgrid.selection.js')}}"></script>
-    <script type="text/javascript" src="{{ asset('/jqwidget/scripts/demos.js')}}"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -75,6 +74,7 @@
 //                                commit(false);
 //                            }
 //                        });
+                        commit(true);
                     },
                     deleterow: function (rowid, commit) {
                         // synchronize with the server - send delete command
@@ -93,6 +93,7 @@
 //                                commit(false);
 //                            }
 //                        });
+                        commit(true);
                     },
                     updaterow: function (rowid, rowdata, commit) {
                         // synchronize with the server - send update command
@@ -111,6 +112,7 @@
 //                                commit(false);
 //                            }
 //                        });
+                        commit(true);
                     }
                 };
                 var dataAdapter = new $.jqx.dataAdapter(source);
@@ -126,7 +128,7 @@
                                 var container = $("<div style='margin: 5px;'></div>");
                                 toolbar.append(container);
                                 container.append('<input id="addrowbutton" type="button" value="Tambah Data Pejabat" />');
-                                container.append('<input style="margin-left: 5px;" id="addmultiplerowsbutton" type="button" value="Tambah Data Pejabat" />');
+                                //container.append('<input style="margin-left: 5px;" id="addmultiplerowsbutton" type="button" value="Tambah Data Pejabat" />');
                                 container.append('<input style="margin-left: 5px;" id="deleterowbutton" type="button" value="Hapus Data Pejabat" />');
                                 container.append('<input style="margin-left: 5px;" id="updaterowbutton" type="button" value="Update Selected Row" />');
                                 $("#addrowbutton").jqxButton();
@@ -150,14 +152,14 @@
                                     var commit = $("#jqxgrid").jqxGrid('addrow', null, datarow);
                                 });
                                 // create new rows.
-                                $("#addmultiplerowsbutton").on('click', function () {
-                                    $("#jqxgrid").jqxGrid('beginupdate');
-                                    for (var i = 0; i < 10; i++) {
-                                        var datarow = generaterow();
-                                        var commit = $("#jqxgrid").jqxGrid('addrow', null, datarow);
-                                    }
-                                    $("#jqxgrid").jqxGrid('endupdate');
-                                });
+//                                $("#addmultiplerowsbutton").on('click', function () {
+//                                    $("#jqxgrid").jqxGrid('beginupdate');
+//                                    for (var i = 0; i < 10; i++) {
+//                                        var datarow = generaterow();
+//                                        var commit = $("#jqxgrid").jqxGrid('addrow', null, datarow);
+//                                    }
+//                                    $("#jqxgrid").jqxGrid('endupdate');
+//                                });
                                 // delete row.
                                 $("#deleterowbutton").on('click', function () {
                                     var selectedrowindex = $("#jqxgrid").jqxGrid('getselectedrowindex');
