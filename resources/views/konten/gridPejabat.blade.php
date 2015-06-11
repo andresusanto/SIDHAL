@@ -81,7 +81,8 @@
                     },
                     deleterow: function (rowid, commit) {
                         var datarow = $("#jqxgrid").jqxGrid('getrowdata', rowid);
-                        var data = "action=delete&" + $.param({id: datarow.id});
+                        var data = "action=delete&" + $.param({id: datarow.id})+ "&" +$.param({_token: '{{csrf_token()}}'});
+                        alert(data);
                         $.ajax({
                             type: "POST",
                             url: '{{ action('PejabatController@postCrudPejabat')}}',
@@ -93,6 +94,9 @@
                             },
                             error: function(jqXHR, textStatus, errorThrown)
                             {
+                                alert(jqXHR.data);
+                                alert(textStatus);
+                                alert(errorThrown);
                                 alert("gaga");
                                 commit(false);
                             }
