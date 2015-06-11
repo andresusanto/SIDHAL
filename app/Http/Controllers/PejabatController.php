@@ -75,14 +75,22 @@ class PejabatController extends Controller {
     public function postCrudPejabat(){
         $action = Input::get('action');
         $id = Input::get('id');
+        $nama = Input::get('nama');
+        $jabatan = Input::get('jabatan');
+        $instansi = Input::get('instansi');
+        $alamat = Input::get('alamat');
+        $telepon = Input::get('telepon');
+        $email = Input::get('email');
         switch ($action){
             case 'delete':
                 $query = DB::table('pejabats')->where('id',$id)->delete();
                 break;
             case 'update':
-                $parameter = Input::get('parameter');
-                $value = Input::get('value');
-                
+                //$query = DB::table('pejabats')->where('id',$id)->update(['nama'=>$nama]);
+                $query = DB::table('pejabats')->update(['nama'=>$nama,'jabatan'=>$jabatan,'instansi'=>$instansi,'alamat' => $alamat, 'telepon' => $telepon,'email' => $email])->where('id',$id);
+                break;
+            case 'insert':
+                $query = DB::table('pejabats')->insertGetId(['nama'=>$nama,'jabatan'=>$jabatan,'instansi'=>$instansi,'alamat' => $alamat, 'telepon' => $telepon,'email' => $email]);
                 break;
         }
     }

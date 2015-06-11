@@ -37,7 +37,7 @@
                     row["jabatan"] = jabatan[i];
                     row["instansi"] = instansi[i];
                     row["alamat"] = alamat[i];
-                    row["telpon"] = telepon[i];
+                    row["telepon"] = telepon[i];
                     row["email"] = email[i];
                     return row;
                 }
@@ -57,7 +57,7 @@
                                 { name: 'jabatan', type: 'string' },
                                 { name: 'instansi', type: 'string' },
                                 { name: 'alamat', type: 'string' },
-                                { name: 'telpon', type: 'string' },
+                                { name: 'telepon', type: 'string' },
                                 { name: 'email', type: 'string' }
                             ],
                     addrow: function (rowid, rowdata, position, commit) {
@@ -82,7 +82,6 @@
                     deleterow: function (rowid, commit) {
                         var datarow = $("#jqxgrid").jqxGrid('getrowdata', rowid);
                         var data = "action=delete&" + $.param({id: datarow.id})+ "&" +$.param({_token: '{{csrf_token()}}'});
-                        alert(data);
                         $.ajax({
                             type: "POST",
                             url: '{{ action('PejabatController@postCrudPejabat')}}',
@@ -97,13 +96,45 @@
                                 alert(jqXHR.data);
                                 alert(textStatus);
                                 alert(errorThrown);
-                                alert("gaga");
+                                alert("gagal");
                                 commit(false);
                             }
                         });
 
                     },
                     updaterow: function (rowid, rowdata, commit) {
+                        if(rowdata.id.length){
+                            var _action = "insert";
+                        }else{
+                            var _action = "update";
+                        }
+                        alert(_action);
+                        var datatoupdate = "action="+ _action + "&nama="+  rowdata.nama
+                                + "&" +$.param({_token: '{{csrf_token()}}'})
+                                + "&" + $.param({id: rowdata.id})
+                                +"&jabatan=" + rowdata.jabatan
+                                + "&instansi=" + rowdata.instansi + "&" + "&alamat=" + rowdata.alamat
+                                + "&telepon=" + rowdata.telepon + "&email=" + rowdata.email;
+                        alert(datatoupdate);
+                        $.ajax({
+                            type: "POST",
+                            url: '{{ action('PejabatController@postCrudPejabat')}}',
+                            data: datatoupdate,
+                            success: function (data, status, xhr) {
+                                // delete command is executed.
+                                alert(data);
+                                commit(true);
+                            },
+                            error: function(jqXHR, textStatus, errorThrown)
+                            {
+                                alert(jqXHR.data);
+                                alert(textStatus);
+                                alert(errorThrown);
+                                alert("Gagal update");
+                                commit(false);
+                            }
+                        });
+//                        alert("sd");
                         // synchronize with the server - send update command
 
 //                        $.ajax({
