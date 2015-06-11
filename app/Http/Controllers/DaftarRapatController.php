@@ -4,7 +4,10 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use App\Rapat;
+
+use DB;
 
 class DaftarRapatController extends Controller {
 
@@ -13,15 +16,38 @@ class DaftarRapatController extends Controller {
 		//$this->middleware('auth');
 	}
 	
+	/* list of rapat */
 	public function getIndex()
 	{
-		//$json_rapat = Rapat::find(1)->toJson();
-		return view('konten/listRapat', array('title'=>'Entry Rapat Baru'));//->with('rapat', $json_rapat	);
+		return view('konten/listRapat', array('title'=>'Entry Rapat Baru', 'nav_rapat'=>''));
 	}
 	
+	/* convert all data to JSON format */
 	public function getData()
 	{
 		return Rapat::all()->toJson();
 	}
+	
+	/* search data rapat */
+	public function postSearch()
+	{
+		$rapat = Input::get('rapat-search');
+		
+		$result = $this->getSearchResult($rapat);
+		
+		return view('konten/resultRapat', array('title'=>'Entry Rapat Baru', 'nav_rapat'=>''))->with('result', $result)->with('search', $rapat);
+	}
 
+	/* convert search data to JSON format */
+	public function getSearchResult($rapat)
+	{
+		$search = DB::table('rapats')
+                    ->where('jenis_rapat', 'like', '%'.$rapat.'%')
+                    ->orwhere('tempat', 'like', '%'.$rapat.'%')
+                    ->orwhere('pembahasan', 'like', '%'.$rapat.'%')
+                    ->orwhere('pimpinan', 'like', '%'.$rapat.'%')
+					->get();
+					
+		return json_encode($search);
+	}
 }
