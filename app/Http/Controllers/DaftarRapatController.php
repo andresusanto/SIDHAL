@@ -16,7 +16,7 @@ class DaftarRapatController extends Controller {
 	public function getIndex()
 	{
 		//$json_rapat = Rapat::find(1)->toJson();
-		return view('konten/listRapatDataTable', array('title'=>'Entry Rapat Baru'));//->with('rapat', $json_rapat	);
+		return view('konten/listRapat', array('title'=>'Entry Rapat Baru'));//->with('rapat', $json_rapat	);
 	}
 	
 	public function getData()
