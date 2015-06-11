@@ -17,7 +17,7 @@ class PejabatController extends Controller {
     }
 
 
-    public function getListPejabat(){
+    public function getJsonPejabat(){
         $listPejabats = DB::table('pejabats')->select('nama','jabatan','instansi','alamat','telepon','email')->get();
         $listNama = array();
         $listJabatan = array();
@@ -37,7 +37,7 @@ class PejabatController extends Controller {
         //return json_encode($listNama);
         return json_encode(array('count'=>count($listNama),'nama'=>$listNama,'jabatan'=>$listJabatan,'instansi'=>$listInstansi,'alamat'=>$listAlamat,'telepon'=>$listTelepon,'email'=>$listEmail));
     }
-    public function getGrid()
+    public function getPejabat()
     {
         return view('konten/gridPejabat', array('title'=>'Entry Pejabat Baru'));
     }
