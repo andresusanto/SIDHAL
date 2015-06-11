@@ -40,7 +40,7 @@
 					colNames: ['Jenis Rapat', 'Waktu', 'Tempat', 'Pembahasan', 'Pimpinan', 'Aksi 1', 'Aksi 2'],
 					colModel: [
 						{name: 'jenis_rapat', index: 'jenis_rapat', width: 90},
-						{name: 'waktu', index: 'waktu', width: 100, sorttype: "date", formatter: "date"},
+						{name: 'waktu', index: 'waktu', width: 100, formatter: "date", formatoptions: { srcformat: "ISO8601Long", newformat: "m/d/Y H:i" }},
 						{name: 'tempat', index: 'tempat', width: 80},
 						{name: 'pembahasan', index: 'pembahasan', width: 80},
 						{name: 'pimpinan', index: 'pimpinan', width: 80 },
