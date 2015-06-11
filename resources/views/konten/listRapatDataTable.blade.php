@@ -15,11 +15,11 @@
 
 <script>
 	$(document).ready(function () {
-		$('.dataTables-example').dataTable({
+		$('#example').dataTable({
+			ajax: "{{ action('DaftarRapatController@getData') }}",
 			responsive: true,
-			"dom": 'T<"clear">lfrtip',
 			"tableTools": {
-				"sSwfPath": "js/plugins/dataTables/swf/copy_csv_xls_pdf.swf"
+				"sSwfPath": "{{ asset('/js/plugins/dataTables/swf/copy_csv_xls_pdf.swf') }}"
 			}
 		});
 	});
@@ -56,28 +56,27 @@
 				</div>
 				<div class="ibox-content">
 					
-					<table class="table table-striped table-bordered table-hover dataTables-example" >
-					<thead>
-                    <tr>
-                        <th>Jenis Rapat</th>
-                        <th>Waktu</th>
-                        <th>Tempat</th>
-                        <th>Pembahasan</th>
-                        <th>Pimpinan</th>
-                        <th>Aksi</th>
-                    </tr>
-                    </thead>
-					
-					<tfoot>
-                    <tr>
-                        <th>Jenis Rapat</th>
-                        <th>Waktu</th>
-                        <th>Tempat</th>
-                        <th>Pembahasan</th>
-                        <th>Pimpinan</th>
-                        <th>Aksi</th>
-                    </tr>
-                    </tfoot>
+					<table id="example" class="table table-striped table-bordered table-hover dataTables-example" >
+						<thead>
+							<tr>
+								<th>Jenis Rapat</th>
+								<th>Waktu</th>
+								<th>Tempat</th>
+								<th>Pembahasan</th>
+								<th>Pimpinan</th>
+							</tr>
+						</thead>
+						
+						<tfoot>
+							<tr>
+								<th>Jenis Rapat</th>
+								<th>Waktu</th>
+								<th>Tempat</th>
+								<th>Pembahasan</th>
+								<th>Pimpinan</th>
+							</tr>
+						</tfoot>
+                    </table>
 
 				</div>
 			</div>
