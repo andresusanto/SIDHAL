@@ -16,9 +16,38 @@ class PejabatController extends Controller {
         //$this->middleware('auth');
     }
 
-
-    public function getListPejabat(){
-        $listPejabats = DB::table('pejabats')->select('nama','jabatan','instansi','alamat','telepon','email')->get();
+    public function getJsonPejabat($instansi){
+        switch ($instansi) {
+            case 'polhukam':
+                $instansi = 'polhukam';
+                break;
+            case 'kemdagri':
+                $instansi = 'kemdagri';
+                break;
+            case 'kemlu':
+                $instansi = 'kemlu';
+                break;
+            case 'kemhan':
+                $instansi = 'kemhan';
+                break;
+            case 'kemenkumham':
+                $instansi = 'kemenkumham';
+                break;
+            case 'kejagung' :
+                $instansi = 'kejagung';
+                break;
+            case 'mabestni':
+                $instansi = 'mabestni';
+                break;
+            case 'mabespolri':
+                $instansi = 'mabespolri';
+                break;
+        }
+        if($instansi != "all") {
+            $listPejabats = DB::table('pejabats')->select('nama', 'jabatan', 'instansi', 'alamat', 'telepon', 'email')->where('instansi', $instansi)->get();
+        }else{
+            $listPejabats = DB::table('pejabats')->select('nama','jabatan','instansi','alamat','telepon','email')->get();
+        }
         $listNama = array();
         $listJabatan = array();
         $listInstansi = array();

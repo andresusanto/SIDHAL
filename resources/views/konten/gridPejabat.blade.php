@@ -19,7 +19,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             // prepare the data
-            $.getJSON( '{{ action("PejabatController@getListPejabat") }}', function( data ) {
+            $.getJSON( '{{ action("PejabatController@getJsonPejabat",'kemlu') }}', function( data ) {
             }).done(function(data){
                 var count = data.count;
                 var nama = data.nama;
