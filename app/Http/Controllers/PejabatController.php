@@ -17,7 +17,7 @@ class PejabatController extends Controller {
     }
 
 
-    public function getJsonPejabat(){
+    public function getListPejabat(){
         $listPejabats = DB::table('pejabats')->select('nama','jabatan','instansi','alamat','telepon','email')->get();
         $listNama = array();
         $listJabatan = array();

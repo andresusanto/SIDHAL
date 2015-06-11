@@ -15,8 +15,7 @@ Route::get('/', 'WelcomeController@index');
 
 Route::get('home', 'HomeController@index');
 
-Route::get('/gridPejabat','PejabatController@getGrid');
-Route::get('/gridPejabat/getList','PejabatController@getListPejabat');
+
 Route::controllers([
     'pejabat' => 'PejabatController',
 	'entry' => 'EntryController',
