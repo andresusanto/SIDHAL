@@ -74,10 +74,10 @@ class PejabatController extends Controller {
     }
     public function postCrudPejabat(){
         $action = Input::get('action');
+        $id = Input::get('id');
         switch ($action){
             case 'delete':
-                //$query = DB::table('pejabats')->where('id',$rawData['id'])->delete();
-                return "aaa";
+                $query = DB::table('pejabats')->where('id',$id)->delete();
                 break;
             case 'update':
                 break;
