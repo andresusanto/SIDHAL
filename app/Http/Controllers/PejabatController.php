@@ -70,4 +70,8 @@ class PejabatController extends Controller {
     {
         return view('konten/gridPejabat', array('title'=>'Entry Pejabat Baru'));
     }
+    public function postCrudaction(){
+        $rawData = Input::get('rawData');
+        return $rawData;
+    }
 }

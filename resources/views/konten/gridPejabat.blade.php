@@ -77,27 +77,30 @@
                         commit(true);
                     },
                     deleterow: function (rowid, commit) {
+                        var datarow = $("#jqxgrid").jqxGrid('getrowdata', rowid);
+                        alert(datarow.nama);
                         // synchronize with the server - send delete command
-                        var data = "delete=true&" + $.param({EmployeeID: rowid});
-//                        $.ajax({
-//                            dataType: 'json',
-//                            url: 'data.php',
-//                            cache: false,
-//                            data: data,
-//                            success: function (data, status, xhr) {
-//                                // delete command is executed.
-//                                commit(true);
-//                            },
-//                            error: function(jqXHR, textStatus, errorThrown)
-//                            {
-//                                commit(false);
-//                            }
-//                        });
+                        var data = "action=delete&" + $.param({nama: rowid});
+                        $.ajax({
+                            dataType: 'json',
+                            url: '{{ asset('/pejabat/crudaction')}}',
+                            cache: false,
+                            data: data,
+                            success: function (data, status, xhr) {
+                                // delete command is executed.
+                                commit(true);
+                            },
+                            error: function(jqXHR, textStatus, errorThrown)
+                            {
+                                commit(false);
+                            }
+                        });
+
                         commit(true);
                     },
                     updaterow: function (rowid, rowdata, commit) {
                         // synchronize with the server - send update command
-                        var data = "update=true&" + $.param(rowdata);
+                        alert(rowdata.nama);
 //                        $.ajax({
 //                            dataType: 'json',
 //                            url: 'data.php',
@@ -169,6 +172,7 @@
                                         var commit = $("#jqxgrid").jqxGrid('deleterow', id);
                                     }
                                 });
+
                             },
                             columns: [
                                 { text: 'No', datafield: 'no', width: 50 },
