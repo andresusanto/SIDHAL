@@ -73,9 +73,10 @@
             <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
                     <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
-                    <form role="search" class="navbar-form-custom" method="post" action="#">
+                    <form role="search" class="navbar-form-custom" method="post" action="{{ action('DaftarRapatController@postSearch') }}">
+						<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
                         <div class="form-group">
-                            <input type="text" placeholder="Pencarian Rapat..." class="form-control" name="top-search" id="top-search">
+                            <input type="text" placeholder="Pencarian Rapat..." class="form-control" name="rapat-search" id="rapat-search">
                         </div>
                     </form>
                 </div>
