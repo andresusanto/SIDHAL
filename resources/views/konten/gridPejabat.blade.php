@@ -103,18 +103,18 @@
 
                     },
                     updaterow: function (rowid, rowdata, commit) {
-                        if(rowdata.id.length){
-                            var _action = "insert";
-                        }else{
+                        if(rowdata.id > 0){
                             var _action = "update";
+                        }else{
+                            var _action = "insert";
                         }
                         alert(_action);
                         var datatoupdate = "action="+ _action + "&nama="+  rowdata.nama
-                                + "&" +$.param({_token: '{{csrf_token()}}'})
-                                + "&" + $.param({id: rowdata.id})
                                 +"&jabatan=" + rowdata.jabatan
                                 + "&instansi=" + rowdata.instansi + "&" + "&alamat=" + rowdata.alamat
-                                + "&telepon=" + rowdata.telepon + "&email=" + rowdata.email;
+                                + "&telepon=" + rowdata.telepon + "&email=" + rowdata.email
+                                + "&" +$.param({_token: '{{csrf_token()}}'})
+                                + "&" + $.param({id: rowdata.id});
                         alert(datatoupdate);
                         $.ajax({
                             type: "POST",

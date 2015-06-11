@@ -87,7 +87,7 @@ class PejabatController extends Controller {
                 break;
             case 'update':
                 //$query = DB::table('pejabats')->where('id',$id)->update(['nama'=>$nama]);
-                $query = DB::table('pejabats')->update(['nama'=>$nama,'jabatan'=>$jabatan,'instansi'=>$instansi,'alamat' => $alamat, 'telepon' => $telepon,'email' => $email])->where('id',$id);
+                $query = DB::table('pejabats')->where('id',$id)->update(['nama'=>$nama,'jabatan'=>$jabatan,'instansi'=>$instansi,'alamat' => $alamat, 'telepon' => $telepon,'email' => $email]);
                 break;
             case 'insert':
                 $query = DB::table('pejabats')->insertGetId(['nama'=>$nama,'jabatan'=>$jabatan,'instansi'=>$instansi,'alamat' => $alamat, 'telepon' => $telepon,'email' => $email]);
