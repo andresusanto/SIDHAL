@@ -22,6 +22,7 @@
             $.getJSON( '{{ action("PejabatController@getJsonPejabat",'kemlu') }}', function( data ) {
             }).done(function(data){
                 var count = data.count;
+                var id = data.id;
                 var nama = data.nama;
                 var jabatan = data.jabatan;
                 var instansi =  data.instansi;
@@ -31,6 +32,7 @@
 
                 var generaterow = function (i) {
                     var row = {};
+                    row["id"] = id[i];
                     row["nama"] = nama[i];
                     row["jabatan"] = jabatan[i];
                     row["instansi"] = instansi[i];
@@ -50,6 +52,7 @@
                     datatype: "local",
                     datafields:
                             [
+                                { name: 'id', type: 'integer' },
                                 { name: 'nama', type: 'string' },
                                 { name: 'jabatan', type: 'string' },
                                 { name: 'instansi', type: 'string' },
@@ -78,25 +81,23 @@
                     },
                     deleterow: function (rowid, commit) {
                         var datarow = $("#jqxgrid").jqxGrid('getrowdata', rowid);
-                        alert(datarow.nama);
-                        // synchronize with the server - send delete command
-                        var data = "action=delete&" + $.param({nama: rowid});
+                        var data = "action=delete&" + $.param({id: datarow.id});
                         $.ajax({
-                            dataType: 'json',
-                            url: '{{ asset('/pejabat/crudaction')}}',
-                            cache: false,
+                            type: "POST",
+                            url: '{{ action('PejabatController@postCrudPejabat')}}',
                             data: data,
                             success: function (data, status, xhr) {
                                 // delete command is executed.
+                                alert(data);
                                 commit(true);
                             },
                             error: function(jqXHR, textStatus, errorThrown)
                             {
+                                alert("gaga");
                                 commit(false);
                             }
                         });
 
-                        commit(true);
                     },
                     updaterow: function (rowid, rowdata, commit) {
                         // synchronize with the server - send update command
@@ -176,6 +177,7 @@
                             },
                             columns: [
                                 { text: 'No', datafield: 'no', width: 50 },
+                                { text: 'Id', datafield: 'id', width: 50 },
                                 { text: 'Nama', datafield: 'nama', width: 200 },
                                 { text: 'Jabatan', datafield: 'jabatan', width: 150 },
                                 { text: 'Instansi', datafield: 'instansi', width: 150 },

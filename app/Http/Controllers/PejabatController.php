@@ -9,7 +9,7 @@
 
 namespace App\Http\Controllers;
 use DB;
-
+use Input;
 class PejabatController extends Controller {
     public function __construct()
     {
@@ -44,10 +44,11 @@ class PejabatController extends Controller {
                 break;
         }
         if($instansi != "all") {
-            $listPejabats = DB::table('pejabats')->select('nama', 'jabatan', 'instansi', 'alamat', 'telepon', 'email')->where('instansi', $instansi)->get();
+            $listPejabats = DB::table('pejabats')->select('id','nama', 'jabatan', 'instansi', 'alamat', 'telepon', 'email')->where('instansi', $instansi)->get();
         }else{
-            $listPejabats = DB::table('pejabats')->select('nama','jabatan','instansi','alamat','telepon','email')->get();
+            $listPejabats = DB::table('pejabats')->select('id','nama','jabatan','instansi','alamat','telepon','email')->get();
         }
+        $listId = array();
         $listNama = array();
         $listJabatan = array();
         $listInstansi = array();
@@ -55,6 +56,7 @@ class PejabatController extends Controller {
         $listTelepon = array();
         $listEmail = array();
         foreach($listPejabats as $pejabat){
+            array_push($listId,$pejabat->id);
             array_push($listNama,$pejabat->nama);
             array_push($listJabatan,$pejabat->jabatan);
             array_push($listInstansi,$pejabat->instansi);
@@ -64,14 +66,21 @@ class PejabatController extends Controller {
         }
 
         //return json_encode($listNama);
-        return json_encode(array('count'=>count($listNama),'nama'=>$listNama,'jabatan'=>$listJabatan,'instansi'=>$listInstansi,'alamat'=>$listAlamat,'telepon'=>$listTelepon,'email'=>$listEmail));
+        return json_encode(array('count'=>count($listNama),'id'=>$listId,'nama'=>$listNama,'jabatan'=>$listJabatan,'instansi'=>$listInstansi,'alamat'=>$listAlamat,'telepon'=>$listTelepon,'email'=>$listEmail));
     }
     public function getPejabat()
     {
         return view('konten/gridPejabat', array('title'=>'Entry Pejabat Baru'));
     }
-    public function postCrudaction(){
-        $rawData = Input::get('rawData');
-        return $rawData;
+    public function postCrudPejabat(){
+        $action = Input::get('action');
+        switch ($action){
+            case 'delete':
+                //$query = DB::table('pejabats')->where('id',$rawData['id'])->delete();
+                return "aaa";
+                break;
+            case 'update':
+                break;
+        }
     }
 }
