@@ -15,7 +15,7 @@
     <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxdropdownlist.js')}}"></script>
     <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxgrid.js')}}"></script>
     <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxgrid.selection.js')}}"></script>
-
+    <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxgrid.edit.js')}}"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             // prepare the data
@@ -105,7 +105,7 @@
                     },
                     updaterow: function (rowid, rowdata, commit) {
                         // synchronize with the server - send update command
-                        alert(rowdata.nama);
+
 //                        $.ajax({
 //                            dataType: 'json',
 //                            url: 'data.php',
@@ -120,6 +120,7 @@
 //                                commit(false);
 //                            }
 //                        });
+
                         commit(true);
                     }
                 };
@@ -130,6 +131,7 @@
                             width: 1000,
                             height: 350,
                             source: dataAdapter,
+                            editable: true,
                             showtoolbar: true,
                             rendertoolbar: function (toolbar) {
                                 var me = this;

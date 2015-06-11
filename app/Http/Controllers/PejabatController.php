@@ -80,6 +80,9 @@ class PejabatController extends Controller {
                 $query = DB::table('pejabats')->where('id',$id)->delete();
                 break;
             case 'update':
+                $parameter = Input::get('parameter');
+                $value = Input::get('value');
+                
                 break;
         }
     }
