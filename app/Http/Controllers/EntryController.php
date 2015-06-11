@@ -1,5 +1,8 @@
 <?php namespace App\Http\Controllers;
 
+use App\Rapat;
+use Request;
+
 class EntryController extends Controller {
 
 	public function __construct()
@@ -9,7 +12,28 @@ class EntryController extends Controller {
 
 	public function getIndex()
 	{
-		return view('konten/entry', array('title'=>'Entry Rapat Baru'));
+		return view('konten/entry', array('title'=>'Entry Rapat Baru', 'nav_entry'=>''));
 	}
-
+	
+	public function postIndex()
+	{
+		$jenis = Request::input('jenis');
+		$perihal = Request::input('perihal');
+		$tempat = Request::input('tempat');
+		$tanggal = Request::input('tanggal');
+		$wkt = Request::input('waktu');
+		$waktu = explode(' ', $wkt);
+		$waktu = $waktu[0];
+		$pimpinan = Request::input('pimpinan');
+		
+		$rapat = new Rapat;
+		$rapat->jenis_rapat = $jenis;
+		$rapat->waktu = $tanggal . ' ' . $waktu . ':00';
+		$rapat->tempat = $tempat;
+		$rapat->pembahasan = $perihal;
+		$rapat->pimpinan = $pimpinan;
+		$rapat->save();
+		
+		return view('konten/entry', array('title'=>'Entry Rapat Baru', 'sukses'=>'', 'nav_entry'=>''));
+	}
 }

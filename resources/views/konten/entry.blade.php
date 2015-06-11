@@ -1,91 +1,114 @@
 @extends('base')
 
 @section('addoncss')
+<link href="{{ asset('/css/plugins/toastr/toastr.min.css') }}" rel="stylesheet">
 <link href="{{ asset('/css/plugins/iCheck/custom.css') }}" rel="stylesheet">
 <link href="{{ asset('/css/plugins/steps/jquery.steps.css') }}" rel="stylesheet">
+<link href="{{ asset('/js/plugins/jquery-ui/jquery-ui.min.css') }}" rel="stylesheet">
+<link href="{{ asset('/js/plugins/timepicker/jquery.timepicker.css') }}" rel="stylesheet">
 @endsection
 
 @section('addonjs')
-<script src="js/plugins/staps/jquery.steps.min.js"></script>
-<script src="js/plugins/validate/jquery.validate.min.js"></script>
-
+<script src="{{ asset('/js/plugins/staps/jquery.steps.min.js') }}"></script>
+<script src="{{ asset('/js/plugins/validate/jquery.validate.min.js') }}"></script>
+<script src="{{ asset('/js/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
+<script src="{{ asset('/js/plugins/timepicker/jquery.timepicker.js') }}"></script>
+<script src="{{ asset('/js/plugins/toastr/toastr.min.js') }}"></script>
 <script>
 $(document).ready(function(){
+	@if (isset($sukses))
+	
+	toastr.options = {
+		closeButton: true,
+		progressBar: true,
+		showMethod: 'slideDown',
+		timeOut: 15000
+	};
+	toastr.success('Rapat berhasil ditambahkan. Silahkan periksa menu <strong>Daftar Rapat</strong>.');
+
+	@endif
+	
+	$.validator.addMethod('tanggal', function (value) { 
+		return /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(value); 
+	}, 'Tanggal tidak valid');
+	
+	$.validator.addMethod('waktu', function (value) { 
+		return /^[0-9]{2}:[0-9]{2} WIB$/.test(value); 
+	}, 'Waktu tidak valid');
+
 	$("#form").steps({
 		bodyTag: "fieldset",
 		onStepChanging: function (event, currentIndex, newIndex)
 		{
-			// Always allow going backward even if the current step contains invalid fields!
 			if (currentIndex > newIndex)
 			{
 				return true;
 			}
 
-			// Forbid suppressing "Warning" step if the user is to young
-			if (newIndex === 3 && Number($("#age").val()) < 18)
-			{
-				return false;
-			}
-
 			var form = $(this);
 
-			// Clean up if user went backward before
 			if (currentIndex < newIndex)
 			{
-				// To remove error styles
 				$(".body:eq(" + newIndex + ") label.error", form).remove();
 				$(".body:eq(" + newIndex + ") .error", form).removeClass("error");
 			}
+			
+			if (newIndex == 3){
+				$("#val_jenisrapat").html($("#jenis").val());
+				$("#val_perihalrapat").html($("#perihal").val());
+				$("#val_tempatrapat").html($("#tempat").val());
+				$("#val_tanggalrapat").html($('#tanggal').val());
+				$("#val_wakturapat").html($("#waktu").val());
+				$("#val_pimpinanrapat").html($("#pimpinan").val());
+				
+			}
 
-			// Disable validation on fields that are disabled or hidden.
 			form.validate().settings.ignore = ":disabled,:hidden";
-
-			// Start validation; Prevent going forward if false
 			return form.valid();
-		},
-		onStepChanged: function (event, currentIndex, priorIndex)
-		{
-			// Suppress (skip) "Warning" step if the user is old enough.
-			if (currentIndex === 2 && Number($("#age").val()) >= 18)
-			{
-				$(this).steps("next");
-			}
-
-			// Suppress (skip) "Warning" step if the user is old enough and wants to the previous step.
-			if (currentIndex === 2 && priorIndex === 3)
-			{
-				$(this).steps("previous");
-			}
 		},
 		onFinishing: function (event, currentIndex)
 		{
 			var form = $(this);
-
-			// Disable validation on fields that are disabled.
-			// At this point it's recommended to do an overall check (mean ignoring only disabled fields)
 			form.validate().settings.ignore = ":disabled";
-
-			// Start validation; Prevent form submission if false
 			return form.valid();
 		},
 		onFinished: function (event, currentIndex)
 		{
 			var form = $(this);
-
-			// Submit form input
 			form.submit();
 		}
-	}).validate({
-				errorPlacement: function (error, element)
-				{
-					element.before(error);
-				},
-				rules: {
-					confirm: {
-						equalTo: "#password"
-					}
-				}
-			});
+	});
+			
+	
+	var availableTags = [
+		"ActionScript",
+		"AppleScript",
+		"Asp",
+		"BASIC",
+		"C",
+		"C++",
+		"Clojure",
+		"COBOL",
+		"ColdFusion",
+		"Erlang",
+		"Fortran",
+		"Groovy",
+		"Haskell",
+		"Java",
+		"JavaScript",
+		"Lisp",
+		"Perl",
+		"PHP",
+		"Python",
+		"Ruby",
+		"Scala",
+		"Scheme"
+    ];
+    $( "#jenis" ).autocomplete({
+      source: availableTags
+    });
+	$('#tanggal').datepicker({dateFormat: "yy-mm-dd"});
+	$('#waktu').timepicker({ 'timeFormat': 'H:i WIB' });
 });
 </script>
 @endsection
@@ -113,27 +136,21 @@ $(document).ready(function(){
 		
 		
 		<div class="col-lg-12">
-					<p>
-						This example show how to use Steps with jQuery Validation plugin.
-					</p>
-
-					<form id="form" action="#" class="wizard-big">
-						<h1>Account</h1>
+			<div class="ibox-content p-md">
+					<form id="form" action="" method="POST" class="wizard-big">
+						<input type="hidden" name="_token" value="{{ csrf_token() }}">
+						<h1>Perihal Rapat</h1>
 						<fieldset>
-							<h2>Account Information</h2>
+							<h2>Informasi Perihal Rapat</h2>
 							<div class="row">
 								<div class="col-lg-8">
 									<div class="form-group">
-										<label>Username *</label>
-										<input id="userName" name="userName" type="text" class="form-control required">
+										<label>Jenis Rapat</label>
+										<input id="jenis" name="jenis" type="text" class="form-control required">
 									</div>
 									<div class="form-group">
-										<label>Password *</label>
-										<input id="password" name="password" type="text" class="form-control required">
-									</div>
-									<div class="form-group">
-										<label>Confirm Password *</label>
-										<input id="confirm" name="confirm" type="text" class="form-control required">
+										<label>Perihal Rapat</label>
+										<input id="perihal" name="perihal" type="text" class="form-control required">
 									</div>
 								</div>
 								<div class="col-lg-4">
@@ -146,46 +163,86 @@ $(document).ready(function(){
 							</div>
 
 						</fieldset>
-						<h1>Profile</h1>
+						<h1>Waktu dan Tempat</h1>
 						<fieldset>
-							<h2>Profile Information</h2>
+							<h2>Informasi Waktu dan Tempat Rapat</h2>
 							<div class="row">
 								<div class="col-lg-6">
 									<div class="form-group">
-										<label>First name *</label>
-										<input id="name" name="name" type="text" class="form-control required">
-									</div>
-									<div class="form-group">
-										<label>Last name *</label>
-										<input id="surname" name="surname" type="text" class="form-control required">
+										<label>Tempat</label>
+										<textarea id="tempat" name="tempat" class="form-control required" rows="4"></textarea>
 									</div>
 								</div>
 								<div class="col-lg-6">
 									<div class="form-group">
-										<label>Email *</label>
-										<input id="email" name="email" type="text" class="form-control required email">
+										<label>Tanggal</label>
+										<input id="tanggal" name="tanggal" type="text" class="form-control tanggal required">
 									</div>
 									<div class="form-group">
-										<label>Address *</label>
-										<input id="address" name="address" type="text" class="form-control">
+										<label>Waktu</label>
+										<input id="waktu" name="waktu" type="text" class="form-control waktu required">
 									</div>
 								</div>
 							</div>
 						</fieldset>
 
-						<h1>Warning</h1>
+						<h1>Peserta</h1>
 						<fieldset>
-							<div class="text-center" style="margin-top: 120px">
-								<h2>You did it Man :-)</h2>
+							<h2>Peserta Rapat</h2>
+							<div class="row">
+								<div class="col-lg-6">
+									<div class="form-group">
+										<label>Pimpinan Rapat</label>
+										<input id="pimpinan" name="pimpinan" type="text" class="form-control required">
+									</div>
+									Anggota rapat dapat diisi setelah rapat ditambahkan pada menu <strong>Daftar Rapat</strong>.
+								</div>
+								<div class="col-lg-6">
+									
+								</div>
 							</div>
 						</fieldset>
 
-						<h1>Finish</h1>
+						<h1>Finalisasi</h1>
 						<fieldset>
-							<h2>Terms and Conditions</h2>
-							<input id="acceptTerms" name="acceptTerms" type="checkbox" class="required"> <label for="acceptTerms">I agree with the Terms and Conditions.</label>
+							<h2>Review Rapat</h2>
+							<table>
+								<tr>
+									<td>Jenis Rapat</td>
+									<td>:</td>
+									<td id="val_jenisrapat"></td>
+								</tr>
+								<tr>
+									<td>Perihal Rapat</td>
+									<td>:</td>
+									<td id="val_perihalrapat"></td>
+								</tr>
+								<hr/>
+								<tr>
+									<td>Tanggal</td>
+									<td>:</td>
+									<td id="val_tanggalrapat"></td>
+								</tr>
+								<tr>
+									<td>Waktu</td>
+									<td>:</td>
+									<td id="val_wakturapat"></td>
+								</tr>
+								<tr>
+									<td>Tempat</td>
+									<td>:</td>
+									<td id="val_tempatrapat"></td>
+								</tr>
+								<hr/>
+								<tr>
+									<td>Pimpinan Rapat</td>
+									<td>:</td>
+									<td id="val_pimpinanrapat"></td>
+								</tr>
+							</table>
 						</fieldset>
 					</form>
+			</div>
 		</div>
 		
 		
