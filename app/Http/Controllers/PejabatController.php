@@ -72,6 +72,9 @@ class PejabatController extends Controller {
     {
         return view('konten/gridPejabat', array('title'=>'Entry Pejabat Baru'));
     }
+    public function getKonfirmasiKehadiran(){
+        return view('konten/konfirmasikehadiran', array('title'=>'Konfirmasi Kehadiran Pejabat'));
+    }
     public function postCrudPejabat(){
         $action = Input::get('action');
         $id = Input::get('id');

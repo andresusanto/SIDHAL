@@ -187,8 +187,14 @@
 
 <div class="wrapper wrapper-content animated fadeInRight">   
 	<div class="row">
+        <select id="searchbox" name="q" placeholder="Search products or categories..." class="form-control"></select>
         <div id="jqxgrid" class="col-lg-12">
         </div>
 	</div>
 </div>
+<script>
+    $(document).ready(function(){
+        $('#searchbox').selectize();
+    });
+</script>
 @endsection
