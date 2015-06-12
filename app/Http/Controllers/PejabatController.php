@@ -72,6 +72,12 @@ class PejabatController extends Controller {
     {
         return view('konten/gridPejabat', array('title'=>'Entry Pejabat Baru'));
     }
+    public function getSuggestedPejabat($keyword){
+        //$keyword = Input::get('keyword');
+        $query = DB::table('pejabats')->select('nama','instansi')->where('nama','LIKE','%'.$keyword.'%')->get();
+        $hasil = json_decode(json_encode($query),TRUE);
+        return $hasil;
+    }
     public function getKonfirmasiKehadiran(){
         return view('konten/konfirmasikehadiran', array('title'=>'Konfirmasi Kehadiran Pejabat'));
     }

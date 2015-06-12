@@ -12,7 +12,7 @@
 
     <link href="{{ asset('/css/animate.css') }}" rel="stylesheet">
     <link href="{{ asset('/css/style.css') }}" rel="stylesheet">
-    <link href="{{ asset('/selectize/dist/css/selectize.bootstrap3.css') }}" rel="stylesheet">
+
 	@yield('addoncss')
 
 </head>
@@ -113,7 +113,6 @@
 <script src="{{ asset('/js/plugins/pace/pace.min.js') }}"></script>
 
 <!-- selectize -->
-<script src="{{ asset('/selectize/dist/js/standalone/selectize.min.js') }}"></script>
 
 @yield('addonjs')
 
