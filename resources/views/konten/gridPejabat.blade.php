@@ -62,7 +62,7 @@
                             ],
                     addrow: function (rowid, rowdata, position, commit) {
                         // synchronize with the server - send insert command
-                        var data = "insert=true&" + $.param(rowdata);
+//                        var data = "insert=true&" + $.param(rowdata);
 //                        $.ajax({
 //                            dataType: 'json',
 //                            url: 'data.php',
@@ -88,15 +88,10 @@
                             data: data,
                             success: function (data, status, xhr) {
                                 // delete command is executed.
-                                alert(data);
                                 commit(true);
                             },
                             error: function(jqXHR, textStatus, errorThrown)
                             {
-                                alert(jqXHR.data);
-                                alert(textStatus);
-                                alert(errorThrown);
-                                alert("gagal");
                                 commit(false);
                             }
                         });
@@ -108,50 +103,26 @@
                         }else{
                             var _action = "insert";
                         }
-                        alert(_action);
-                        var datatoupdate = "action="+ _action + "&nama="+  rowdata.nama
-                                +"&jabatan=" + rowdata.jabatan
-                                + "&instansi=" + rowdata.instansi + "&" + "&alamat=" + rowdata.alamat
-                                + "&telepon=" + rowdata.telepon + "&email=" + rowdata.email
-                                + "&" +$.param({_token: '{{csrf_token()}}'})
-                                + "&" + $.param({id: rowdata.id});
-                        alert(datatoupdate);
-                        $.ajax({
-                            type: "POST",
-                            url: '{{ action('PejabatController@postCrudPejabat')}}',
-                            data: datatoupdate,
-                            success: function (data, status, xhr) {
-                                // delete command is executed.
-                                alert(data);
-                                commit(true);
-                            },
-                            error: function(jqXHR, textStatus, errorThrown)
-                            {
-                                alert(jqXHR.data);
-                                alert(textStatus);
-                                alert(errorThrown);
-                                alert("Gagal update");
-                                commit(false);
-                            }
-                        });
-//                        alert("sd");
-                        // synchronize with the server - send update command
 
-//                        $.ajax({
-//                            dataType: 'json',
-//                            url: 'data.php',
-//                            cache: false,
-//                            data: data,
-//                            success: function (data, status, xhr) {
-//                                // update command is executed.
-//                                commit(true);
-//                            },
-//                            error: function(jqXHR, textStatus, errorThrown)
-//                            {
-//                                commit(false);
-//                            }
-//                        });
-
+                        if((rowdata.nama) && (rowdata.jabatan) && (rowdata.instansi) && (rowdata.alamat) && (rowdata.telepon) && (rowdata.email)) {
+                            var datatoupdate = "action=" + _action + "&nama=" + rowdata.nama
+                                    + "&jabatan=" + rowdata.jabatan
+                                    + "&instansi=" + rowdata.instansi + "&" + "&alamat=" + rowdata.alamat
+                                    + "&telepon=" + rowdata.telepon + "&email=" + rowdata.email
+                                    + "&" + $.param({_token: '{{csrf_token()}}'})
+                                    + "&" + $.param({id: rowdata.id});
+                            $.ajax({
+                                type: "POST",
+                                url: '{{ action('PejabatController@postCrudPejabat')}}',
+                                data: datatoupdate,
+                                success: function (data, status, xhr) {
+                                    commit(true);
+                                },
+                                error: function (jqXHR, textStatus, errorThrown) {
+                                    commit(false);
+                                }
+                            });
+                        }
                         commit(true);
                     }
                 };
