@@ -15,13 +15,14 @@
     <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxdropdownlist.js')}}"></script>
     <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxgrid.js')}}"></script>
     <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxgrid.selection.js')}}"></script>
-
+    <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxgrid.edit.js')}}"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             // prepare the data
-            $.getJSON( '{{ action("PejabatController@getListPejabat") }}', function( data ) {
+            $.getJSON( '{{ action("PejabatController@getJsonPejabat",'kemlu') }}', function( data ) {
             }).done(function(data){
                 var count = data.count;
+                var id = data.id;
                 var nama = data.nama;
                 var jabatan = data.jabatan;
                 var instansi =  data.instansi;
@@ -31,11 +32,12 @@
 
                 var generaterow = function (i) {
                     var row = {};
+                    row["id"] = id[i];
                     row["nama"] = nama[i];
                     row["jabatan"] = jabatan[i];
                     row["instansi"] = instansi[i];
                     row["alamat"] = alamat[i];
-                    row["telpon"] = telepon[i];
+                    row["telepon"] = telepon[i];
                     row["email"] = email[i];
                     return row;
                 }
@@ -50,16 +52,17 @@
                     datatype: "local",
                     datafields:
                             [
+                                { name: 'id', type: 'integer' },
                                 { name: 'nama', type: 'string' },
                                 { name: 'jabatan', type: 'string' },
                                 { name: 'instansi', type: 'string' },
                                 { name: 'alamat', type: 'string' },
-                                { name: 'telpon', type: 'string' },
+                                { name: 'telepon', type: 'string' },
                                 { name: 'email', type: 'string' }
                             ],
                     addrow: function (rowid, rowdata, position, commit) {
                         // synchronize with the server - send insert command
-                        var data = "insert=true&" + $.param(rowdata);
+//                        var data = "insert=true&" + $.param(rowdata);
 //                        $.ajax({
 //                            dataType: 'json',
 //                            url: 'data.php',
@@ -77,41 +80,49 @@
                         commit(true);
                     },
                     deleterow: function (rowid, commit) {
-                        // synchronize with the server - send delete command
-                        var data = "delete=true&" + $.param({EmployeeID: rowid});
-//                        $.ajax({
-//                            dataType: 'json',
-//                            url: 'data.php',
-//                            cache: false,
-//                            data: data,
-//                            success: function (data, status, xhr) {
-//                                // delete command is executed.
-//                                commit(true);
-//                            },
-//                            error: function(jqXHR, textStatus, errorThrown)
-//                            {
-//                                commit(false);
-//                            }
-//                        });
-                        commit(true);
+                        var datarow = $("#jqxgrid").jqxGrid('getrowdata', rowid);
+                        var data = "action=delete&" + $.param({id: datarow.id})+ "&" +$.param({_token: '{{csrf_token()}}'});
+                        $.ajax({
+                            type: "POST",
+                            url: '{{ action('PejabatController@postCrudPejabat')}}',
+                            data: data,
+                            success: function (data, status, xhr) {
+                                // delete command is executed.
+                                commit(true);
+                            },
+                            error: function(jqXHR, textStatus, errorThrown)
+                            {
+                                commit(false);
+                            }
+                        });
+
                     },
                     updaterow: function (rowid, rowdata, commit) {
-                        // synchronize with the server - send update command
-                        var data = "update=true&" + $.param(rowdata);
-//                        $.ajax({
-//                            dataType: 'json',
-//                            url: 'data.php',
-//                            cache: false,
-//                            data: data,
-//                            success: function (data, status, xhr) {
-//                                // update command is executed.
-//                                commit(true);
-//                            },
-//                            error: function(jqXHR, textStatus, errorThrown)
-//                            {
-//                                commit(false);
-//                            }
-//                        });
+                        if(rowdata.id > 0){
+                            var _action = "update";
+                        }else{
+                            var _action = "insert";
+                        }
+
+                        if((rowdata.nama) && (rowdata.jabatan) && (rowdata.instansi) && (rowdata.alamat) && (rowdata.telepon) && (rowdata.email)) {
+                            var datatoupdate = "action=" + _action + "&nama=" + rowdata.nama
+                                    + "&jabatan=" + rowdata.jabatan
+                                    + "&instansi=" + rowdata.instansi + "&" + "&alamat=" + rowdata.alamat
+                                    + "&telepon=" + rowdata.telepon + "&email=" + rowdata.email
+                                    + "&" + $.param({_token: '{{csrf_token()}}'})
+                                    + "&" + $.param({id: rowdata.id});
+                            $.ajax({
+                                type: "POST",
+                                url: '{{ action('PejabatController@postCrudPejabat')}}',
+                                data: datatoupdate,
+                                success: function (data, status, xhr) {
+                                    commit(true);
+                                },
+                                error: function (jqXHR, textStatus, errorThrown) {
+                                    commit(false);
+                                }
+                            });
+                        }
                         commit(true);
                     }
                 };
@@ -122,6 +133,7 @@
                             width: 1000,
                             height: 350,
                             source: dataAdapter,
+                            editable: true,
                             showtoolbar: true,
                             rendertoolbar: function (toolbar) {
                                 var me = this;
@@ -169,9 +181,11 @@
                                         var commit = $("#jqxgrid").jqxGrid('deleterow', id);
                                     }
                                 });
+
                             },
                             columns: [
                                 { text: 'No', datafield: 'no', width: 50 },
+                                { text: 'Id', datafield: 'id', width: 50 },
                                 { text: 'Nama', datafield: 'nama', width: 200 },
                                 { text: 'Jabatan', datafield: 'jabatan', width: 150 },
                                 { text: 'Instansi', datafield: 'instansi', width: 150 },
