@@ -40,11 +40,11 @@
                         <img src="{{ asset('/img/logo_sm.png') }}" />
                     </div>
                 </li>
-                <li class="active">
+                <li class="{{ isset($nav_home) ? 'active' : '' }}">
                     <a href="index.html"><i class="fa fa-home"></i> <span class="nav-label">Beranda</span></a>
                 </li>
-                <li>
-                    <a href="minor.html"><i class="fa fa-plus-square"></i> <span class="nav-label">Entry Rapat Baru</span></a>
+                <li class="{{ isset($nav_entry) ? 'active' : '' }}">
+                    <a href="{{ action('EntryController@getIndex') }}"><i class="fa fa-plus-square"></i> <span class="nav-label">Entry Rapat Baru</span></a>
                 </li>
 				<li>
                     <a href="minor.html"><i class="fa fa-users"></i> <span class="nav-label">Daftar Pejabat</span></a>
@@ -59,8 +59,8 @@
 						<li><a href="graph_sparkline.html">Mabes Polri</a></li>
 					</ul>
                 </li>
-				<li>
-                    <a href="minor.html"><i class="fa fa-list-ol"></i> <span class="nav-label">Daftar Rapat</span></a>
+				<li class="{{ isset($nav_rapat) ? 'active' : '' }}">
+                    <a href="{{ action('DaftarRapatController@getIndex') }}"><i class="fa fa-list-ol"></i> <span class="nav-label">Daftar Rapat</span></a>
                 </li>
 				
             </ul>
@@ -73,9 +73,10 @@
             <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
                     <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
-                    <form role="search" class="navbar-form-custom" method="post" action="#">
+                    <form role="search" class="navbar-form-custom" method="post" action="{{ action('DaftarRapatController@postSearch') }}">
+						<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
                         <div class="form-group">
-                            <input type="text" placeholder="Pencarian Rapat..." class="form-control" name="top-search" id="top-search">
+                            <input type="text" placeholder="Pencarian Rapat..." class="form-control" name="rapat-search" id="rapat-search">
                         </div>
                     </form>
                 </div>

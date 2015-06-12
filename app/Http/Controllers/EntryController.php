@@ -12,7 +12,7 @@ class EntryController extends Controller {
 
 	public function getIndex()
 	{
-		return view('konten/entry', array('title'=>'Entry Rapat Baru'));
+		return view('konten/entry', array('title'=>'Entry Rapat Baru', 'nav_entry'=>''));
 	}
 	
 	public function postIndex()
@@ -34,6 +34,6 @@ class EntryController extends Controller {
 		$rapat->pimpinan = $pimpinan;
 		$rapat->save();
 		
-		return view('konten/entry', array('title'=>'Entry Rapat Baru', 'sukses'=>''));
+		return view('konten/entry', array('title'=>'Entry Rapat Baru', 'sukses'=>'', 'nav_entry'=>''));
 	}
 }
