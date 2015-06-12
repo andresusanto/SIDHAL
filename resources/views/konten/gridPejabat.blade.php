@@ -61,22 +61,6 @@
                                 { name: 'email', type: 'string' }
                             ],
                     addrow: function (rowid, rowdata, position, commit) {
-                        // synchronize with the server - send insert command
-//                        var data = "insert=true&" + $.param(rowdata);
-//                        $.ajax({
-//                            dataType: 'json',
-//                            url: 'data.php',
-//                            data: data,
-//                            cache: false,
-//                            success: function (data, status, xhr) {
-//                                // insert command is executed.
-//                                commit(true);
-//                            },
-//                            error: function(jqXHR, textStatus, errorThrown)
-//                            {
-//                                commit(false);
-//                            }
-//                        });
                         commit(true);
                     },
                     deleterow: function (rowid, commit) {
@@ -121,6 +105,8 @@
                                 error: function (jqXHR, textStatus, errorThrown) {
                                     commit(false);
                                 }
+                            }).done(function( data ) {
+                                $("#jqxgrid").jqxGrid('setcellvalue', rowid, 'id', data);
                             });
                         }
                         commit(true);

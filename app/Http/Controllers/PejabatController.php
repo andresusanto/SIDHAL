@@ -88,9 +88,11 @@ class PejabatController extends Controller {
             case 'update':
                 //$query = DB::table('pejabats')->where('id',$id)->update(['nama'=>$nama]);
                 $query = DB::table('pejabats')->where('id',$id)->update(['nama'=>$nama,'jabatan'=>$jabatan,'instansi'=>$instansi,'alamat' => $alamat, 'telepon' => $telepon,'email' => $email]);
+                return $id;
                 break;
             case 'insert':
                 $query = DB::table('pejabats')->insertGetId(['nama'=>$nama,'jabatan'=>$jabatan,'instansi'=>$instansi,'alamat' => $alamat, 'telepon' => $telepon,'email' => $email]);
+                return $query;
                 break;
         }
     }
