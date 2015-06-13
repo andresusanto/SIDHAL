@@ -4,8 +4,9 @@
 <link href="{{ asset('/css/plugins/toastr/toastr.min.css') }}" rel="stylesheet">
 <link href="{{ asset('/css/plugins/iCheck/custom.css') }}" rel="stylesheet">
 <link href="{{ asset('/css/plugins/steps/jquery.steps.css') }}" rel="stylesheet">
-<link href="{{ asset('/js/plugins/jquery-ui/jquery-ui.min.css') }}" rel="stylesheet">
 <link href="{{ asset('/js/plugins/timepicker/jquery.timepicker.css') }}" rel="stylesheet">
+<link href="{{ asset('/js/plugins/jquery-ui/jquery-ui.min.css') }}" rel="stylesheet">
+
 @endsection
 
 @section('addonjs')
