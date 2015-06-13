@@ -48,4 +48,20 @@ class ReportController extends Controller {
 		}
 	}
 	
+	public function getKonfirmasi()
+	{
+		$id = Request::input('id');
+		$rapat = Rapat::find($id);
+		
+		if ($rapat){
+			$ts = getdate(strtotime($rapat->waktu));
+			
+			$tanggal = $this->hari[$ts['wday']] . ', ' . $ts['mday'] . ' ' . $this->bulan[$ts['mon']] . ' ' . $ts['year'];
+			$waktu = sprintf('%02d', $ts['hours']) . '.' . sprintf('%02d', $ts['minutes']);
+			
+			$pdf = PDF::loadView("dokumen/konfirmasi" , array('waktu'=> $waktu, 'tanggal'=> $tanggal, 'bulan'=>$this->bulan[getdate()['mon']], 'jenis' => $rapat->jenis_rapat, 'tempat' => str_replace('\n','\n<br/>',$rapat->tempat), 'pembahasan'=> $rapat->pembahasan, 'pimpinan'=>$rapat->pimpinan, 'pesertas'=>$rapat->kehadiran, 'i'=>1));
+			return $pdf->download("konfirmasihadir_$id.pdf");
+		}
+	}
+	
 }

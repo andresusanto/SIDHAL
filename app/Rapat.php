@@ -9,4 +9,8 @@ class Rapat extends Model {
         return $this->belongsToMany('App\Pejabat');
     }
 
+	public function kehadiran()
+    {
+        return $this->hasMany('App\Kehadiran');
+    }
 }
