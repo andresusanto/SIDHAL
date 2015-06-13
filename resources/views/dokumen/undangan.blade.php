@@ -48,8 +48,8 @@ Dalam rangka {{$pembahasan}}, diharapkan kehadiran Bapak/Ibu dalam {{$jenis}} ya
 		<td>: {{$waktu}} s.d selesai</td>
 	</tr>
 	<tr>
-		<td>tempat</td>
-		<td>: {{$tempat}}</td>
+		<td valign="top">tempat</td>
+		<td>: <?php echo str_replace("\n","\n<br/>&nbsp;&nbsp;", $tempat); ?></td>
 	</tr>
 	<tr>
 		<td>Acara </td>
