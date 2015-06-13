@@ -76,6 +76,7 @@ Tembusan:<br/>
     <li>{{$peserta->nama}}, {{$peserta->jabatan}}, {{$peserta->instansi}}</li>
 	@endforeach
 </ol>
+<br/><br/>
 <div style="padding-left: 460px;">
 Deputi Budang Koordinasi<br/>
 Komunikasi, Informasi, dan Aparatur<br/><br/><br/><br/><br/>
