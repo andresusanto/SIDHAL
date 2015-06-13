@@ -19,6 +19,7 @@ Route::get('home', 'HomeController@index');
 Route::controllers([
     'pejabat' => 'PejabatController',
 	'entry' => 'EntryController',
+	'report' => 'ReportController',
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
 	'rapat' => 'DaftarRapatController',
