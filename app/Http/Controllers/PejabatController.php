@@ -68,9 +68,9 @@ class PejabatController extends Controller {
         //return json_encode($listNama);
         return json_encode(array('count'=>count($listNama),'id'=>$listId,'nama'=>$listNama,'jabatan'=>$listJabatan,'instansi'=>$listInstansi,'alamat'=>$listAlamat,'telepon'=>$listTelepon,'email'=>$listEmail));
     }
-    public function getPejabat()
+    public function getPejabat($instansi)
     {
-        return view('konten/gridPejabat', array('title'=>'Entry Pejabat Baru'));
+        return view('konten/gridPejabat', array('title'=>'Entry Pejabat Baru','instansi' => $instansi));
     }
     public function getSuggestedPejabat(){
         //$keyword = Input::get('keyword');

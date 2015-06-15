@@ -18,7 +18,7 @@
     <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxgrid.edit.js')}}"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $.getJSON( '{{ action("PejabatController@getJsonPejabat",'kemlu') }}', function( data ) {
+            $.getJSON( '{{ action("PejabatController@getJsonPejabat",$instansi) }}', function( data ) {
             }).done(function(data){
                 var count = data.count;
                 var id = data.id;

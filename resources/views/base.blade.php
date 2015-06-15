@@ -49,14 +49,14 @@
 				<li>
                     <a href="minor.html"><i class="fa fa-users"></i> <span class="nav-label">Daftar Pejabat</span></a>
 					<ul class="nav nav-second-level">
-						<li><a href="graph_flot.html">Polhukam</a></li>
-						<li><a href="graph_morris.html">Kemdagri</a></li>
-						<li><a href="graph_rickshaw.html">Kemlu</a></li>
-						<li><a href="graph_chartjs.html">Kemhan</a></li>
-						<li><a href="graph_peity.html">Kemenkumham</a></li>
-						<li><a href="graph_sparkline.html">Kejagung</a></li>
-						<li><a href="graph_sparkline.html">Mabes TNI</a></li>
-						<li><a href="graph_sparkline.html">Mabes Polri</a></li>
+						<li><a href="{{ action('PejabatController@getPejabat','polhukam') }}">Polhukam</a></li>
+						<li><a href="{{ action('PejabatController@getPejabat','kemdagri') }}">Kemdagri</a></li>
+						<li><a href="{{ action('PejabatController@getPejabat','kemlu') }}">Kemlu</a></li>
+						<li><a href="{{ action('PejabatController@getPejabat','kemhan') }}">Kemhan</a></li>
+						<li><a href="{{ action('PejabatController@getPejabat','kemenkumham') }}">Kemenkumham</a></li>
+						<li><a href="{{ action('PejabatController@getPejabat','kejagung') }}">Kejagung</a></li>
+						<li><a href="{{ action('PejabatController@getPejabat','mabestni') }}">Mabes TNI</a></li>
+						<li><a href="{{ action('PejabatController@getPejabat','mabespolri') }}">Mabes Polri</a></li>
 					</ul>
                 </li>
 				<li class="{{ isset($nav_rapat) ? 'active' : '' }}">
