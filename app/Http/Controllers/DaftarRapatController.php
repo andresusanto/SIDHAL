@@ -19,7 +19,7 @@ class DaftarRapatController extends Controller {
 	/* list of rapat */
 	public function getIndex()
 	{
-		return view('konten/listRapat', array('title'=>'Entry Rapat Baru', 'nav_rapat'=>''));
+		return view('konten/listRapat', array('title'=>'Daftar Rapat', 'nav_rapat'=>''));
 	}
 	
 	/* convert all data to JSON format */
@@ -35,7 +35,7 @@ class DaftarRapatController extends Controller {
 		
 		$result = $this->getSearchResult($rapat);
 		
-		return view('konten/resultRapat', array('title'=>'Entry Rapat Baru', 'nav_rapat'=>''))->with('result', $result)->with('search', $rapat);
+		return view('konten/resultRapat', array('title'=>'Daftar Rapat', 'nav_rapat'=>''))->with('result', $result)->with('search', $rapat);
 	}
 
 	/* convert search data to JSON format */
