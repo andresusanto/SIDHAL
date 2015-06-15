@@ -72,11 +72,12 @@ class PejabatController extends Controller {
     {
         return view('konten/gridPejabat', array('title'=>'Entry Pejabat Baru'));
     }
-    public function getSuggestedPejabat($keyword){
+    public function getSuggestedPejabat(){
         //$keyword = Input::get('keyword');
-        $query = DB::table('pejabats')->select('nama','instansi')->where('nama','LIKE','%'.$keyword.'%')->get();
-        $hasil = json_decode(json_encode($query),TRUE);
-        return $hasil;
+        //$query = DB::table('pejabats')->select('nama','instansi')->where('nama','LIKE','%'.$keyword.'%')->get();
+        //$hasil = json_decode(json_encode($query),TRUE);
+        return '{"query": "Unit", "suggestions": [{ "value": "United Arab Emirates", "data": "AE" },{ "value": "United Kingdom", "data": "UK" },
+        { "value": "United States", "data": "US" }]}';
     }
     public function getKonfirmasiKehadiran(){
         return view('konten/konfirmasikehadiran', array('title'=>'Konfirmasi Kehadiran Pejabat'));

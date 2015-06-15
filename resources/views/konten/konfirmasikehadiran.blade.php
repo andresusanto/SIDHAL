@@ -4,25 +4,21 @@
 @endsection
 
 @section('addonjs')
-    <script src="{{ asset('/js/typehead.bundle.js') }}"
-<script>
-    var bestPictures = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        prefetch: '../data/films/post_1960.json',
-        remote: {
-            url: '../data/films/queries/%QUERY.json',
-            wildcard: '%QUERY'
-        }
-    });
+    <script>
+    $(function () {
+        'use strict';
+        $('#autocomplete-ajax').autocomplete({
+            serviceUrl: '{{ action('PejabatController@getSuggestedPejabat') }}',
+            dataType: 'json',
+            type: 'GET',
+            onSelect: function (suggestion) {
+                alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
+            }
+        });
 
-    $('#remote .typeahead').typeahead(null, {
-        name: 'best-pictures',
-        display: 'value',
-        source: bestPictures
     });
-
-</script>
+    </script>
+    <script type="text/javascript" src="{{asset('/js/jquery.autocomplete.js')}}"></script>
 @endsection
 
 @section('content')
@@ -45,9 +41,11 @@
 
 <div class="wrapper wrapper-content animated fadeInRight">   
 	<div class="row">
-        <div id="remote">
-            <input class="typeahead" type="text" placeholder="Oscar winners for Best Picture">
+        <div style="position: relative; height: 80px;">
+            <input type="text" name="country" id="autocomplete-ajax" style="position: absolute; z-index: 2; background: transparent;"/>
+            <input type="text" name="country" id="autocomplete-ajax-x" disabled="disabled" style="color: #CCC; position: absolute; background: transparent; z-index: 1;"/>
         </div>
+        <div id="selction-ajax"></div>
         <div id="jqxgrid" class="col-lg-12">
         </div>
 	</div>
