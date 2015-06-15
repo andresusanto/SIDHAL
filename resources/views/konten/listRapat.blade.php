@@ -20,12 +20,12 @@
 				
 				function link(cellValue, options, rowdata, action)
 				{
-					return "<a href='" + rowdata.id + "'><span class='ui-icon ui-icon-folder-collapsed'>&nbsp;&nbsp;&nbsp;</span></a>";
+					return "<a href='" + rowdata.id + "'><span class='ui-icon ui-icon-pencil'>&nbsp;&nbsp;&nbsp;</span></a>";
 				}
 				
 				function link2(cellValue, options, rowdata, action)
 				{
-					return "<a href='" + rowdata.name + "'><span class='ui-icon ui-icon-circle-check'>&nbsp;&nbsp;&nbsp;&nbsp;</span></a>";
+					return "<a href='" + rowdata.jenis_rapat + "'><span class='ui-icon ui-icon-trash'>&nbsp;&nbsp;&nbsp;&nbsp;</span></a>";
 				}
 
 				// Configuration for jqGrid Example 1
