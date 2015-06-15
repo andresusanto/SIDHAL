@@ -73,12 +73,12 @@ class PejabatController extends Controller {
     }
 
     public function getSuggestedPejabat(){
-        $suggestionList = DB::table('pejabats')->select('nama','instansi')->get();
+        $suggestionList = DB::table('pejabats')->select('id','nama','instansi')->get();
         $tmpSuggestion = array();
         $arraySuggestion['suggestions'] = array();
         foreach($suggestionList as $suggestion){
-            $tmpSuggestion['value'] = $suggestion->nama;
-            $tmpSuggestion['data'] = $suggestion->instansi;
+            $tmpSuggestion['value'] = $suggestion->nama." dari ".$suggestion->instansi;
+            $tmpSuggestion['data'] = $suggestion->id;
             array_push($arraySuggestion['suggestions'],$tmpSuggestion);
         }
         return json_encode($arraySuggestion);
