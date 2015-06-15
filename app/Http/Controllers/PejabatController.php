@@ -73,11 +73,17 @@ class PejabatController extends Controller {
         return view('konten/gridPejabat', array('title'=>'Entry Pejabat Baru','instansi' => $instansi,'nav_pejabat'=>'','nav_'.$instansi=>''));
     }
     public function getSuggestedPejabat(){
-        //$keyword = Input::get('keyword');
-        //$query = DB::table('pejabats')->select('nama','instansi')->where('nama','LIKE','%'.$keyword.'%')->get();
-        //$hasil = json_decode(json_encode($query),TRUE);
-        return '{"query": "Unit", "suggestions": [{ "value": "United Arab Emirates", "data": "AE" },{ "value": "United Kingdom", "data": "UK" },
-        { "value": "United States", "data": "US" }]}';
+        $suggestionList = DB::table('pejabats')->select('nama','instansi')->get();
+        $tmpSuggestion = array();
+        $arraySuggestion['suggestions'] = array();
+        foreach($suggestionList as $suggestion){
+            $tmpSuggestion['value'] = $suggestion->nama;
+            $tmpSuggestion['data'] = $suggestion->instansi;
+            array_push($arraySuggestion['suggestions'],$tmpSuggestion);
+        }
+        return json_encode($arraySuggestion);
+        //return '{"suggestions": [{ "value": "United Arab Emirates", "data": "AE" },{ "value": "United Kingdom", "data": "UK" },
+        //{ "value": "United States", "data": "US" },{ "value": "United Arab Emirates 123", "data": "AEA" }]}';
     }
     public function getKonfirmasiKehadiran(){
         return view('konten/konfirmasikehadiran', array('title'=>'Konfirmasi Kehadiran Pejabat'));

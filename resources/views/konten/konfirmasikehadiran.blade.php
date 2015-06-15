@@ -42,10 +42,10 @@
 <div class="wrapper wrapper-content animated fadeInRight">   
 	<div class="row">
         <div style="position: relative; height: 80px;">
-            <input type="text" name="country" id="autocomplete-ajax" style="position: absolute; z-index: 2; background: transparent;"/>
-            <input type="text" name="country" id="autocomplete-ajax-x" disabled="disabled" style="color: #CCC; position: absolute; background: transparent; z-index: 1;"/>
+            <input class="form-control" type="text" name="country" id="autocomplete-ajax" style="position: absolute; z-index: 2;"/>
+            <input class="form-control" type="text" name="country" id="autocomplete-ajax-x" disabled="disabled" style="position: absolute; z-index: 1;"/>
         </div>
-        <div id="selction-ajax"></div>
+        <div id="selection-ajax"></div>
         <div id="jqxgrid" class="col-lg-12">
         </div>
 	</div>
