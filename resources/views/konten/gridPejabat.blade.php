@@ -18,8 +18,7 @@
     <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxgrid.edit.js')}}"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            // prepare the data
-            $.getJSON( '{{ action("PejabatController@getJsonPejabat",'kemlu') }}', function( data ) {
+            $.getJSON( '{{ action("PejabatController@getJsonPejabat",$instansi) }}', function( data ) {
             }).done(function(data){
                 var count = data.count;
                 var id = data.id;
@@ -46,6 +45,7 @@
                     var row = generaterow(i);
                     data[i] = row;
                 }
+
                 var source =
                 {
                     localdata: data,
@@ -61,22 +61,6 @@
                                 { name: 'email', type: 'string' }
                             ],
                     addrow: function (rowid, rowdata, position, commit) {
-                        // synchronize with the server - send insert command
-//                        var data = "insert=true&" + $.param(rowdata);
-//                        $.ajax({
-//                            dataType: 'json',
-//                            url: 'data.php',
-//                            data: data,
-//                            cache: false,
-//                            success: function (data, status, xhr) {
-//                                // insert command is executed.
-//                                commit(true);
-//                            },
-//                            error: function(jqXHR, textStatus, errorThrown)
-//                            {
-//                                commit(false);
-//                            }
-//                        });
                         commit(true);
                     },
                     deleterow: function (rowid, commit) {
@@ -103,7 +87,6 @@
                         }else{
                             var _action = "insert";
                         }
-
                         if((rowdata.nama) && (rowdata.jabatan) && (rowdata.instansi) && (rowdata.alamat) && (rowdata.telepon) && (rowdata.email)) {
                             var datatoupdate = "action=" + _action + "&nama=" + rowdata.nama
                                     + "&jabatan=" + rowdata.jabatan
@@ -121,6 +104,8 @@
                                 error: function (jqXHR, textStatus, errorThrown) {
                                     commit(false);
                                 }
+                            }).done(function( data ) {
+                                $("#jqxgrid").jqxGrid('setcellvalue', rowid, 'id', data);
                             });
                         }
                         commit(true);
@@ -130,9 +115,10 @@
                 // initialize jqxGrid
                 $("#jqxgrid").jqxGrid(
                         {
-                            width: 1000,
-                            height: 350,
+                            width: 1050,
+                            height: 500,
                             source: dataAdapter,
+                            //autoheight: true,
                             editable: true,
                             showtoolbar: true,
                             rendertoolbar: function (toolbar) {
@@ -140,38 +126,18 @@
                                 var container = $("<div style='margin: 5px;'></div>");
                                 toolbar.append(container);
                                 container.append('<input id="addrowbutton" type="button" value="Tambah Data Pejabat" />');
-                                container.append('<input style="margin-left: 5px;" id="addmultiplerowsbutton" type="button" value="Tambah Data Pejabat" />');
+                                container.append('<input style="margin-left: 5px;display:none;" id="addmultiplerowsbutton" type="button" value="Tambah Data Pejabat" />');
                                 container.append('<input style="margin-left: 5px;" id="deleterowbutton" type="button" value="Hapus Data Pejabat" />');
-                                container.append('<input style="margin-left: 5px;" id="updaterowbutton" type="button" value="Update Selected Row" />');
+                                container.append('<input style="margin-left: 5px;display:none;" id="updaterowbutton" type="button" value="Update Selected Row" />');
                                 $("#addrowbutton").jqxButton();
-                                $("#addmultiplerowsbutton").jqxButton();
                                 $("#deleterowbutton").jqxButton();
-                                $("#updaterowbutton").jqxButton();
-                                // update row.
-                                $("#updaterowbutton").on('click', function () {
-                                    var datarow = generaterow();
-                                    var selectedrowindex = $("#jqxgrid").jqxGrid('getselectedrowindex');
-                                    var rowscount = $("#jqxgrid").jqxGrid('getdatainformation').rowscount;
-                                    if (selectedrowindex >= 0 && selectedrowindex < rowscount) {
-                                        var id = $("#jqxgrid").jqxGrid('getrowid', selectedrowindex);
-                                        var commit = $("#jqxgrid").jqxGrid('updaterow', id, datarow);
-                                        $("#jqxgrid").jqxGrid('ensurerowvisible', selectedrowindex);
-                                    }
-                                });
+
                                 // create new row.
                                 $("#addrowbutton").on('click', function () {
                                     var datarow = generaterow();
                                     var commit = $("#jqxgrid").jqxGrid('addrow', null, datarow);
                                 });
-                                // create new rows.
-                                $("#addmultiplerowsbutton").on('click', function () {
-                                    $("#jqxgrid").jqxGrid('beginupdate');
-                                    for (var i = 0; i < 10; i++) {
-                                        var datarow = generaterow();
-                                        var commit = $("#jqxgrid").jqxGrid('addrow', null, datarow);
-                                    }
-                                    $("#jqxgrid").jqxGrid('endupdate');
-                                });
+
                                 // delete row.
                                 $("#deleterowbutton").on('click', function () {
                                     var selectedrowindex = $("#jqxgrid").jqxGrid('getselectedrowindex');

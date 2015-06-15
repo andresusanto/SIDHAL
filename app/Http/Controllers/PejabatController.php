@@ -68,9 +68,19 @@ class PejabatController extends Controller {
         //return json_encode($listNama);
         return json_encode(array('count'=>count($listNama),'id'=>$listId,'nama'=>$listNama,'jabatan'=>$listJabatan,'instansi'=>$listInstansi,'alamat'=>$listAlamat,'telepon'=>$listTelepon,'email'=>$listEmail));
     }
-    public function getPejabat()
+    public function getPejabat($instansi)
     {
-        return view('konten/gridPejabat', array('title'=>'Entry Pejabat Baru'));
+        return view('konten/gridPejabat', array('title'=>'Entry Pejabat Baru','instansi' => $instansi,'nav_pejabat'=>'','nav_'.$instansi=>''));
+    }
+    public function getSuggestedPejabat(){
+        //$keyword = Input::get('keyword');
+        //$query = DB::table('pejabats')->select('nama','instansi')->where('nama','LIKE','%'.$keyword.'%')->get();
+        //$hasil = json_decode(json_encode($query),TRUE);
+        return '{"query": "Unit", "suggestions": [{ "value": "United Arab Emirates", "data": "AE" },{ "value": "United Kingdom", "data": "UK" },
+        { "value": "United States", "data": "US" }]}';
+    }
+    public function getKonfirmasiKehadiran(){
+        return view('konten/konfirmasikehadiran', array('title'=>'Konfirmasi Kehadiran Pejabat'));
     }
     public function postCrudPejabat(){
         $action = Input::get('action');
@@ -88,9 +98,11 @@ class PejabatController extends Controller {
             case 'update':
                 //$query = DB::table('pejabats')->where('id',$id)->update(['nama'=>$nama]);
                 $query = DB::table('pejabats')->where('id',$id)->update(['nama'=>$nama,'jabatan'=>$jabatan,'instansi'=>$instansi,'alamat' => $alamat, 'telepon' => $telepon,'email' => $email]);
+                return $id;
                 break;
             case 'insert':
                 $query = DB::table('pejabats')->insertGetId(['nama'=>$nama,'jabatan'=>$jabatan,'instansi'=>$instansi,'alamat' => $alamat, 'telepon' => $telepon,'email' => $email]);
+                return $query;
                 break;
         }
     }
