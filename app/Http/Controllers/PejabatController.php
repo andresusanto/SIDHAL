@@ -70,7 +70,7 @@ class PejabatController extends Controller {
     }
     public function getPejabat($instansi)
     {
-        return view('konten/gridPejabat', array('title'=>'Entry Pejabat Baru','instansi' => $instansi));
+        return view('konten/gridPejabat', array('title'=>'Entry Pejabat Baru','instansi' => $instansi,'nav_pejabat'=>'','nav_'.$instansi=>''));
     }
     public function getSuggestedPejabat(){
         //$keyword = Input::get('keyword');
