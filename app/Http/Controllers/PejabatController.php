@@ -64,14 +64,14 @@ class PejabatController extends Controller {
             array_push($listTelepon,$pejabat->telepon);
             array_push($listEmail,$pejabat->email);
         }
-
-        //return json_encode($listNama);
         return json_encode(array('count'=>count($listNama),'id'=>$listId,'nama'=>$listNama,'jabatan'=>$listJabatan,'instansi'=>$listInstansi,'alamat'=>$listAlamat,'telepon'=>$listTelepon,'email'=>$listEmail));
     }
+
     public function getPejabat($instansi)
     {
         return view('konten/gridPejabat', array('title'=>'Entry Pejabat Baru','instansi' => $instansi,'nav_pejabat'=>'','nav_'.$instansi=>''));
     }
+
     public function getSuggestedPejabat(){
         $suggestionList = DB::table('pejabats')->select('nama','instansi')->get();
         $tmpSuggestion = array();
@@ -82,8 +82,7 @@ class PejabatController extends Controller {
             array_push($arraySuggestion['suggestions'],$tmpSuggestion);
         }
         return json_encode($arraySuggestion);
-        //return '{"suggestions": [{ "value": "United Arab Emirates", "data": "AE" },{ "value": "United Kingdom", "data": "UK" },
-        //{ "value": "United States", "data": "US" },{ "value": "United Arab Emirates 123", "data": "AEA" }]}';
+
     }
     public function getKonfirmasiKehadiran(){
         return view('konten/konfirmasikehadiran', array('title'=>'Konfirmasi Kehadiran Pejabat'));
@@ -102,7 +101,6 @@ class PejabatController extends Controller {
                 $query = DB::table('pejabats')->where('id',$id)->delete();
                 break;
             case 'update':
-                //$query = DB::table('pejabats')->where('id',$id)->update(['nama'=>$nama]);
                 $query = DB::table('pejabats')->where('id',$id)->update(['nama'=>$nama,'jabatan'=>$jabatan,'instansi'=>$instansi,'alamat' => $alamat, 'telepon' => $telepon,'email' => $email]);
                 return $id;
                 break;
