@@ -21,13 +21,13 @@
     <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxgrid.edit.js')}}"></script>
     <script type="text/javascript">
 
-    var id = [];
-    var nama = [];
-    var jabatan = [];
-    var instansi = [];
 
     $(document).ready(function () {
             var data = {};
+            var id = [];
+            var nama = [];
+            var jabatan = [];
+            var instansi = [];
             var generaterow = function (i) {
                 var row = {};
                 row["id"] = id[i];
@@ -118,7 +118,6 @@
             minChars: 3,
             type: 'GET',
             onSelect: function (suggestion) {
-                alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
                 write(suggestion.value,'kepala','kemlu',0);
             }
         });
