@@ -73,7 +73,8 @@ class PejabatController extends Controller {
     }
 
     public function getSuggestedPejabat(){
-        $suggestionList = DB::table('pejabats')->select('id','nama','instansi')->get();
+        $keyword = Input::get('query');
+        $suggestionList = DB::table('pejabats')->select('id','nama','instansi')->where('nama','LIKE','%'.$keyword.'%')->get();
         $tmpSuggestion = array();
         $arraySuggestion['suggestions'] = array();
         foreach($suggestionList as $suggestion){
