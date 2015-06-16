@@ -62,7 +62,6 @@
 				
 				function link2(cellValue, options, rowdata, action)
 				{
-					//return "<a href='{{ action('EditRapatController@getDelete') }}/" + rowdata.id + "'><span class='ui-icon ui-icon-trash'>&nbsp;&nbsp;&nbsp;&nbsp;</span></a>";
 					return "<a href='javascript:;' data-id='"+ rowdata.id +"' data-toggle='modal' data-target='#modal-konfirmasi'><span class='ui-icon ui-icon-trash'>&nbsp;&nbsp;&nbsp;&nbsp;</span></a>";
 				}
 
