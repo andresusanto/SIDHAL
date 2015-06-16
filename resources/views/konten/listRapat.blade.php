@@ -37,6 +37,20 @@
 
 			@endif
 			
+			// delete confirmation
+			$('#modal-konfirmasi').on('show.bs.modal', function (event) {
+			var div = $(event.relatedTarget) // Tombol dimana modal di tampilkan
+			 
+				// Untuk mengambil nilai dari data-id="" yang telah kita tempatkan pada link hapus
+				var id = div.data('id')
+				 
+				var modal = $(this)
+				 
+				// Mengisi atribut href pada tombol ya yang kita berikan id hapus-true pada modal .
+				modal.find('#hapus-true').attr("href","{{ action('EditRapatController@getDelete') }}/"+id);
+			 
+			})
+			
 			$.getJSON( '{{ action("DaftarRapatController@getData") }}', function( mydata ) {
             }).done(function(mydata){
 			
@@ -48,7 +62,7 @@
 				
 				function link2(cellValue, options, rowdata, action)
 				{
-					return "<a href='{{ action('EditRapatController@getDelete') }}/" + rowdata.id + "'><span class='ui-icon ui-icon-trash'>&nbsp;&nbsp;&nbsp;&nbsp;</span></a>";
+					return "<a href='javascript:;' data-id='"+ rowdata.id +"' data-toggle='modal' data-target='#modal-konfirmasi'><span class='ui-icon ui-icon-trash'>&nbsp;&nbsp;&nbsp;&nbsp;</span></a>";
 				}
 
 				// Configuration for jqGrid Example 1
@@ -133,6 +147,30 @@
 		
 		
 		
+	</div>
+</div>
+
+<!-- modal konfirmasi-->
+<div id="modal-konfirmasi" class="modal inmodal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content animated fadeIn">
+		 
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Konfirmasi</h4>
+				<small>Menghapus data rapat</small>
+			</div>
+			 
+			<div class="modal-body">
+				<p>Apakah Anda yakin ingin menghapus data ini?</p>
+			</div>
+			 
+			<div class="modal-footer">
+				<a href="javascript:;" class="btn btn-white" id="hapus-true">Ya</a>
+				<button type="button" class="btn btn-primary" data-dismiss="modal">Tidak</button>
+			</div>
+		 
+		</div>
 	</div>
 </div>
 @endsection
