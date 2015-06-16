@@ -20,10 +20,12 @@
     <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxgrid.selection.js')}}"></script>
     <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxgrid.edit.js')}}"></script>
     <script type="text/javascript">
+
     var id = [];
     var nama = [];
     var jabatan = [];
     var instansi = [];
+
     $(document).ready(function () {
             var data = {};
             var generaterow = function (i) {
@@ -35,7 +37,7 @@
                 return row;
             }
 
-            for (var i = 0; i < nama.length+5; i++) {
+            for (var i = 0; i < 2; i++) {
                 var row = generaterow(i);
                 data[i] = row;
             }
@@ -55,22 +57,7 @@
                     commit(true);
                 },
                 deleterow: function (rowid, commit) {
-                    var datarow = $("#jqxgrid").jqxGrid('getrowdata', rowid);
-                    var data = "action=delete&" + $.param({id: datarow.id})+ "&" +$.param({_token: '{{csrf_token()}}'});
-                    $.ajax({
-                        type: "POST",
-                        url: '{{ action('PejabatController@postCrudPejabat')}}',
-                        data: data,
-                        success: function (data, status, xhr) {
-                            // delete command is executed.
-                            commit(true);
-                        },
-                        error: function(jqXHR, textStatus, errorThrown)
-                        {
-                            commit(false);
-                        }
-                    });
-
+                    commit(true);
                 }
             };
             var dataAdapter = new $.jqx.dataAdapter(source);
@@ -97,6 +84,7 @@
                                 var datarow = generaterow();
                                 var commit = $("#jqxgrid").jqxGrid('addrow', null, datarow);
                             });
+
                             // delete row.
                             $("#deleterowbutton").on('click', function () {
                                 var selectedrowindex = $("#jqxgrid").jqxGrid('getselectedrowindex');
