@@ -4,6 +4,13 @@
 <link href="{{ asset('/css/plugins/jqGrid/ui.jqgrid.css') }}" rel="stylesheet">
 <link href="{{ asset('/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css') }}" rel="stylesheet">
 <link href="{{ asset('/css/plugins/toastr/toastr.min.css') }}" rel="stylesheet">
+<style>
+	th.ui-th-column div {
+		white-space: normal !important;
+		height: auto !important;
+		padding: 2px;
+	}
+</style>
 @endsection
 
 @section('addonjs')
@@ -55,14 +62,29 @@
             }).done(function(mydata){
 			
 				
-				function link(cellValue, options, rowdata, action)
+				function linkEdit(cellValue, options, rowdata, action)
 				{
 					return "<a href='{{ action('EditRapatController@getEdit') }}/" + rowdata.id + "'><span class='ui-icon ui-icon-pencil'>&nbsp;&nbsp;&nbsp;</span></a>";
 				}
 				
-				function link2(cellValue, options, rowdata, action)
+				function linkDelete(cellValue, options, rowdata, action)
 				{
 					return "<a href='javascript:;' data-id='"+ rowdata.id +"' data-toggle='modal' data-target='#modal-konfirmasi'><span class='ui-icon ui-icon-trash'>&nbsp;&nbsp;&nbsp;&nbsp;</span></a>";
+				}
+				
+				function undangan(cellValue, options, rowdata, action)
+				{
+					return "<a href='#'><span class='ui-icon ui-icon-mail-open'>&nbsp;&nbsp;&nbsp;&nbsp;</span></a>";
+				}
+				
+				function daftar_kehadiran(cellValue, options, rowdata, action)
+				{
+					return "<a href='#'><span class='ui-icon ui-icon-note'>&nbsp;&nbsp;&nbsp;&nbsp;</span></a>";
+				}
+				
+				function konfirmasi_kehadiran(cellValue, options, rowdata, action)
+				{
+					return "<a href='#'><span class='ui-icon ui-icon-check'>&nbsp;&nbsp;&nbsp;&nbsp;</span></a>";
 				}
 
 				// Configuration for jqGrid Example 1
@@ -74,15 +96,18 @@
 					shrinkToFit: true,
 					rowNum: 14,
 					rowList: [10, 20, 30],
-					colNames: ['Jenis Rapat', 'Waktu', 'Tempat', 'Pembahasan', 'Pimpinan', 'Edit', 'Delete'],
+					colNames: ['Jenis Rapat', 'Waktu', 'Tempat', 'Pembahasan', 'Pimpinan', 'Undangan', 'Daftar Kehadiran', 'Konfirmasi Kehadiran', 'Edit', 'Delete'],
 					colModel: [
 						{name: 'jenis_rapat', index: 'jenis_rapat', width: 90},
-						{name: 'waktu', index: 'waktu', width: 100, formatter: "date", formatoptions: { srcformat: "ISO8601Long", newformat: "m/d/Y H:i" }},
+						{name: 'waktu', index: 'waktu', width: 80, formatter: "date", formatoptions: { srcformat: "ISO8601Long", newformat: "m/d/Y H:i" }},
 						{name: 'tempat', index: 'tempat', width: 80},
 						{name: 'pembahasan', index: 'pembahasan', width: 80},
 						{name: 'pimpinan', index: 'pimpinan', width: 80 },
-						{name: 'edit', index: 'edit', width: 40,align: 'center',formatter: link},
-						{name: 'delete', index: 'delete', width: 40,align: 'center',formatter: link2}
+						{name: 'undangan', index: 'undangan', width: 55,align: 'center',formatter: undangan},
+						{name: 'daftar_kehadiran', index: 'daftar_kehadiran', width: 60,align: 'center',formatter: daftar_kehadiran},
+						{name: 'konfirmasi_kehadiran', index: 'konfirmasi_kehadiran',width: 60,align: 'center',formatter: konfirmasi_kehadiran},
+						{name: 'edit', index: 'edit', width: 20,align: 'center',formatter: linkEdit},
+						{name: 'delete', index: 'delete', width: 30,align: 'center',formatter: linkDelete}
 						
 					],
 					pager: "#pager_list_1",
