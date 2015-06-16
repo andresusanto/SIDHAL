@@ -64,13 +64,28 @@ class PejabatController extends Controller {
             array_push($listTelepon,$pejabat->telepon);
             array_push($listEmail,$pejabat->email);
         }
-
-        //return json_encode($listNama);
         return json_encode(array('count'=>count($listNama),'id'=>$listId,'nama'=>$listNama,'jabatan'=>$listJabatan,'instansi'=>$listInstansi,'alamat'=>$listAlamat,'telepon'=>$listTelepon,'email'=>$listEmail));
     }
-    public function getPejabat()
+
+    public function getPejabat($instansi)
     {
-        return view('konten/gridPejabat', array('title'=>'Entry Pejabat Baru'));
+        return view('konten/gridPejabat', array('title'=>'Entry Pejabat Baru','instansi' => $instansi,'nav_pejabat'=>'','nav_'.$instansi=>''));
+    }
+
+    public function getSuggestedPejabat(){
+        $suggestionList = DB::table('pejabats')->select('id','nama','instansi')->get();
+        $tmpSuggestion = array();
+        $arraySuggestion['suggestions'] = array();
+        foreach($suggestionList as $suggestion){
+            $tmpSuggestion['value'] = $suggestion->nama." dari ".$suggestion->instansi;
+            $tmpSuggestion['data'] = $suggestion->id;
+            array_push($arraySuggestion['suggestions'],$tmpSuggestion);
+        }
+        return json_encode($arraySuggestion);
+
+    }
+    public function getKonfirmasiKehadiran(){
+        return view('konten/konfirmasikehadiran', array('title'=>'Konfirmasi Kehadiran Pejabat'));
     }
     public function postCrudPejabat(){
         $action = Input::get('action');
@@ -86,11 +101,12 @@ class PejabatController extends Controller {
                 $query = DB::table('pejabats')->where('id',$id)->delete();
                 break;
             case 'update':
-                //$query = DB::table('pejabats')->where('id',$id)->update(['nama'=>$nama]);
                 $query = DB::table('pejabats')->where('id',$id)->update(['nama'=>$nama,'jabatan'=>$jabatan,'instansi'=>$instansi,'alamat' => $alamat, 'telepon' => $telepon,'email' => $email]);
+                return $id;
                 break;
             case 'insert':
                 $query = DB::table('pejabats')->insertGetId(['nama'=>$nama,'jabatan'=>$jabatan,'instansi'=>$instansi,'alamat' => $alamat, 'telepon' => $telepon,'email' => $email]);
+                return $query;
                 break;
         }
     }
