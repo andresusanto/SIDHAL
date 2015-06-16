@@ -118,20 +118,22 @@
             minChars: 3,
             type: 'GET',
             onSelect: function (suggestion) {
-                write(suggestion.value,'kepala','kemlu',0);
+                write(suggestion.data.id,suggestion.data.nama,suggestion.data.jabatan,suggestion.data.instansi,0);
             }
         });
 
     });
 
-        function write(nama,jabatan,instansi,nomor){
+        function write(id,nama,jabatan,instansi,nomor){
             var datarow = $("#jqxgrid").jqxGrid('getrowdata', nomor);
             if(typeof(datarow.nama)=="undefined"){
+                $('#jqxgrid').jqxGrid('setcellvalue',nomor,'no',nomor+1);
+                $('#jqxgrid').jqxGrid('setcellvalue',nomor,'id',id);
                 $('#jqxgrid').jqxGrid('setcellvalue',nomor,'nama',nama);
                 $('#jqxgrid').jqxGrid('setcellvalue',nomor,'jabatan',jabatan);
                 $('#jqxgrid').jqxGrid('setcellvalue',nomor,'instansi',instansi);
             }else{
-                write(nama,jabatan,instansi,nomor+1);
+                write(id,nama,jabatan,instansi,nomor+1);
             }
         }
     </script>
