@@ -14,10 +14,10 @@
 		<div class="col-lg-12">
 			<div class="text-center m-t-lg">
 				<h1>
-					Welcome in INSPINIA Static SeedProject
+					Selamat datang di SIDHAL
 				</h1>
 				<small>
-					It is an application skeleton for a typical web app. You can use it to quickly bootstrap your webapp projects and dev environment for these projects.
+					Untuk membuat rapat, silahkan pilih Entry Rapat. Untuk mengubah rapat, silahkan pilih Daftar Rapat.
 				</small>
 			</div>
 		</div>
