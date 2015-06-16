@@ -3,16 +3,39 @@
 @section('addoncss')
 <link href="{{ asset('/css/plugins/jqGrid/ui.jqgrid.css') }}" rel="stylesheet">
 <link href="{{ asset('/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css') }}" rel="stylesheet">
+<link href="{{ asset('/css/plugins/toastr/toastr.min.css') }}" rel="stylesheet">
 @endsection
 
 @section('addonjs')
 <!-- jqGrid -->
 <script src="{{ asset('/js/plugins/jqGrid/i18n/grid.locale-en.js') }}"></script>
 <script src="{{ asset('/js/plugins/jqGrid/jquery.jqGrid.min.js') }}"></script>
-<script src="{{ asset('/js/plugins/jqGrid/jquery.jqGrid.min.js') }}"></script>
+<script src="{{ asset('/js/plugins/toastr/toastr.min.js') }}"></script>
 
 <script>
         $(document).ready(function () {
+			@if(Session::has('update'))
+		
+				toastr.options = {
+					closeButton: true,
+					progressBar: true,
+					showMethod: 'slideDown',
+					timeOut: 3000
+				};
+				toastr.success('Rapat berhasil diubah.');
+
+			@endif
+			@if(Session::has('delete'))
+		
+				toastr.options = {
+					closeButton: true,
+					progressBar: true,
+					showMethod: 'slideDown',
+					timeOut: 3000
+				};
+				toastr.success('Rapat berhasil dihapus.');
+
+			@endif
 			
 			$.getJSON( '{{ action("DaftarRapatController@getData") }}', function( mydata ) {
             }).done(function(mydata){
@@ -20,12 +43,12 @@
 				
 				function link(cellValue, options, rowdata, action)
 				{
-					return "<a href='" + rowdata.id + "'><span class='ui-icon ui-icon-folder-collapsed'>&nbsp;&nbsp;&nbsp;</span></a>";
+					return "<a href='{{ action('EditRapatController@getEdit') }}/" + rowdata.id + "'><span class='ui-icon ui-icon-pencil'>&nbsp;&nbsp;&nbsp;</span></a>";
 				}
 				
 				function link2(cellValue, options, rowdata, action)
 				{
-					return "<a href='" + rowdata.name + "'><span class='ui-icon ui-icon-circle-check'>&nbsp;&nbsp;&nbsp;&nbsp;</span></a>";
+					return "<a href='{{ action('EditRapatController@getDelete') }}/" + rowdata.id + "'><span class='ui-icon ui-icon-trash'>&nbsp;&nbsp;&nbsp;&nbsp;</span></a>";
 				}
 
 				// Configuration for jqGrid Example 1
@@ -37,15 +60,15 @@
 					shrinkToFit: true,
 					rowNum: 14,
 					rowList: [10, 20, 30],
-					colNames: ['Jenis Rapat', 'Waktu', 'Tempat', 'Pembahasan', 'Pimpinan', 'Aksi 1', 'Aksi 2'],
+					colNames: ['Jenis Rapat', 'Waktu', 'Tempat', 'Pembahasan', 'Pimpinan', 'Edit', 'Delete'],
 					colModel: [
 						{name: 'jenis_rapat', index: 'jenis_rapat', width: 90},
 						{name: 'waktu', index: 'waktu', width: 100, formatter: "date", formatoptions: { srcformat: "ISO8601Long", newformat: "m/d/Y H:i" }},
 						{name: 'tempat', index: 'tempat', width: 80},
 						{name: 'pembahasan', index: 'pembahasan', width: 80},
 						{name: 'pimpinan', index: 'pimpinan', width: 80 },
-						{name: 'aksi1', index: 'aksi1', width: 40,align: 'center',formatter: link},
-						{name: 'aksi1', index: 'aksi1', width: 40,align: 'center',formatter: link2}
+						{name: 'edit', index: 'edit', width: 40,align: 'center',formatter: link},
+						{name: 'delete', index: 'delete', width: 40,align: 'center',formatter: link2}
 						
 					],
 					pager: "#pager_list_1",
@@ -62,7 +85,9 @@
 				
 			});
         });
-
+		
+		
+		
     </script>
 @endsection
 
