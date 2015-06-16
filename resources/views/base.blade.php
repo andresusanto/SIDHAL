@@ -41,7 +41,7 @@
                     </div>
                 </li>
                 <li class="{{ isset($nav_home) ? 'active' : '' }}">
-                    <a href="index.html"><i class="fa fa-home"></i> <span class="nav-label">Beranda</span></a>
+                    <a href="{{ url('/') }}"><i class="fa fa-home"></i> <span class="nav-label">Beranda</span></a>
                 </li>
                 <li class="{{ isset($nav_entry) ? 'active' : '' }}">
                     <a href="{{ action('EntryController@getIndex') }}"><i class="fa fa-plus-square"></i> <span class="nav-label">Entry Rapat Baru</span></a>
