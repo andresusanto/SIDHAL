@@ -20,116 +20,133 @@
     <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxgrid.selection.js')}}"></script>
     <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxgrid.edit.js')}}"></script>
     <script type="text/javascript">
-        $(document).ready(function () {
-            $.getJSON( '{{ action("PejabatController@getJsonPejabat",'all') }}', function( data ) {
-            }).done(function(data){
-                var count = data.count;
-                var id = data.id;
-                var nama = data.nama;
-                var jabatan = data.jabatan;
-                var instansi =  data.instansi;
+    var id = [];
+    var nama = [];
+    var jabatan = [];
+    var instansi = [];
+    $(document).ready(function () {
+            var data = {};
+            var generaterow = function (i) {
+                var row = {};
+                row["id"] = id[i];
+                row["nama"] = nama[i];
+                row["jabatan"] = jabatan[i];
+                row["instansi"] = instansi[i];
+                return row;
+            }
 
-                var generaterow = function (i) {
-                    var row = {};
-                    row["id"] = id[i];
-                    row["nama"] = nama[i];
-                    row["jabatan"] = jabatan[i];
-                    row["instansi"] = instansi[i];
-                    return row;
-                }
+            for (var i = 0; i < nama.length+5; i++) {
+                var row = generaterow(i);
+                data[i] = row;
+            }
 
-                for (var i = 0; i < count; i++) {
-                    var row = generaterow(i);
-                    data[i] = row;
-                }
-
-                var source =
-                {
-                    localdata: data,
-                    datatype: "local",
-                    datafields:
-                            [
-                                { name: 'id', type: 'integer' },
-                                { name: 'nama', type: 'string' },
-                                { name: 'jabatan', type: 'string' },
-                                { name: 'instansi', type: 'string' }
-                            ],
-                    addrow: function (rowid, rowdata, position, commit) {
-                        commit(true);
-                    },
-                    deleterow: function (rowid, commit) {
-                        var datarow = $("#jqxgrid").jqxGrid('getrowdata', rowid);
-                        var data = "action=delete&" + $.param({id: datarow.id})+ "&" +$.param({_token: '{{csrf_token()}}'});
-                        $.ajax({
-                            type: "POST",
-                            url: '{{ action('PejabatController@postCrudPejabat')}}',
-                            data: data,
-                            success: function (data, status, xhr) {
-                                // delete command is executed.
-                                commit(true);
-                            },
-                            error: function(jqXHR, textStatus, errorThrown)
-                            {
-                                commit(false);
-                            }
-                        });
-
-                    }
-                };
-                var dataAdapter = new $.jqx.dataAdapter(source);
-                // initialize jqxGrid
-                $("#jqxgrid").jqxGrid(
+            var source =
+            {
+                localdata: data,
+                datatype: "local",
+                datafields:
+                        [
+                            { name: 'id', type: 'integer' },
+                            { name: 'nama', type: 'string' },
+                            { name: 'jabatan', type: 'string' },
+                            { name: 'instansi', type: 'string' }
+                        ],
+                addrow: function (rowid, rowdata, position, commit) {
+                    commit(true);
+                },
+                deleterow: function (rowid, commit) {
+                    var datarow = $("#jqxgrid").jqxGrid('getrowdata', rowid);
+                    var data = "action=delete&" + $.param({id: datarow.id})+ "&" +$.param({_token: '{{csrf_token()}}'});
+                    $.ajax({
+                        type: "POST",
+                        url: '{{ action('PejabatController@postCrudPejabat')}}',
+                        data: data,
+                        success: function (data, status, xhr) {
+                            // delete command is executed.
+                            commit(true);
+                        },
+                        error: function(jqXHR, textStatus, errorThrown)
                         {
-                            width: 1050,
-                            height: 500,
-                            source: dataAdapter,
-                            autoheight: true,
-                            autowidth: true,
-                            showtoolbar: true,
-                            rendertoolbar: function (toolbar) {
-                                var me = this;
-                                var container = $("<div style='margin: 5px;'></div>");
-                                toolbar.append(container);
-                                container.append('<input style="margin-left: 5px;" id="deleterowbutton" type="button" value="Hapus Data Pejabat" />');
-                                $("#deleterowbutton").jqxButton();
+                            commit(false);
+                        }
+                    });
 
-                                // delete row.
-                                $("#deleterowbutton").on('click', function () {
-                                    var selectedrowindex = $("#jqxgrid").jqxGrid('getselectedrowindex');
-                                    var rowscount = $("#jqxgrid").jqxGrid('getdatainformation').rowscount;
-                                    if (selectedrowindex >= 0 && selectedrowindex < rowscount) {
-                                        var id = $("#jqxgrid").jqxGrid('getrowid', selectedrowindex);
-                                        var commit = $("#jqxgrid").jqxGrid('deleterow', id);
-                                    }
-                                });
+                }
+            };
+            var dataAdapter = new $.jqx.dataAdapter(source);
+            // initialize jqxGrid
+            $("#jqxgrid").jqxGrid(
+                    {
+                        width: 1050,
+                        height: 500,
+                        source: dataAdapter,
+                        autoheight: true,
+                        autowidth: true,
+                        showtoolbar: true,
+                        rendertoolbar: function (toolbar) {
+                            var me = this;
+                            var container = $("<div style='margin: 5px;'></div>");
+                            toolbar.append(container);
+                            container.append('<input id="addrowbutton" type="button" value="Tambah Data Pejabat" />');
+                            container.append('<input style="margin-left: 5px;" id="deleterowbutton" type="button" value="Hapus Data Pejabat" />');
+                            $("#addrowbutton").jqxButton();
+                            $("#deleterowbutton").jqxButton();
 
-                            },
-                            columns: [
-                                { text: 'No', datafield: 'no', width: 50 },
-                                { text: 'Id', datafield: 'id', width: 50 },
-                                { text: 'Nama', datafield: 'nama', width: 200 },
-                                { text: 'Jabatan', datafield: 'jabatan', width: 150 },
-                                { text: 'Instansi', datafield: 'instansi', width: 150 }
-                            ]
-                        });
-            });
+                            // create new row.
+                            $("#addrowbutton").on('click', function () {
+                                var datarow = generaterow();
+                                var commit = $("#jqxgrid").jqxGrid('addrow', null, datarow);
+                            });
+                            // delete row.
+                            $("#deleterowbutton").on('click', function () {
+                                var selectedrowindex = $("#jqxgrid").jqxGrid('getselectedrowindex');
+                                var rowscount = $("#jqxgrid").jqxGrid('getdatainformation').rowscount;
+                                if (selectedrowindex >= 0 && selectedrowindex < rowscount) {
+                                    var id = $("#jqxgrid").jqxGrid('getrowid', selectedrowindex);
+                                    var commit = $("#jqxgrid").jqxGrid('deleterow', id);
+                                }
+                            });
+
+                        },
+                        columns: [
+                            { text: 'No', datafield: 'no', width: 50 },
+                            { text: 'Id', datafield: 'id', width: 50 },
+                            { text: 'Nama', datafield: 'nama', width: 200 },
+                            { text: 'Jabatan', datafield: 'jabatan', width: 250 },
+                            { text: 'Instansi', datafield: 'instansi', width: 150 }
+                        ]
+                    });
         });
 
-    </script>
     <!-- autocomplete -->
-    <script>
+
     $(function () {
+
         'use strict';
         $('#autocomplete-ajax').autocomplete({
             serviceUrl: '{{ action('PejabatController@getSuggestedPejabat') }}',
             dataType: 'json',
+            lookupLimit: 3,
+            minChars: 3,
             type: 'GET',
             onSelect: function (suggestion) {
                 alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
+                write(suggestion.value,'kepala','kemlu',0);
             }
         });
 
     });
+
+        function write(nama,jabatan,instansi,nomor){
+            var datarow = $("#jqxgrid").jqxGrid('getrowdata', nomor);
+            if(typeof(datarow.nama)=="undefined"){
+                $('#jqxgrid').jqxGrid('setcellvalue',nomor,'nama',nama);
+                $('#jqxgrid').jqxGrid('setcellvalue',nomor,'jabatan',jabatan);
+                $('#jqxgrid').jqxGrid('setcellvalue',nomor,'instansi',instansi);
+            }else{
+                write(nama,jabatan,instansi,nomor+1);
+            }
+        }
     </script>
     <script type="text/javascript" src="{{asset('/js/jquery.autocomplete.js')}}"></script>
 @endsection
@@ -154,13 +171,15 @@
 
 <div class="wrapper wrapper-content animated fadeInRight">   
 	<div class="row">
-        <div style="position: relative; height: 80px;width:50%;">
+        <div style="position: relative; height: 80px;width:30%;">
             <input class="form-control" placeholder="Ketik nama di sini" type="text" name="country" id="autocomplete-ajax" style="position: absolute; z-index: 2;"/>
-            <input class="form-control" type="text" name="country" id="autocomplete-ajax-x" disabled="disabled" style="position: absolute; z-index: 1;"/>
         </div>
         <div id="selection-ajax"></div>
+	</div>
+    <br/>
+    <div class="row">
         <div id="jqxgrid" class="col-lg-12">
         </div>
-	</div>
+    </div>
 </div>
 @endsection
