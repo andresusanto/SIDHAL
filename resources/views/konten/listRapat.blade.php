@@ -74,17 +74,17 @@
 				
 				function undangan(cellValue, options, rowdata, action)
 				{
-					return "<a href='#'><span class='ui-icon ui-icon-mail-open'>&nbsp;&nbsp;&nbsp;&nbsp;</span></a>";
+					return "<a href='{{action('ReportController@getUndangan')}}?id="+rowdata.id+"'><span class='ui-icon ui-icon-mail-open'>&nbsp;&nbsp;&nbsp;&nbsp;</span></a>";
 				}
 				
 				function daftar_kehadiran(cellValue, options, rowdata, action)
 				{
-					return "<a href='#'><span class='ui-icon ui-icon-note'>&nbsp;&nbsp;&nbsp;&nbsp;</span></a>";
+					return "<a href='{{action('ReportController@getDaftarhadir')}}?id="+rowdata.id+"'><span class='ui-icon ui-icon-note'>&nbsp;&nbsp;&nbsp;&nbsp;</span></a>";
 				}
 				
 				function konfirmasi_kehadiran(cellValue, options, rowdata, action)
 				{
-					return "<a href='#'><span class='ui-icon ui-icon-check'>&nbsp;&nbsp;&nbsp;&nbsp;</span></a>";
+					return "<a href='{{action('ReportController@getKonfirmasi')}}?id="+rowdata.id+"'><span class='ui-icon ui-icon-check'>&nbsp;&nbsp;&nbsp;&nbsp;</span></a>";
 				}
 
 				// Configuration for jqGrid Example 1
