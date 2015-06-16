@@ -6,6 +6,11 @@ use Carbon\Carbon;
 
 class EditRapatController extends Controller {
 
+	public function __construct()
+    {
+        $this->middleware('auth');
+    }
+	
 	// Get data from database by id
 	public function getEdit($id)
 	{

@@ -13,7 +13,7 @@ class DaftarRapatController extends Controller {
 
 	public function __construct()
 	{
-		//$this->middleware('auth');
+		$this->middleware('auth');
 	}
 	
 	/* list of rapat */
