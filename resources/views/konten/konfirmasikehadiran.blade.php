@@ -65,11 +65,12 @@
             // initialize jqxGrid
             $("#jqxgrid").jqxGrid(
                     {
-                        width: 1050,
-                        height: 500,
+                        autoheight: true,
+                        autowidth:true,
                         source: dataAdapter,
                         autoheight: true,
                         autowidth: true,
+                        editable: true,
                         showtoolbar: true,
                         rendertoolbar: function (toolbar) {
                             var me = this;
@@ -125,11 +126,13 @@
 
                         },
                         columns: [
-                            { text: 'No', datafield: 'no', width: 50 },
-                            { text: 'Id', datafield: 'id', width: 50 },
-                            { text: 'Nama', datafield: 'nama', width: 200 },
-                            { text: 'Jabatan', datafield: 'jabatan', width: 250 },
-                            { text: 'Instansi', datafield: 'instansi', width: 150 }
+                            { text: 'No', datafield: 'no', width: 50, editable:false },
+                            { text: 'Id', datafield: 'id', width: 0, editable:false,hidden:true },
+                            { text: 'Nama', datafield: 'nama', width: 200, editable:false },
+                            { text: 'Jabatan', datafield: 'jabatan', width: 150, editable:false },
+                            { text: 'Instansi', datafield: 'instansi', width: 150, editable:false },
+                            { text: 'Hadir (Y/T)', datafield: 'hadir', width: 100 },
+                            { text: 'Keterangan', datafield: 'keterangan', width: 250 }
                         ]
                     });
         });
@@ -160,6 +163,7 @@
                 $('#jqxgrid').jqxGrid('setcellvalue',nomor,'nama',nama);
                 $('#jqxgrid').jqxGrid('setcellvalue',nomor,'jabatan',jabatan);
                 $('#jqxgrid').jqxGrid('setcellvalue',nomor,'instansi',instansi);
+                $('#jqxgrid').jqxGrid('setcellvalue',nomor,'hadir','Y');
             }else{
                 write(id,nama,jabatan,instansi,nomor+1);
             }
