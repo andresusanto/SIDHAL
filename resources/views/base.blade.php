@@ -66,6 +66,9 @@
                     <a href="{{ action('DaftarRapatController@getIndex') }}"><i class="fa fa-list-ol"></i> <span class="nav-label">Daftar Rapat</span></a>
                 </li>
 				
+				<li class="{{ isset($nav_user) ? 'active' : '' }}">
+                    <a href="{{ action('UserController@getIndex') }}"><i class="fa fa-user-plus"></i> <span class="nav-label">Menejemen Pengguna</span></a>
+                </li>
             </ul>
 
         </div>
