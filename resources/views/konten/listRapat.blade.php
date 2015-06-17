@@ -72,19 +72,15 @@
 					return "<a href='javascript:;' data-id='"+ rowdata.id +"' data-toggle='modal' data-target='#modal-konfirmasi'><span class='ui-icon ui-icon-trash'>&nbsp;&nbsp;&nbsp;&nbsp;</span></a>";
 				}
 				
-				function undangan(cellValue, options, rowdata, action)
-				{
-					return "<a href='{{action('ReportController@getUndangan')}}?id="+rowdata.id+"'><span class='ui-icon ui-icon-mail-open'>&nbsp;&nbsp;&nbsp;&nbsp;</span></a>";
-				}
 				
 				function daftar_kehadiran(cellValue, options, rowdata, action)
 				{
 					return "<a href='{{action('ReportController@getDaftarhadir')}}?id="+rowdata.id+"'><span class='ui-icon ui-icon-note'>&nbsp;&nbsp;&nbsp;&nbsp;</span></a>";
 				}
 				
-				function konfirmasi_kehadiran(cellValue, options, rowdata, action)
+				function laporan(cellValue, options, rowdata, action)
 				{
-					return "<a href='{{action('ReportController@getKonfirmasi')}}?id="+rowdata.id+"'><span class='ui-icon ui-icon-check'>&nbsp;&nbsp;&nbsp;&nbsp;</span></a>";
+					return "<a href='{{action('ReportController@getKonfirmasi')}}?id="+rowdata.id+"'><span class='ui-icon ui-icon-document'>&nbsp;&nbsp;&nbsp;&nbsp;</span></a>";
 				}
 
 				// Configuration for jqGrid Example 1
@@ -96,16 +92,15 @@
 					shrinkToFit: true,
 					rowNum: 14,
 					rowList: [10, 20, 30],
-					colNames: ['Jenis Rapat', 'Waktu', 'Tempat', 'Pembahasan', 'Pimpinan', 'Undangan', 'Daftar Kehadiran', 'Konfirmasi Kehadiran', 'Edit', 'Delete'],
+					colNames: ['Jenis Rapat', 'Waktu', 'Tempat', 'Pembahasan', 'Pimpinan', 'Daftar Kehadiran', 'Laporan', 'Edit', 'Delete'],
 					colModel: [
 						{name: 'jenis_rapat', index: 'jenis_rapat', width: 90},
 						{name: 'waktu', index: 'waktu', width: 80, formatter: "date", formatoptions: { srcformat: "ISO8601Long", newformat: "m/d/Y H:i" }},
 						{name: 'tempat', index: 'tempat', width: 80},
 						{name: 'pembahasan', index: 'pembahasan', width: 80},
 						{name: 'pimpinan', index: 'pimpinan', width: 80 },
-						{name: 'undangan', index: 'undangan', width: 55,align: 'center',formatter: undangan},
-						{name: 'daftar_kehadiran', index: 'daftar_kehadiran', width: 60,align: 'center',formatter: daftar_kehadiran},
-						{name: 'konfirmasi_kehadiran', index: 'konfirmasi_kehadiran',width: 60,align: 'center',formatter: konfirmasi_kehadiran},
+						{name: 'daftar_kehadiran', index: 'daftar_kehadiran', width: 50,align: 'center',formatter: daftar_kehadiran},
+						{name: 'laporan', index: 'laporan',width: 60,align: 'center',formatter: laporan},
 						{name: 'edit', index: 'edit', width: 20,align: 'center',formatter: linkEdit},
 						{name: 'delete', index: 'delete', width: 30,align: 'center',formatter: linkDelete}
 						
