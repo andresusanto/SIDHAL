@@ -15,9 +15,20 @@ class ReportController extends Controller {
 	private $bulan = array('', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember');
 	private $hari = array('Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu');
 
-	public function getUndangan()
+	public function getDetil($id)
 	{
-		$id = Request::input('id');
+		$rapat = Rapat::find($id);
+		
+		if ($rapat){
+			
+			return view("konten/report", array('title'=>'Dokumen Rapat', 'id'=>$id));
+		}
+	}
+	
+	public function getUndangan($id)
+	{
+		$format = Request::input('format');
+		if (! is_numeric($format)) return "Illegal Action Detected";
 		$rapat = Rapat::find($id);
 		
 		if ($rapat){
@@ -25,14 +36,13 @@ class ReportController extends Controller {
 			
 			$tanggal = $this->hari[$ts['wday']] . ', ' . $ts['mday'] . ' ' . $this->bulan[$ts['mon']] . ' ' . $ts['year'];
 			$waktu = sprintf('%02d', $ts['hours']) . '.' . sprintf('%02d', $ts['minutes']);
-			$pdf = PDF::loadView("dokumen/undangan" , array('waktu'=> $waktu, 'tanggal'=> $tanggal, 'bulan'=>$this->bulan[getdate()['mon']], 'jenis' => $rapat->jenis_rapat, 'tempat' => str_replace('\n','\n<br/>',$rapat->tempat), 'pembahasan'=> $rapat->pembahasan, 'pimpinan'=>$rapat->pimpinan, 'pesertas'=>$rapat->peserta));
+			$pdf = PDF::loadView("dokumen/undangan_$format" , array('waktu'=> $waktu, 'tanggal'=> $tanggal, 'bulan'=>$this->bulan[getdate()['mon']], 'jenis' => $rapat->jenis_rapat, 'tempat' => str_replace('\n','\n<br/>',$rapat->tempat), 'pembahasan'=> $rapat->pembahasan, 'pimpinan'=>$rapat->pimpinan, 'pesertas'=>$rapat->peserta));
 			return $pdf->download("undangan_$id.pdf");
 		}
 	}
 	
-	public function getDaftarhadir()
+	public function getDaftarhadir($id)
 	{
-		$id = Request::input('id');
 		$rapat = Rapat::find($id);
 		
 		if ($rapat){
@@ -48,9 +58,8 @@ class ReportController extends Controller {
 		}
 	}
 	
-	public function getKonfirmasi()
+	public function getKonfirmasi($id)
 	{
-		$id = Request::input('id');
 		$rapat = Rapat::find($id);
 		
 		if ($rapat){
