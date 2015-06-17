@@ -2,7 +2,9 @@
 
 use App\Pejabat;
 use App\Rapat;
+use App\Undangan;
 use Request;
+use Redirect;
 use PDF;
 
 class ReportController extends Controller {
@@ -15,20 +17,64 @@ class ReportController extends Controller {
 	private $bulan = array('', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember');
 	private $hari = array('Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu');
 
+	public function getKustomisasi($id)
+	{
+		$format = Request::input('format');
+		if (! is_numeric($format)) return "Illegal Action Detected";
+		
+		$rapat = Rapat::find($id);
+		
+		if ($rapat){
+			$ts = getdate(strtotime($rapat->waktu));
+			
+			$tanggal = $this->hari[$ts['wday']] . ', ' . $ts['mday'] . ' ' . $this->bulan[$ts['mon']] . ' ' . $ts['year'];
+			$waktu = sprintf('%02d', $ts['hours']) . '.' . sprintf('%02d', $ts['minutes']);
+			
+			return view("konten/kustomundangan", array('title'=>'Dokumen Rapat', 'id'=>$id, 'undangan'=>'',        'waktu'=> $waktu, 'tanggal'=> $tanggal, 'bulan'=>$this->bulan[getdate()['mon']], 'jenis' => $rapat->jenis_rapat, 'tempat' => str_replace('\n','\n<br/>',$rapat->tempat), 'pembahasan'=> $rapat->pembahasan, 'pimpinan'=>$rapat->pimpinan, 'pesertas'=>$rapat->peserta));
+		}
+	}
+	
 	public function getDetil()
 	{
 		$id = Request::input('id');
 		$rapat = Rapat::find($id);
 		
 		if ($rapat){
+			if ($rapat->undangan){
+				$undangan = $rapat->undangan->tipe;
+			}else{
+				$undangan = 0;
+			}
 			
-			return view("konten/report", array('title'=>'Dokumen Rapat', 'id'=>$id));
+			
+			return view("konten/report", array('title'=>'Dokumen Rapat', 'id'=>$id, 'undangan'=>$undangan, 'judul'=>$rapat->pembahasan));
 		}
 	}
 	
-	public function getUndangan($id)
+	public function getGenerate($id)
 	{
 		$format = Request::input('format');
+		if (! is_numeric($format)) return "Illegal Action Detected";
+		
+		$rapat = Rapat::find($id);
+		
+		if ($rapat){
+			
+			if ($rapat->undangan){
+				$undangan = $rapat->undangan;
+			}else{
+				$undangan = new Undangan();
+			}
+			
+			$undangan->tipe = $format;
+			$rapat->undangan()->save($undangan);
+			
+			return Redirect::to(action('ReportController@getDetil') . '?id=' . $id)->with('message', 'GEN1');
+		}
+	}
+	
+	public function getUndangan($id, $format)
+	{
 		if (! is_numeric($format)) return "Illegal Action Detected";
 		$rapat = Rapat::find($id);
 		
