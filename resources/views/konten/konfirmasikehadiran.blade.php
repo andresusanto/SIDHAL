@@ -99,12 +99,12 @@
                         },
                         columns: [
                             { text: 'No', datafield: 'no', width: 50, editable:false },
-                            { text: 'Id', datafield: 'id', width: 0, editable:false,hidden:true },
                             { text: 'Nama', datafield: 'nama', width: 200, editable:false },
                             { text: 'Jabatan', datafield: 'jabatan', width: 150, editable:false },
                             { text: 'Instansi', datafield: 'instansi', width: 150, editable:false },
                             { text: 'Hadir (Y/T)', datafield: 'hadir', width: 100 },
-                            { text: 'Keterangan', datafield: 'keterangan', width: 250 }
+                            { text: 'Keterangan', datafield: 'keterangan',width:250},
+                            { text: '', datafield: 'id', editable:false, width:0}
                         ]
                     });
         });

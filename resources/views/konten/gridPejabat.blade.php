@@ -149,13 +149,13 @@
                             },
                             columns: [
                                 { text: 'No', datafield: 'no', width: 50 },
-                                { text: 'Id', datafield: 'id', width: 50,hidden:true },
                                 { text: 'Nama', datafield: 'nama', width: 200 },
                                 { text: 'Jabatan', datafield: 'jabatan', width: 150 },
                                 { text: 'Instansi', datafield: 'instansi', width: 150 },
                                 { text: 'Alamat', datafield: 'alamat', width: 200, cellsalign: 'right' },
                                 { text: 'Telepon', datafield: 'telepon', width: 100, cellsalign: 'right', cellsformat: 'c2' },
-                                { text: 'Email', datafield: 'email',  width:150, cellsalign: 'right' }
+                                { text: 'Email', datafield: 'email',  width:150, cellsalign: 'right' },
+                                { text: '', datafield: 'id', width: 50,editable:false}
                             ]
                         });
             });
