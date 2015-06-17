@@ -16,21 +16,35 @@
 <script src="{{ asset('/js/plugins/timepicker/jquery.timepicker.js') }}"></script>
 <script src="{{ asset('/js/plugins/toastr/toastr.min.js') }}"></script>
 <script>
-var base = "{{ action('ReportController@getUndangan', $id) }}";
+var base_unduh = "{{ action('ReportController@getGenerate', $id) }}";
+var base_kustom = "{{ action('ReportController@getKustomisasi', $id) }}";
+
 function unduh(){
-	window.location = base + '?format=' + $('#formatlaporan').val();
+	window.location = base_unduh + '?format=' + $('#formatlaporan').val();
 }
 
 function kustomize(){
-
+	window.location = base_kustom + '?format=' + $('#formatlaporan').val();
 }
+
+@if (Session::get('message') == 'GEN1')
+$(document).ready(function(){
+	toastr.options = {
+		closeButton: true,
+		progressBar: true,
+		showMethod: 'slideDown',
+		timeOut: 15000
+	};
+	toastr.success('Undangan berhasil digenerate');
+});
+@endif
 </script>
 @endsection
 
 @section('content')
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>Dokumen Rapat</h2>
+        <h2>{{$judul}}</h2>
         <ol class="breadcrumb">
             <li>
                 <a href="{{ url('/') }}">Home</a>
@@ -51,9 +65,10 @@ function kustomize(){
 <div class="wrapper wrapper-content animated fadeInRight">   
 	<div class="row">
 		<div class="col-lg-12">
+			@if ($undangan == '')
 			<div class="form-group">
 			  <label for="formatlaporan" class="col-lg-2 control-label">Buat Undangan</label>
-			  <div class="col-lg-6">
+			  <div class="col-lg-5">
 				<select class="form-control" id="formatlaporan">
 				  <option value="1">Format Tingkat Menteri</option>
 				  <option value="2">Format Tingkat ESELON 1</option>
@@ -61,9 +76,24 @@ function kustomize(){
 				  <option value="4">Format Biasa</option>
 				</select>
 				<br/>	
-				<a href="javascript:void(0);" onclick="unduh()" class="btn btn-success" style="width: 50%;">Buat Undangan</a>&nbsp;<a href="javascript:void(0);" class="btn btn-success" style="width: 40%;">Kustomisasi Undangan</a>
+				<a href="javascript:void(0);" onclick="unduh()" class="btn btn-success">Buat Undangan</a>&nbsp;<a href="javascript:void(0);" class="btn btn-success" onclick="kustomize()">Kustomisasi Undangan</a>
 			  </div>
 			</div>
+			@elseif ($undangan == 'Z')
+				<div class="form-group">
+				  <label for="formatlaporan" class="col-lg-2 control-label">Undangan</label>
+				  <div class="col-lg-6">
+					<a href="{{ url("/gen/undangan_$id.pdf") }}"><img src="{{ asset('/img/pdf.png') }}" /> Undangan</a>
+				  </div>
+				</div>
+			@else
+			<div class="form-group">
+			  <label for="formatlaporan" class="col-lg-2 control-label">Undangan</label>
+			  <div class="col-lg-6">
+				<a href="{{ action('ReportController@getUndangan', array($id, $undangan)) }}"><img src="{{ asset('/img/pdf.png') }}" /> Undangan</a>
+			  </div>
+			</div>
+			@endif
 		</div>
 	</div>
 	<br/><br/>
