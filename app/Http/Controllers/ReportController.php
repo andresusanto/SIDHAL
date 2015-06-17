@@ -15,8 +15,9 @@ class ReportController extends Controller {
 	private $bulan = array('', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember');
 	private $hari = array('Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu');
 
-	public function getDetil($id)
+	public function getDetil()
 	{
+		$id = Request::input('id');
 		$rapat = Rapat::find($id);
 		
 		if ($rapat){

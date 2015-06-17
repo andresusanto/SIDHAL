@@ -80,7 +80,7 @@
 				
 				function laporan(cellValue, options, rowdata, action)
 				{
-					return "<a href='{{action('ReportController@getKonfirmasi')}}?id="+rowdata.id+"'><span class='ui-icon ui-icon-document'>&nbsp;&nbsp;&nbsp;&nbsp;</span></a>";
+					return "<a href='{{action('ReportController@getDetil')}}?id="+rowdata.id+"'><span class='ui-icon ui-icon-document'>&nbsp;&nbsp;&nbsp;&nbsp;</span></a>";
 				}
 
 				// Configuration for jqGrid Example 1
