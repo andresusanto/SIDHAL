@@ -43,11 +43,35 @@ class ReportController extends Controller {
 			if ($rapat->undangan){
 				$undangan = $rapat->undangan->tipe;
 			}else{
-				$undangan = 0;
+				$undangan = '';
 			}
 			
 			
 			return view("konten/report", array('title'=>'Dokumen Rapat', 'id'=>$id, 'undangan'=>$undangan, 'judul'=>$rapat->pembahasan));
+		}
+	}
+	
+	public function postGenerate($id)
+	{
+		$rapat = Rapat::find($id);
+		
+		if ($rapat){
+			$konten = Request::input('konten');
+			$konten = str_replace('<hr>', '<div style="page-break-after: always;"></div>', $konten);
+			$pdf = PDF::loadView("dokumen/genundangan" , array('konten'=> $konten));
+			$pdf->save("gen/undangan_$id.pdf");
+			
+			if ($rapat->undangan){
+				$undangan = $rapat->undangan;
+			}else{
+				$undangan = new Undangan();
+			}
+			
+			$undangan->tipe = 'Z';
+			$rapat->undangan()->save($undangan);
+			
+			
+			return Redirect::to(action('ReportController@getDetil') . '?id=' . $id)->with('message', 'GEN1');
 		}
 	}
 	

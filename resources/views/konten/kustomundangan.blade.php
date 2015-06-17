@@ -48,9 +48,12 @@ $(document).ready(function(){
 <div class="wrapper wrapper-content animated fadeInRight">   
 	<div class="row">
 		<div class="col-lg-12">
+		<form action="{{action('ReportController@postGenerate', $id)}}" method="POST">
 			<div class="ibox float-e-margins">
                 <div class="ibox-content no-padding">
-					<div class="summernote">
+					
+					<input type="hidden" name="_token" value="{{csrf_token()}}" />
+					<textarea class="summernote" name="konten">
 						
 						
 						<table style="width: 100%;"><tr>
@@ -131,9 +134,17 @@ $(document).ready(function(){
 						
 						
 						
-					</div>
+					</textarea>
+					
 				</div>
 			</div>
+			<div style="text-align:center;">
+			<input type="submit" value="Simpan" class="btn btn-primary" />&nbsp;
+			<a href="{{ action('ReportController@getDetil') }}?id={{$id}}" class="btn btn-default">Batal</a>
+			<br/>
+			</div>
+			<br/>
+			</form>
 		</div>
 	</div>
 </div>

@@ -65,7 +65,7 @@ $(document).ready(function(){
 <div class="wrapper wrapper-content animated fadeInRight">   
 	<div class="row">
 		<div class="col-lg-12">
-			@if ($undangan == 0)
+			@if ($undangan == '')
 			<div class="form-group">
 			  <label for="formatlaporan" class="col-lg-2 control-label">Buat Undangan</label>
 			  <div class="col-lg-5">
@@ -80,7 +80,12 @@ $(document).ready(function(){
 			  </div>
 			</div>
 			@elseif ($undangan == 'Z')
-			
+				<div class="form-group">
+				  <label for="formatlaporan" class="col-lg-2 control-label">Undangan</label>
+				  <div class="col-lg-6">
+					<a href="{{ url("/gen/undangan_$id.pdf") }}"><img src="{{ asset('/img/pdf.png') }}" /> Undangan</a>
+				  </div>
+				</div>
 			@else
 			<div class="form-group">
 			  <label for="formatlaporan" class="col-lg-2 control-label">Undangan</label>
