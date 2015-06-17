@@ -112,13 +112,11 @@
                     }
                 };
                 var dataAdapter = new $.jqx.dataAdapter(source);
-                // initialize jqxGrid
                 $("#jqxgrid").jqxGrid(
                         {
-                            width: 1050,
-                            height: 500,
                             source: dataAdapter,
-                            //autoheight: true,
+                            autoheight: true,
+                            autowidth:true,
                             editable: true,
                             showtoolbar: true,
                             rendertoolbar: function (toolbar) {
@@ -151,7 +149,7 @@
                             },
                             columns: [
                                 { text: 'No', datafield: 'no', width: 50 },
-                                { text: 'Id', datafield: 'id', width: 50 },
+                                { text: 'Id', datafield: 'id', width: 50,hidden:true },
                                 { text: 'Nama', datafield: 'nama', width: 200 },
                                 { text: 'Jabatan', datafield: 'jabatan', width: 150 },
                                 { text: 'Instansi', datafield: 'instansi', width: 150 },
