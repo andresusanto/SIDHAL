@@ -24,4 +24,5 @@ Route::controllers([
 	'password' => 'Auth\PasswordController',
 	'rapat' => 'DaftarRapatController',
 	'editRapat' => 'EditRapatController',
+	'kehadiran' => 'KehadiranController',
 ]);
