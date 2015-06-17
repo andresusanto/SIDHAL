@@ -18,8 +18,10 @@ class KehadiranController extends Controller {
 	public function postKehadiranPejabat()
 	{
 		$pejabat_id = Input::get('pejabat_id');
+		$keterangan = Input::get('keterangan');
+		$hadir = Input::get('hadir');
 					
-		$query = DB::table('kehadirans')->insert(['pejabat_id' => $pejabat_id, 'keterangan' => "belum ada keterangan"]);
+		$query = DB::table('kehadirans')->insert(['pejabat_id' => $pejabat_id, 'keterangan' => $keterangan, 'hadir' => $hadir]);
 		
 		return 1;
 	}

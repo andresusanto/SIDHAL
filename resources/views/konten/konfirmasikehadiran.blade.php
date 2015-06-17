@@ -104,8 +104,22 @@
 								var count =  $('#jqxgrid').jqxGrid('getdatainformation').rowscount;
 								for(var i=1; i<=count; i++){
 									var datarow = $("#jqxgrid").jqxGrid('getrowdata', i-1);
-									var dataId = $('#jqxgrid').jqxGrid('getcellvalue',i-1,'id', id);
-									var dataKehadiran = "pejabat_id=" + dataId + "&" +$.param({_token: '{{csrf_token()}}'});
+									var dataId = $('#jqxgrid').jqxGrid('getcellvalue',i-1,'id');
+									var dataKeterangan = $('#jqxgrid').jqxGrid('getcellvalue',i-1,'keterangan');
+									var dataHadir = $('#jqxgrid').jqxGrid('getcellvalue',i-1,'hadir');
+									
+									if(dataHadir=='Y'){
+										var valueHadir = 1;
+									}
+									else{
+										var valueHadir = 0;
+									}
+									
+									if(typeof(datarow.keterangan)=="undefined"){
+										dataKeterangan = " "
+									}
+									
+									var dataKehadiran = "pejabat_id=" + dataId + "&hadir=" + valueHadir + "&keterangan=" + dataKeterangan + "&" +$.param({_token: '{{csrf_token()}}'});
 									
 									if(typeof(datarow.id)!="undefined"){
 										$.ajax({
