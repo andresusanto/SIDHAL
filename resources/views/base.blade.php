@@ -46,9 +46,6 @@
                 <li class="{{ isset($nav_entry) ? 'active' : '' }}">
                     <a href="{{ action('EntryController@getIndex') }}"><i class="fa fa-plus-square"></i> <span class="nav-label">Entry Rapat Baru</span></a>
                 </li>
-                <li class="{{ isset($nav_kehadiran) ? 'active' : '' }}">
-                    <a href="{{ action('PejabatController@getKonfirmasiKehadiran') }}"><i class="fa fa-check-circle"></i> <span class="nav-label">Konfirmasi Kehadiran</span></a>
-                </li>
 				<li class="{{ isset($nav_pejabat) ? 'active' : '' }}">
                     <a href="minor.html"><i class="fa fa-users"></i> <span class="nav-label">Daftar Pejabat</span></a>
 					<ul class="nav nav-second-level">
