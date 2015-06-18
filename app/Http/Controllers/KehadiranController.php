@@ -46,6 +46,8 @@ class KehadiranController extends Controller {
             array_push($listNama,$pejabat->nama);
             array_push($listJabatan,$pejabat->jabatan);
             array_push($listInstansi,$pejabat->instansi);
+            array_push($listHadir,$pejabat->hadir);
+            array_push($listKeterangan,$pejabat->keterangan);
         }
 					
 		return json_encode(array('count'=>count($listNama),'id'=>$listId,'nama'=>$listNama,'jabatan'=>$listJabatan,'instansi'=>$listInstansi,'hadir'=>$listHadir,'keterangan'=>$listKeterangan));

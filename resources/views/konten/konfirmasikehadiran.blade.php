@@ -22,19 +22,26 @@
     <script type="text/javascript">
 
 
-    $(document).ready(function () {
+    //$(document).ready(function () {
+    $.getJSON( '{{ action("KehadiranController@getJsonData",0) }}', function( data ) {
+    }).done(function(data){
 			var dataCount = 0;
-            var data = {};
-            var id = [];
-            var nama = [];
-            var jabatan = [];
-            var instansi = [];
+            //var data = {};
+            var id = data.id;
+            var nama = data.nama;
+            var jabatan = data.jabatan;
+            var instansi = data.instansi;
+            var hadir = data.hadir;
+            var keterangan = data.keterangan;
+
             var generaterow = function (i) {
                 var row = {};
                 row["id"] = id[i];
                 row["nama"] = nama[i];
                 row["jabatan"] = jabatan[i];
                 row["instansi"] = instansi[i];
+                row["hadir"] = hadir[i];
+                row["keterangan"] = keterangan[i];
                 return row;
             }
 
@@ -52,7 +59,9 @@
                             { name: 'id', type: 'integer' },
                             { name: 'nama', type: 'string' },
                             { name: 'jabatan', type: 'string' },
-                            { name: 'instansi', type: 'string' }
+                            { name: 'instansi', type: 'string' },
+                            { name: 'hadir', type: 'integer' },
+                            { name: 'keterangan', type: 'string' }
                         ],
                 addrow: function (rowid, rowdata, position, commit) {
                     commit(true);
@@ -149,6 +158,7 @@
                             { text: '', datafield: 'id', editable:false, width:0, hidden:true}
                         ]
                     });
+        penomoran($('#jqxgrid').jqxGrid('getrows').length);
         });
 
     <!-- autocomplete -->
@@ -180,6 +190,16 @@
                 $('#jqxgrid').jqxGrid('setcellvalue',nomor,'hadir','');
             }else{
                 write(id,nama,jabatan,instansi,nomor+1);
+            }
+        }
+    </script>
+    <script>
+        function penomoran(nomor){
+            if(nomor>=0){
+                $('#jqxgrid').jqxGrid('setcellvalue',nomor,'no',nomor+1);
+                penomoran(nomor-1);
+            }else{
+
             }
         }
     </script>

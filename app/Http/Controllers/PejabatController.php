@@ -85,7 +85,7 @@ class PejabatController extends Controller {
         return json_encode($arraySuggestion);
 
     }
-    public function getKonfirmasiKehadiran($rapat_id){
+    public function getKonfirmasiKehadiran(){
         return view('konten/konfirmasikehadiran', array('title'=>'Konfirmasi Kehadiran Pejabat','nav_kehadiran'=>''));
     }
     public function postCrudPejabat(){
