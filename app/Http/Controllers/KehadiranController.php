@@ -46,13 +46,20 @@ class KehadiranController extends Controller {
         $listInstansi = array();
         $listHadir = array();
         $listKeterangan = array();
+		$hadir = 'T';
 		
 		foreach($listPejabats as $pejabat){
             array_push($listId,$pejabat->id);
             array_push($listNama,$pejabat->nama);
             array_push($listJabatan,$pejabat->jabatan);
             array_push($listInstansi,$pejabat->instansi);
-            array_push($listHadir,$pejabat->hadir);
+			if($pejabat->hadir==1){
+				$hadir = 'Y';
+			}
+			else{
+				$hadir = 'T';
+			}
+            array_push($listHadir,$hadir);
             array_push($listKeterangan,$pejabat->keterangan);
         }
 					
