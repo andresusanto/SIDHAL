@@ -146,7 +146,7 @@
                             { text: 'Instansi', datafield: 'instansi', width: 150, editable:false },
                             { text: 'Hadir (Y/T)', datafield: 'hadir', width: 100 },
                             { text: 'Keterangan', datafield: 'keterangan',width:250},
-                            { text: '', datafield: 'id', editable:false, width:0}
+                            { text: '', datafield: 'id', editable:false, width:0, hidden:true}
                         ]
                     });
         });
@@ -177,7 +177,7 @@
                 $('#jqxgrid').jqxGrid('setcellvalue',nomor,'nama',nama);
                 $('#jqxgrid').jqxGrid('setcellvalue',nomor,'jabatan',jabatan);
                 $('#jqxgrid').jqxGrid('setcellvalue',nomor,'instansi',instansi);
-                $('#jqxgrid').jqxGrid('setcellvalue',nomor,'hadir','Y');
+                $('#jqxgrid').jqxGrid('setcellvalue',nomor,'hadir','');
             }else{
                 write(id,nama,jabatan,instansi,nomor+1);
             }
