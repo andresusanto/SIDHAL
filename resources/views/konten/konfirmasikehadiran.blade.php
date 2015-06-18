@@ -78,7 +78,7 @@
                             toolbar.append(container);
                             container.append('<input id="addrowbutton" type="button" value="Tambah Data Pejabat" />');
                             container.append('<input style="margin-left: 5px;" id="deleterowbutton" type="button" value="Hapus Data Pejabat" />');
-							container.append('<input style="margin-left: 5px; float:right" id="savebutton" type="button" value="Simpan Daftar Pejabat" />');
+							container.append('<input style="margin-left: 5px;" id="savebutton" type="button" value="Simpan Daftar Pejabat" />');
                             $("#addrowbutton").jqxButton();
                             $("#deleterowbutton").jqxButton();
 							$("#savebutton").jqxButton();
