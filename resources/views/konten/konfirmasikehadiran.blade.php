@@ -23,7 +23,7 @@
 
 
     //$(document).ready(function () {
-    $.getJSON( '{{ action("KehadiranController@getJsonData",0) }}', function( data ) {
+    $.getJSON( '{{ action("KehadiranController@getJsonData",$id_rapat) }}', function( data ) {
     }).done(function(data){
 			var dataCount = 0;
             //var data = {};
