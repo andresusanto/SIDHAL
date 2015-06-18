@@ -15,7 +15,7 @@ class UserController extends Controller {
 	/* list of users */
 	public function getIndex()
 	{
-		return view('konten/listUser', array('title'=>'Daftar Pengguna'));
+		return view('konten/listUser', array('title'=>'Daftar Pengguna', 'nav_user'=>''));
 	}
 	
 	/* convert all data to JSON format */
@@ -26,7 +26,7 @@ class UserController extends Controller {
 	
 	public function getEntry()
 	{
-		return view('konten/entryUser', array('title'=>'Entry Pengguna'));
+		return view('konten/entryUser', array('title'=>'Entry Pengguna', 'nav_user'=>''));
 	}
 	
 	public function postEntry()
@@ -41,7 +41,7 @@ class UserController extends Controller {
 		$user->password = $password;
 		$user->save();
 		
-		return view('konten/entryUser', array('title'=>'Entry Pengguna', 'sukses'=>''));
+		return view('konten/entryUser', array('title'=>'Entry Pengguna', 'sukses'=>'', 'nav_user'=>''));
 	}
 	
 	
@@ -50,7 +50,7 @@ class UserController extends Controller {
 	{
 		$user = User::find($id);
 		
-		return view('konten/editUser', array('title'=>'Edit Pengguna'))->with('user', $user);
+		return view('konten/editUser', array('title'=>'Edit Pengguna', 'nav_user'=>''))->with('user', $user);
 	}
 	
 	public function postEdit()
