@@ -17,11 +17,17 @@ class KehadiranController extends Controller {
 	
 	public function postKehadiranPejabat()
 	{
+		$rapat_id = Input::get('rapat_id');
+		
+		// clear all pejabat based on rapat_id
+		$queryDel = DB::table('kehadirans')->where('rapat_id',$rapat_id)->delete();
+		
 		$pejabat_id = Input::get('pejabat_id');
 		$keterangan = Input::get('keterangan');
 		$hadir = Input::get('hadir');
-					
-		$query = DB::table('kehadirans')->insert(['pejabat_id' => $pejabat_id, 'keterangan' => $keterangan, 'hadir' => $hadir]);
+		
+		// save all data pejabat based on rapat_id
+		$query = DB::table('kehadirans')->insert(['rapat_id' => $rapat_id, 'pejabat_id' => $pejabat_id, 'keterangan' => $keterangan, 'hadir' => $hadir]);
 		
 		return 1;
 	}

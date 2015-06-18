@@ -33,6 +33,7 @@
             var instansi = data.instansi;
             var hadir = data.hadir;
             var keterangan = data.keterangan;
+			var count = data.count;
 
             var generaterow = function (i) {
                 var row = {};
@@ -45,7 +46,7 @@
                 return row;
             }
 
-            for (var i = 0; i < 2; i++) {
+            for (var i = 0; i < count; i++) {
                 var row = generaterow(i);
                 data[i] = row;
             }
@@ -128,7 +129,7 @@
 										dataKeterangan = " "
 									}
 									
-									var dataKehadiran = "pejabat_id=" + dataId + "&hadir=" + valueHadir + "&keterangan=" + dataKeterangan + "&" +$.param({_token: '{{csrf_token()}}'});
+									var dataKehadiran = "rapat_id={{ $id_rapat }}&pejabat_id=" + dataId + "&hadir=" + valueHadir + "&keterangan=" + dataKeterangan + "&" +$.param({_token: '{{csrf_token()}}'});
 									
 									if(typeof(datarow.id)!="undefined"){
 										$.ajax({
@@ -142,7 +143,7 @@
 								}
 								if(dataCount>=1){
 									alert("sukses memasukkan data");
-									location.reload();
+									window.location="{{ action('DaftarRapatController@getIndex') }}";
 								}
 								
                             });
