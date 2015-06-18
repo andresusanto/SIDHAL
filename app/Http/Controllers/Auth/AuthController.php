@@ -35,4 +35,11 @@ class AuthController extends Controller {
 		$this->middleware('guest', ['except' => 'getLogout']);
 	}
 
+	public function getRegister(){
+		return "401";
+	}
+	
+	public function postRegister(){
+		return "401";
+	}
 }
