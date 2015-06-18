@@ -16,7 +16,7 @@ class CreateKehadiransTable extends Migration {
 		{
 			$table->integer('rapat_id')->unsigned();
 			$table->integer('pejabat_id')->unsigned();
-			$table->string('hadir', 1);
+			$table->boolean('hadir');
 			$table->string('keterangan');
 		});
 	}
