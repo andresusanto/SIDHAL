@@ -8,6 +8,11 @@ class Rapat extends Model {
     {
         return $this->belongsToMany('App\Pejabat');
     }
+	
+	public function undangan()
+    {
+        return $this->hasOne('App\Undangan');
+    }
 
 	public function kehadiran()
     {

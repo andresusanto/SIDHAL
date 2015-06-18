@@ -3,6 +3,8 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+use App\User;
+
 class CreateUsersTable extends Migration {
 
 	/**
@@ -21,6 +23,9 @@ class CreateUsersTable extends Migration {
 			$table->rememberToken();
 			$table->timestamps();
 		});
+		
+		DB::table('users')->delete();
+        User::create(['email' => 'andre@polkam.go.id', 'name'=>'Andre Susanto', 'password'=>Hash::make('andresusanto')]);
 	}
 
 	/**

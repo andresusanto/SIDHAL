@@ -11,9 +11,9 @@
     <link href="{{ asset('/font-awesome/css/font-awesome.css') }}" rel="stylesheet">
 
     <link href="{{ asset('/css/animate.css') }}" rel="stylesheet">
-    <link href="{{ asset('/css/style.css') }}" rel="stylesheet">
-
 	@yield('addoncss')
+	
+    <link href="{{ asset('/css/style.css') }}" rel="stylesheet">
 
 </head>
 
@@ -30,10 +30,10 @@
 								<img src="{{ asset('/img/logo.png') }}" />
                             </span>
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">Pengguna</strong>
+                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">{{ Auth::user()->name }}</strong>
                              </span> <span class="text-muted text-xs block">Administrator <b class="caret"></b></span> </span> </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                                <li><a href="#">Logout</a></li>
+                                <li><a href="{{action('Auth\AuthController@getLogout')}}">Logout</a></li>
                             </ul>
                     </div>
                     <div class="logo-element">
@@ -41,13 +41,13 @@
                     </div>
                 </li>
                 <li class="{{ isset($nav_home) ? 'active' : '' }}">
-                    <a href="index.html"><i class="fa fa-home"></i> <span class="nav-label">Beranda</span></a>
+                    <a href="{{ url('/') }}"><i class="fa fa-home"></i> <span class="nav-label">Beranda</span></a>
                 </li>
                 <li class="{{ isset($nav_entry) ? 'active' : '' }}">
                     <a href="{{ action('EntryController@getIndex') }}"><i class="fa fa-plus-square"></i> <span class="nav-label">Entry Rapat Baru</span></a>
                 </li>
                 <li class="{{ isset($nav_kehadiran) ? 'active' : '' }}">
-                    <a href="{{ action('PejabatController@getKonfirmasiKehadiran') }}"><i class="fa fa-plus-square"></i> <span class="nav-label">Konfirmasi Kehadiran</span></a>
+                    <a href="{{ action('PejabatController@getKonfirmasiKehadiran') }}"><i class="fa fa-check-circle"></i> <span class="nav-label">Konfirmasi Kehadiran</span></a>
                 </li>
 				<li class="{{ isset($nav_pejabat) ? 'active' : '' }}">
                     <a href="minor.html"><i class="fa fa-users"></i> <span class="nav-label">Daftar Pejabat</span></a>
@@ -66,6 +66,9 @@
                     <a href="{{ action('DaftarRapatController@getIndex') }}"><i class="fa fa-list-ol"></i> <span class="nav-label">Daftar Rapat</span></a>
                 </li>
 				
+				<li class="{{ isset($nav_user) ? 'active' : '' }}">
+                    <a href="{{ action('UserController@getIndex') }}"><i class="fa fa-user-plus"></i> <span class="nav-label">Menejemen Pengguna</span></a>
+                </li>
             </ul>
 
         </div>
@@ -85,7 +88,7 @@
                 </div>
                 <ul class="nav navbar-top-links navbar-right">
                     <li>
-                        <a href="#">
+                        <a href="{{action('Auth\AuthController@getLogout')}}">
                             <i class="fa fa-sign-out"></i> Log out
                         </a>
                     </li>
