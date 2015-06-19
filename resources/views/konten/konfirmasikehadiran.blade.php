@@ -139,7 +139,6 @@
 									var dataKehadiran = "rapat_id={{ $id_rapat }}&pejabat_id=" + dataId + "&hadir=" + valueHadir + "&keterangan=" + dataKeterangan + "&" +$.param({_token: '{{csrf_token()}}'});
 									
 									if(typeof(datarow.id)!="undefined"){
-										alert(dataKehadiran);
 										$.ajax({
 											type: "POST",
 											url: "{{ action('KehadiranController@postKehadiranPejabat') }}",
