@@ -30,7 +30,7 @@ class WelcomeController extends Controller {
 	 */
 	public function index()
 	{
-		return view('konten/home', array('title'=>'Home'));
+		return view('konten/home', array('title'=>'Home', 'nav_home'=>''));
 	}
 
 }
