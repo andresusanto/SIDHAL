@@ -13,7 +13,7 @@ use Input;
 class PejabatController extends Controller {
     public function __construct()
     {
-        //$this->middleware('auth');
+        $this->middleware('auth');
     }
 
     public function getJsonPejabat($instansi){
@@ -86,7 +86,8 @@ class PejabatController extends Controller {
 
     }
     public function getKonfirmasiKehadiran(){
-        return view('konten/konfirmasikehadiran', array('title'=>'Konfirmasi Kehadiran Pejabat','nav_kehadiran'=>''));
+        $id = Input::get('id');
+        return view('konten/konfirmasikehadiran', array('title'=>'Konfirmasi Kehadiran Pejabat','nav_kehadiran'=>'','id_rapat'=>$id));
     }
     public function postCrudPejabat(){
         $action = Input::get('action');

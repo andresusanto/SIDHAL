@@ -68,7 +68,7 @@
 						<div class="form-group">
 							<label class="col-sm-2 control-label">Tempat</label>
 							<div class="col-sm-10">
-								<input id="tempat" name="tempat" type="text" class="form-control required" value="{{ $rapat->tempat }}">
+								<textarea id="tempat" name="tempat" class="form-control required" rows="4">{{ $rapat->tempat }}</textarea>
 							</div>
 						</div>
 						<div class="form-group">

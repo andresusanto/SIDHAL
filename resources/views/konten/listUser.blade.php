@@ -29,7 +29,7 @@
 					showMethod: 'slideDown',
 					timeOut: 3000
 				};
-				toastr.success('Rapat berhasil diubah.');
+				toastr.success('Pengguna berhasil diubah.');
 
 			@endif
 			@if(Session::has('delete'))
@@ -40,7 +40,7 @@
 					showMethod: 'slideDown',
 					timeOut: 3000
 				};
-				toastr.success('Rapat berhasil dihapus.');
+				toastr.success('Pengguna berhasil dihapus.');
 
 			@endif
 			
@@ -54,53 +54,39 @@
 				var modal = $(this)
 				 
 				// Mengisi atribut href pada tombol ya yang kita berikan id hapus-true pada modal .
-				modal.find('#hapus-true').attr("href","{{ action('EditRapatController@getDelete') }}/"+id);
+				modal.find('#hapus-true').attr("href","{{ action('UserController@getDelete') }}/"+id);
 			 
 			})
 			
-			$.getJSON( '{{ action("DaftarRapatController@getData") }}', function( mydata ) {
+			$.getJSON( '{{ action("UserController@getData") }}', function( mydata ) {
             }).done(function(mydata){
 			
 				
 				function linkEdit(cellValue, options, rowdata, action)
 				{
-					return "<a href='{{ action('EditRapatController@getEdit') }}/" + rowdata.id + "'><span class='ui-icon ui-icon-pencil'>&nbsp;&nbsp;&nbsp;</span></a>";
+					return "<a href='{{ action('UserController@getEdit') }}/" + rowdata.id + "'><span class='ui-icon ui-icon-pencil'>&nbsp;&nbsp;&nbsp;</span></a>";
 				}
 				
 				function linkDelete(cellValue, options, rowdata, action)
 				{
 					return "<a href='javascript:;' data-id='"+ rowdata.id +"' data-toggle='modal' data-target='#modal-konfirmasi'><span class='ui-icon ui-icon-trash'>&nbsp;&nbsp;&nbsp;&nbsp;</span></a>";
 				}
-				
-				
-				function konfirmasi_kehadiran(cellValue, options, rowdata, action)
-				{
-					return "<a href='{{action('PejabatController@getKonfirmasiKehadiran')}}?id="+rowdata.id+"'><span class='ui-icon ui-icon-note'>&nbsp;&nbsp;&nbsp;&nbsp;</span></a>";
-				}
-				
-				function laporan(cellValue, options, rowdata, action)
-				{
-					return "<a href='{{action('ReportController@getDetil')}}?id="+rowdata.id+"'><span class='ui-icon ui-icon-document'>&nbsp;&nbsp;&nbsp;&nbsp;</span></a>";
-				}
 
 				// Configuration for jqGrid Example 1
+				var i=0;
 				$("#table_list_1").jqGrid({
 					data: mydata,
 					datatype: "local",
 					height: 250,
 					autowidth: true,
 					shrinkToFit: true,
-					rowNum: 14,
+					rowNum: 10,
 					rowList: [10, 20, 30],
-					colNames: ['Jenis Rapat', 'Waktu', 'Tempat', 'Pembahasan', 'Pimpinan', 'Konfirmasi Kehadiran', 'Laporan', 'Edit', 'Delete'],
+					colNames: ['Nama', 'Email', 'Edit', 'Delete'],
 					colModel: [
-						{name: 'jenis_rapat', index: 'jenis_rapat', width: 90},
-						{name: 'waktu', index: 'waktu', width: 80, formatter: "date", formatoptions: { srcformat: "ISO8601Long", newformat: "m/d/Y H:i" }},
-						{name: 'tempat', index: 'tempat', width: 80},
-						{name: 'pembahasan', index: 'pembahasan', width: 80},
-						{name: 'pimpinan', index: 'pimpinan', width: 80 },
-						{name: 'konfirmasi_kehadiran', index: 'konfirmasi_kehadiran', width: 50,align: 'center',formatter: konfirmasi_kehadiran},
-						{name: 'laporan', index: 'laporan',width: 60,align: 'center',formatter: laporan},
+						// {name: 'no', index: 'no', width: 10},
+						{name: 'name', index: 'name', width: 80,align: 'center'},
+						{name: 'email', index: 'email', width: 80,align: 'center'},
 						{name: 'edit', index: 'edit', width: 20,align: 'center',formatter: linkEdit},
 						{name: 'delete', index: 'delete', width: 30,align: 'center',formatter: linkDelete}
 						
@@ -128,13 +114,13 @@
 @section('content')
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>Daftar Rapat</h2>
+        <h2>Daftar Pengguna</h2>
         <ol class="breadcrumb">
             <li>
                 <a href="index.html">Home</a>
             </li>
             <li class="active">
-                <strong>Daftar Rapat</strong>
+                <strong>Daftar Pengguna</strong>
             </li>
         </ol>
     </div>
@@ -150,11 +136,11 @@
 		<div class="col-lg-12">
 			<div class="ibox">
 				<div class="ibox-title">
-					<h5>Daftar Rapat</h5>
+					<h5>Daftar Pengguna</h5>
 				</div>
 				<div class="ibox-content">
-					
 					<div class="jqGrid_wrapper">
+						<a href="{{ action('UserController@getEntry') }}" class="btn btn-primary btn-sm">+ Tambah Pengguna</a>
 						<table id="table_list_1"></table>
 						<div id="pager_list_1"></div>
 					</div>
@@ -178,7 +164,7 @@
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<h4 class="modal-title">Konfirmasi</h4>
-				<small>Menghapus data rapat</small>
+				<small>Menghapus data Pengguna</small>
 			</div>
 			 
 			<div class="modal-body">

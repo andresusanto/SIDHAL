@@ -22,23 +22,31 @@
     <script type="text/javascript">
 
 
-    $(document).ready(function () {
+    //$(document).ready(function () {
+    $.getJSON( '{{ action("KehadiranController@getJsonData",$id_rapat) }}', function( data ) {
+    }).done(function(data){
 			var dataCount = 0;
-            var data = {};
-            var id = [];
-            var nama = [];
-            var jabatan = [];
-            var instansi = [];
+            //var data = {};
+            var id = data.id;
+            var nama = data.nama;
+            var jabatan = data.jabatan;
+            var instansi = data.instansi;
+            var hadir = data.hadir;
+            var keterangan = data.keterangan;
+			var count = data.count;
+
             var generaterow = function (i) {
                 var row = {};
                 row["id"] = id[i];
                 row["nama"] = nama[i];
                 row["jabatan"] = jabatan[i];
                 row["instansi"] = instansi[i];
+                row["hadir"] = hadir[i];
+                row["keterangan"] = keterangan[i];
                 return row;
             }
 
-            for (var i = 0; i < 2; i++) {
+            for (var i = 0; i < count; i++) {
                 var row = generaterow(i);
                 data[i] = row;
             }
@@ -52,7 +60,9 @@
                             { name: 'id', type: 'integer' },
                             { name: 'nama', type: 'string' },
                             { name: 'jabatan', type: 'string' },
-                            { name: 'instansi', type: 'string' }
+                            { name: 'instansi', type: 'string' },
+                            { name: 'hadir', type: 'integer' },
+                            { name: 'keterangan', type: 'string' }
                         ],
                 addrow: function (rowid, rowdata, position, commit) {
                     commit(true);
@@ -78,7 +88,7 @@
                             toolbar.append(container);
                             container.append('<input id="addrowbutton" type="button" value="Tambah Data Pejabat" />');
                             container.append('<input style="margin-left: 5px;" id="deleterowbutton" type="button" value="Hapus Data Pejabat" />');
-							container.append('<input style="margin-left: 5px; float:right" id="savebutton" type="button" value="Simpan Daftar Pejabat" />');
+							container.append('<input style="margin-left: 5px;" id="savebutton" type="button" value="Simpan Daftar Pejabat" />');
                             $("#addrowbutton").jqxButton();
                             $("#deleterowbutton").jqxButton();
 							$("#savebutton").jqxButton();
@@ -119,7 +129,7 @@
 										dataKeterangan = " "
 									}
 									
-									var dataKehadiran = "pejabat_id=" + dataId + "&hadir=" + valueHadir + "&keterangan=" + dataKeterangan + "&" +$.param({_token: '{{csrf_token()}}'});
+									var dataKehadiran = "rapat_id={{ $id_rapat }}&pejabat_id=" + dataId + "&hadir=" + valueHadir + "&keterangan=" + dataKeterangan + "&" +$.param({_token: '{{csrf_token()}}'});
 									
 									if(typeof(datarow.id)!="undefined"){
 										$.ajax({
@@ -133,7 +143,7 @@
 								}
 								if(dataCount>=1){
 									alert("sukses memasukkan data");
-									location.reload();
+									window.location="{{ action('DaftarRapatController@getIndex') }}";
 								}
 								
                             });
@@ -141,14 +151,15 @@
                         },
                         columns: [
                             { text: 'No', datafield: 'no', width: 50, editable:false },
-                            { text: 'Id', datafield: 'id', width: 0, editable:false,hidden:true },
                             { text: 'Nama', datafield: 'nama', width: 200, editable:false },
                             { text: 'Jabatan', datafield: 'jabatan', width: 150, editable:false },
                             { text: 'Instansi', datafield: 'instansi', width: 150, editable:false },
                             { text: 'Hadir (Y/T)', datafield: 'hadir', width: 100 },
-                            { text: 'Keterangan', datafield: 'keterangan', width: 250 }
+                            { text: 'Keterangan', datafield: 'keterangan',width:250},
+                            { text: '', datafield: 'id', editable:false, width:0, hidden:true}
                         ]
                     });
+        penomoran($('#jqxgrid').jqxGrid('getrows').length);
         });
 
     <!-- autocomplete -->
@@ -177,9 +188,19 @@
                 $('#jqxgrid').jqxGrid('setcellvalue',nomor,'nama',nama);
                 $('#jqxgrid').jqxGrid('setcellvalue',nomor,'jabatan',jabatan);
                 $('#jqxgrid').jqxGrid('setcellvalue',nomor,'instansi',instansi);
-                $('#jqxgrid').jqxGrid('setcellvalue',nomor,'hadir','Y');
+                $('#jqxgrid').jqxGrid('setcellvalue',nomor,'hadir','');
             }else{
                 write(id,nama,jabatan,instansi,nomor+1);
+            }
+        }
+    </script>
+    <script>
+        function penomoran(nomor){
+            if(nomor>=0){
+                $('#jqxgrid').jqxGrid('setcellvalue',nomor,'no',nomor+1);
+                penomoran(nomor-1);
+            }else{
+
             }
         }
     </script>
