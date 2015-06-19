@@ -112,6 +112,13 @@
 							// save kehadiran
                             $("#savebutton").on('click', function () {
 								var count =  $('#jqxgrid').jqxGrid('getdatainformation').rowscount;
+								var clearData = "rapat_id={{ $id_rapat }}&" +$.param({_token: '{{csrf_token()}}'});
+								$.ajax({
+									type: "POST",
+									url: "{{ action('KehadiranController@postClearKehadiran') }}",
+									data: clearData
+								});
+								
 								for(var i=1; i<=count; i++){
 									var datarow = $("#jqxgrid").jqxGrid('getrowdata', i-1);
 									var dataId = $('#jqxgrid').jqxGrid('getcellvalue',i-1,'id');
@@ -126,12 +133,13 @@
 									}
 									
 									if(typeof(datarow.keterangan)=="undefined"){
-										dataKeterangan = " "
+										dataKeterangan = " ";
 									}
 									
 									var dataKehadiran = "rapat_id={{ $id_rapat }}&pejabat_id=" + dataId + "&hadir=" + valueHadir + "&keterangan=" + dataKeterangan + "&" +$.param({_token: '{{csrf_token()}}'});
 									
 									if(typeof(datarow.id)!="undefined"){
+										alert(dataKehadiran);
 										$.ajax({
 											type: "POST",
 											url: "{{ action('KehadiranController@postKehadiranPejabat') }}",
@@ -141,10 +149,9 @@
 										
 									}
 								}
-								if(dataCount>=1){
-									alert("sukses memasukkan data");
-									window.location="{{ action('DaftarRapatController@getIndex') }}";
-								}
+								
+								alert("Data berhasil disimpan");
+								window.location="{{ action('DaftarRapatController@getIndex') }}";
 								
                             });
 
@@ -175,6 +182,7 @@
             type: 'GET',
             onSelect: function (suggestion) {
                 write(suggestion.data.id,suggestion.data.nama,suggestion.data.jabatan,suggestion.data.instansi,0);
+				document.getElementById("autocomplete-ajax").value = "";
             }
         });
 

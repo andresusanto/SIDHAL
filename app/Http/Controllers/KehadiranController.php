@@ -18,10 +18,6 @@ class KehadiranController extends Controller {
 	public function postKehadiranPejabat()
 	{
 		$rapat_id = Input::get('rapat_id');
-		
-		// clear all pejabat based on rapat_id
-		$queryDel = DB::table('kehadirans')->where('rapat_id',$rapat_id)->delete();
-		
 		$pejabat_id = Input::get('pejabat_id');
 		$keterangan = Input::get('keterangan');
 		$hadir = Input::get('hadir');
@@ -30,6 +26,14 @@ class KehadiranController extends Controller {
 		$query = DB::table('kehadirans')->insert(['rapat_id' => $rapat_id, 'pejabat_id' => $pejabat_id, 'keterangan' => $keterangan, 'hadir' => $hadir]);
 		
 		return 1;
+	}
+	
+	public function postClearKehadiran()
+	{
+		$rapat_id = Input::get('rapat_id');
+		
+		// clear all pejabat based on rapat_id
+		$queryDel = DB::table('kehadirans')->where('rapat_id',$rapat_id)->delete();
 	}
 	
 	public function getJsonData($id)
