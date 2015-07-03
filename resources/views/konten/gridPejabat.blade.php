@@ -154,9 +154,10 @@
 
                                 // create new row.
                                 $("#addrowbutton").on('click', function () {
-                                    var datarow = generaterow();
-                                    //var commit = $("#jqxgrid").jqxGrid('addrow', null, datarow);
-                                    penomoran($('#jqxgrid').jqxGrid('getrows').length);
+                                    var row = {};
+                                    row["id"] = $('#jqxgrid').jqxGrid('getrows').length+1;
+                                    var datarow = row;
+                                    var commit = true;
                                 });
 
                                 // delete row.
@@ -177,7 +178,16 @@
                                 { text: 'Instansi', datafield: 'instansi', width: 150 },
                                 { text: 'Alamat', datafield: 'alamat', width: 200, cellsalign: 'right' },
                                 { text: 'Telepon', datafield: 'telepon', width: 100, cellsalign: 'right', cellsformat: 'c2' },
-                                { text: 'Email', datafield: 'email',  width:150, cellsalign: 'right' },
+                                { text: 'Email', datafield: 'email',  width:150, cellsalign: 'right',validation: function (cell, value) {
+                                    if (!isValidEmailAddress(value)) {
+                                        return { result: false, message: "Isikan email dengan benar" };
+                                    }
+                                    return true;
+                                    },
+                                    initeditor: function (row, cellvalue, editor) {
+                                        editor.jqxNumberInput({ digits: 3 });
+                                    }
+                                },
                                 { text: '', datafield: 'id', width: 50,editable:false, hidden:true}
                             ]
                         });
@@ -188,6 +198,11 @@
 
     </script>
     <script>
+        function isValidEmailAddress(emailAddress) {
+            var pattern = new RegExp(/^[+a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i);
+            // alert( pattern.test(emailAddress) );
+            return pattern.test(emailAddress);
+        };
         function penomoran(nomor){
             if(nomor>=0){
                 $('#jqxgrid').jqxGrid('setcellvalue',nomor,'no',nomor+1);
