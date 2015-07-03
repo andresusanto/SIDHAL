@@ -43,9 +43,7 @@
                 <li class="{{ isset($nav_home) ? 'active' : '' }}">
                     <a href="{{ url('/') }}"><i class="fa fa-home"></i> <span class="nav-label">Beranda</span></a>
                 </li>
-                <li class="{{ isset($nav_entry) ? 'active' : '' }}">
-                    <a href="{{ action('EntryController@getIndex') }}"><i class="fa fa-plus-square"></i> <span class="nav-label">Entry Rapat Baru</span></a>
-                </li>
+
 				<li class="{{ isset($nav_pejabat) ? 'active' : '' }}">
                     <a href="minor.html"><i class="fa fa-users"></i> <span class="nav-label">Daftar Pejabat</span></a>
 					<ul class="nav nav-second-level">
@@ -58,6 +56,9 @@
 						<li class="{{ isset($nav_mabestni) ? 'active' : '' }}"><a href="{{ action('PejabatController@getPejabat','mabestni') }}">Mabes TNI</a></li>
 						<li class="{{ isset($nav_mabespolri) ? 'active' : '' }}"><a href="{{ action('PejabatController@getPejabat','mabespolri') }}">Mabes Polri</a></li>
 					</ul>
+                </li>
+                <li class="{{ isset($nav_entry) ? 'active' : '' }}">
+                    <a href="{{ action('EntryController@getIndex') }}"><i class="fa fa-plus-square"></i> <span class="nav-label">Entry Rapat Baru</span></a>
                 </li>
 				<li class="{{ isset($nav_rapat) ? 'active' : '' }}">
                     <a href="{{ action('DaftarRapatController@getIndex') }}"><i class="fa fa-list-ol"></i> <span class="nav-label">Daftar Rapat</span></a>
