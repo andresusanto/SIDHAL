@@ -82,28 +82,12 @@ $(document).ready(function(){
 			
 	
 	var availableTags = [
-		"ActionScript",
-		"AppleScript",
-		"Asp",
-		"BASIC",
-		"C",
-		"C++",
-		"Clojure",
-		"COBOL",
-		"ColdFusion",
-		"Erlang",
-		"Fortran",
-		"Groovy",
-		"Haskell",
-		"Java",
-		"JavaScript",
-		"Lisp",
-		"Perl",
-		"PHP",
-		"Python",
-		"Ruby",
-		"Scala",
-		"Scheme"
+		"Rapat Koordinasi Tingkat Menteri",
+		"Rapat Koordinasi ESELON I",
+		"Rapat Koordinasi ESELON II",
+		"Rapat Pleno Terbatas",
+		"Rapat Rencana Strategis",
+		"Rapat Umum"
     ];
 	
 	var pimpinanRapat = [<?php echo $pimpinan; ?>];

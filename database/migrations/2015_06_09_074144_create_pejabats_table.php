@@ -17,7 +17,7 @@ class CreatePejabatsTable extends Migration {
 			$table->increments('id');
 			$table->string('nama');
             $table->string('jabatan');
-            $table->string('instansi');
+            $table->integer('instansi_id')->unsigned();
             $table->string('alamat');
             $table->string('telepon');
 			$table->string('email');
