@@ -10,10 +10,6 @@
 		height: auto !important;
 		padding: 2px;
 	}
-	
-	.ui-jqgrid tr.jqgrow td {
-        white-space: normal !important;
-    }
 </style>
 @endsection
 
