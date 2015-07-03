@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\Pejabat;
 use App\Rapat;
 use Request;
 
@@ -12,7 +13,15 @@ class EntryController extends Controller {
 
 	public function getIndex()
 	{
-		return view('konten/entry', array('title'=>'Entry Rapat Baru', 'nav_entry'=>''));
+		$daftar_pejabat = Pejabat::all();
+		$pimpinan = "";
+		
+		foreach ($daftar_pejabat as $pejabat){
+			if ($pimpinan != "") $pimpinan .= ", ";
+			$pimpinan .= '"' . $pejabat->nama . ' (' . $pejabat->instansi . ')"';
+		}
+		
+		return view('konten/entry', array('title'=>'Entry Rapat Baru', 'nav_entry'=>'', 'pimpinan'=>$pimpinan));
 	}
 	
 	public function postIndex()
