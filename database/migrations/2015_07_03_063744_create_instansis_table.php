@@ -16,7 +16,8 @@ class CreateInstansisTable extends Migration {
 		{
 			$table->increments('id');
 			$table->string('nama');
-            $table->string('alamat');
+			$table->string('alamat');
+			$table->timestamps();
 		});
 	}
 
