@@ -12,7 +12,7 @@ class CreateInstansisTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('intansis', function(Blueprint $table)
+		Schema::create('instansis', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->string('nama');
@@ -27,7 +27,7 @@ class CreateInstansisTable extends Migration {
 	 */
 	public function down()
 	{
-		//
+		Schema::drop('instansis');
 	}
 
 }
