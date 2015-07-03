@@ -10,6 +10,10 @@
 		height: auto !important;
 		padding: 2px;
 	}
+	
+	.ui-jqgrid tr.jqgrow td {
+        white-space: normal !important;
+    }
 </style>
 @endsection
 
@@ -95,7 +99,7 @@
 					colNames: ['Jenis Rapat', 'Waktu', 'Tempat', 'Pembahasan', 'Pimpinan', 'Konfirmasi Kehadiran', 'Laporan', 'Edit', 'Delete'],
 					colModel: [
 						{name: 'jenis_rapat', index: 'jenis_rapat', width: 90},
-						{name: 'waktu', index: 'waktu', width: 80, formatter: "date", formatoptions: { srcformat: "ISO8601Long", newformat: "m/d/Y H:i" }},
+						{name: 'waktu', index: 'waktu', width: 80, formatter: "date", formatoptions: { srcformat: "ISO8601Long", newformat: "F d, Y :: H:i" }},
 						{name: 'tempat', index: 'tempat', width: 80},
 						{name: 'pembahasan', index: 'pembahasan', width: 80},
 						{name: 'pimpinan', index: 'pimpinan', width: 80 },
