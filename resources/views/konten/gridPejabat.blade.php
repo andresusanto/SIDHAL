@@ -16,10 +16,12 @@
     <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxgrid.js')}}"></script>
     <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxgrid.selection.js')}}"></script>
     <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxgrid.edit.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxgrid.pager.js')}}"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             $.getJSON( '{{ action("PejabatController@getJsonPejabat",$instansi) }}', function( data ) {
             }).done(function(data){
+                var datax = new Array();
                 var count = data.count;
                 var id = data.id;
                 var nama = data.nama;
@@ -43,13 +45,13 @@
 
                 for (var i = 0; i < count; i++) {
                     var row = generaterow(i);
-                    data[i] = row;
+                    datax[i] = row;
                 }
 
                 var source =
                 {
-                    localdata: data,
-                    datatype: "local",
+                    localdata: datax,
+                    datatype: "array",
                     datafields:
                             [
                                 { name: 'id', type: 'integer' },
@@ -111,12 +113,29 @@
                         commit(true);
                     }
                 };
+                var pagerrenderer = function () {
+                    var element = $("<div style='margin-top: 5px; width: 100%; height: 100%;'></div>");
+                    var paginginfo = $("#jqxgrid").jqxGrid('getpaginginformation');
+                    for (i = 0; i < paginginfo.pagescount; i++) {
+                        // add anchor tag with the page number for each page.
+                        var anchor = $("<a style='padding: 5px;' href='#" + i + "'>" + i + "</a>");
+                        anchor.appendTo(element);
+                        anchor.click(function (event) {
+                            // go to a page.
+                            var pagenum = parseInt($(event.target).text());
+                            $("#jqxgrid").jqxGrid('gotopage', pagenum);
+                        });
+                    }
+                    return element;
+                }
                 var dataAdapter = new $.jqx.dataAdapter(source);
                 $("#jqxgrid").jqxGrid(
                         {
                             source: dataAdapter,
                             autoheight: true,
                             autowidth:true,
+                            pageable: true,
+                            //pagerrenderer: pagerrenderer,
                             editable: true,
                             showtoolbar: true,
                             rendertoolbar: function (toolbar) {
@@ -128,13 +147,16 @@
                                 container.append('<input style="margin-left: 5px;" id="deleterowbutton" type="button" value="Hapus Data Pejabat" />');
                                 container.append('<input style="margin-left: 5px;display:none;" id="updaterowbutton" type="button" value="Update Selected Row" />');
                                 $("#addrowbutton").jqxButton();
+                                $("#addrowbutton").click(function () {
+                                    $("#jqxgrid").jqxGrid("addrow", null, {}, "first");
+                                });
                                 $("#deleterowbutton").jqxButton();
 
                                 // create new row.
                                 $("#addrowbutton").on('click', function () {
                                     var datarow = generaterow();
-                                    var commit = $("#jqxgrid").jqxGrid('addrow', null, datarow);
-
+                                    //var commit = $("#jqxgrid").jqxGrid('addrow', null, datarow);
+                                    
                                 });
 
                                 // delete row.
@@ -196,7 +218,7 @@
 </div>
 
 <div class="wrapper wrapper-content animated fadeInRight">   
-	<div class="row">
+	<div class="row" id="jqxWidget">
         <div id="jqxgrid" class="col-lg-12">
         </div>
 	</div>
