@@ -118,7 +118,7 @@
 									var dataKeterangan = $('#jqxgrid').jqxGrid('getcellvalue',i-1,'keterangan');
 									var dataHadir = $('#jqxgrid').jqxGrid('getcellvalue',i-1,'hadir');
 									
-									if(dataHadir=='Y'){
+									if(dataHadir){
 										var valueHadir = 1;
 									}
 									else{
@@ -154,7 +154,7 @@
                             { text: 'Nama', datafield: 'nama', width: 200, editable:false },
                             { text: 'Jabatan', datafield: 'jabatan', width: 150, editable:false },
                             { text: 'Instansi', datafield: 'instansi', width: 150, editable:false },
-                            { text: 'Hadir (Y/T)', datafield: 'hadir', width: 100 },
+                            { text: 'Hadir (Y/T)', datafield: 'hadir', width: 100,columntype:'checkbox' },
                             { text: 'Keterangan', datafield: 'keterangan',width:250},
                             { text: '', datafield: 'id', editable:false, width:0, hidden:true}
                         ]
