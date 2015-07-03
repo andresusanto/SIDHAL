@@ -57,7 +57,7 @@ $(document).ready(function(){
 			if (newIndex == 3){
 				$("#val_jenisrapat").html($("#jenis").val());
 				$("#val_perihalrapat").html($("#perihal").val());
-				$("#val_tempatrapat").html($("#tempat").val());
+				$("#val_tempatrapat").html($("#tempat").val().replace("\n","<br/>"));
 				$("#val_tanggalrapat").html($('#tanggal').val());
 				$("#val_wakturapat").html($("#waktu").val());
 				$("#val_pimpinanrapat").html($("#pimpinan").val());
@@ -105,9 +105,12 @@ $(document).ready(function(){
 		"Scala",
 		"Scheme"
     ];
-    $( "#jenis" ).autocomplete({
-      source: availableTags
-    });
+	
+	var pimpinanRapat = [<?php echo $pimpinan; ?>];
+	
+    $( "#jenis" ).autocomplete({source: availableTags});
+	$( "#pimpinan" ).autocomplete({source: pimpinanRapat});
+	
 	$('#tanggal').datepicker({dateFormat: "yy-mm-dd"});
 	$('#waktu').timepicker({ 'timeFormat': 'H:i WIB' });
 });
@@ -209,8 +212,8 @@ $(document).ready(function(){
 							<h2>Review Rapat</h2>
 							<table>
 								<tr>
-									<td>Jenis Rapat</td>
-									<td>:</td>
+									<td width="150px">Jenis Rapat</td>
+									<td width="50px">:</td>
 									<td id="val_jenisrapat"></td>
 								</tr>
 								<tr>
@@ -230,8 +233,8 @@ $(document).ready(function(){
 									<td id="val_wakturapat"></td>
 								</tr>
 								<tr>
-									<td>Tempat</td>
-									<td>:</td>
+									<td valign="top">Tempat</td>
+									<td valign="top">:</td>
 									<td id="val_tempatrapat"></td>
 								</tr>
 								<hr/>
