@@ -156,7 +156,7 @@
                                 $("#addrowbutton").on('click', function () {
                                     var datarow = generaterow();
                                     //var commit = $("#jqxgrid").jqxGrid('addrow', null, datarow);
-                                    
+                                    penomoran($('#jqxgrid').jqxGrid('getrows').length);
                                 });
 
                                 // delete row.
