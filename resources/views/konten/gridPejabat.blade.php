@@ -14,7 +14,12 @@
     <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxlistbox.js')}}"></script>
     <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxdropdownlist.js')}}"></script>
     <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxgrid.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxgrid.filter.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqwidgets/jqxgrid.sort.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqwidgets/jqxpanel.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqwidgets/globalize.js')}}"></script>
     <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxgrid.selection.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('jqwidgets/jqxgrid.sort.js')}}"></script>
     <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxgrid.edit.js')}}"></script>
     <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxgrid.pager.js')}}"></script>
     <script type="text/javascript">
@@ -129,11 +134,27 @@
                     return element;
                 }
                 var dataAdapter = new $.jqx.dataAdapter(source);
+                var addfilter = function () {
+                    var filtergroup = new $.jqx.filter();
+                    var filter_or_operator = 1;
+                    var filtervalue = 'Andrew';
+                    var filtercondition = 'equal';
+                    var filter1 = filtergroup.createfilter('stringfilter', filtervalue, filtercondition);
+
+                    filtergroup.addfilter(filter_or_operator, filter1);
+                    // add the filters.
+                    $("#jqxgrid").jqxGrid('addfilter', 'instansi', filtergroup);
+                    // apply the filters.
+                    $("#jqxgrid").jqxGrid('applyfilters');
+                }
+                var adapter = new $.jqx.dataAdapter(source);
                 $("#jqxgrid").jqxGrid(
                         {
                             source: dataAdapter,
                             autoheight: true,
                             autowidth:true,
+                            filterable: true,
+                            autoshowfiltericon: true,
                             pageable: true,
                             //pagerrenderer: pagerrenderer,
                             editable: true,
@@ -191,6 +212,31 @@
                                 { text: '', datafield: 'id', width: 50,editable:false, hidden:true}
                             ]
                         });
+                $('#events').jqxPanel({ width: 300, height: 80 });
+                $("#jqxgrid").on("filter", function (event) {
+                    $("#events").jqxPanel('clearcontent');
+                    var filterinfo = $("#jqxgrid").jqxGrid('getfilterinformation');
+                    var eventData = "Triggered 'filter' event";
+                    for (i = 0; i < filterinfo.length; i++) {
+                        var eventData = "Filter Column: " + filterinfo[i].filtercolumntext;
+                        $('#events').jqxPanel('prepend', '<div style="margin-top: 5px;">' + eventData + '</div>');
+                    }
+                });
+                $('#clearfilteringbutton').jqxButton({ height: 25 });
+                $('#filterbackground').jqxCheckBox({ checked: true, height: 25 });
+                $('#filtericons').jqxCheckBox({ checked: false, height: 25 });
+                // clear the filtering.
+                $('#clearfilteringbutton').click(function () {
+                    $("#jqxgrid").jqxGrid('clearfilters');
+                });
+                // show/hide filter background
+                $('#filterbackground').on('change', function (event) {
+                    $("#jqxgrid").jqxGrid({ showfiltercolumnbackground: event.args.checked });
+                });
+                // show/hide filter icons
+                $('#filtericons').on('change', function (event) {
+                    $("#jqxgrid").jqxGrid({ autoshowfiltericon: !event.args.checked });
+                });
                 penomoran($('#jqxgrid').jqxGrid('getrows').length);
             });
         });
