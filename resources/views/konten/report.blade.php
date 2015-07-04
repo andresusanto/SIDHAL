@@ -65,7 +65,6 @@ $(document).ready(function(){
 <div class="wrapper wrapper-content animated fadeInRight">   
 	<div class="row">
 		<div class="col-lg-12">
-			@if ($undangan == '')
 			<div class="form-group">
 			  <label for="formatlaporan" class="col-lg-2 control-label">Buat Undangan</label>
 			  <div class="col-lg-5">
@@ -77,23 +76,17 @@ $(document).ready(function(){
 				</select>
 				<br/>	
 				<a href="javascript:void(0);" onclick="unduh()" class="btn btn-success">Buat Undangan</a>&nbsp;<a href="javascript:void(0);" class="btn btn-success" onclick="kustomize()">Kustomisasi Undangan</a>
-			  </div>
-			</div>
-			@elseif ($undangan == 'Z')
-				<div class="form-group">
-				  <label for="formatlaporan" class="col-lg-2 control-label">Undangan</label>
-				  <div class="col-lg-6">
+				
+				@if ($undangan == 'Z')
+					<br/><br/><strong>Unduh:</strong><br/>
 					<a href="{{ url("/gen/undangan_$id.pdf") }}"><img src="{{ asset('/img/pdf.png') }}" /> Undangan</a>
-				  </div>
-				</div>
-			@else
-			<div class="form-group">
-			  <label for="formatlaporan" class="col-lg-2 control-label">Undangan</label>
-			  <div class="col-lg-6">
-				<a href="{{ action('ReportController@getUndangan', array($id, $undangan)) }}"><img src="{{ asset('/img/pdf.png') }}" /> Undangan</a>
+				@elseif ($undangan != '')
+					<br/><br/><strong>Unduh:</strong><br/>
+					<a href="{{ action('ReportController@getUndangan', array($id, $undangan)) }}"><img src="{{ asset('/img/pdf.png') }}" /> Undangan</a>
+				@endif
+				
 			  </div>
 			</div>
-			@endif
 		</div>
 	</div>
 	<br/><br/>

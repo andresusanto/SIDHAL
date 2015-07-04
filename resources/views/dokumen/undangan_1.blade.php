@@ -73,7 +73,7 @@ Tembusan:<br/>
 <strong>NAMA PEJABAT YANG DIKIRIMI SURAT UNDANGAN</strong>
 <ol>
 	@foreach ($pesertas as $peserta)
-    <li>{{$peserta->nama}}, <em>{{$peserta->jabatan}}, {{$peserta->instansi}}</em></li>
+    <li>{{$peserta->pejabat->nama}}, <em>{{$peserta->pejabat->jabatan}}, {{$peserta->pejabat->instansi}}</em></li>
 	@endforeach
 </ol>
 <br/><br/>
