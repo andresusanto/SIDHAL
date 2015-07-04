@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 04, 2015 at 03:56 PM
+-- Generation Time: Jul 04, 2015 at 04:59 PM
 -- Server version: 5.6.24
 -- PHP Version: 5.6.8
 
@@ -19,6 +19,28 @@ SET time_zone = "+00:00";
 --
 -- Database: `sidhal`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `instansis`
+--
+
+CREATE TABLE IF NOT EXISTS `instansis` (
+  `id` int(10) unsigned NOT NULL,
+  `nama` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `alamat` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `instansis`
+--
+
+INSERT INTO `instansis` (`id`, `nama`, `alamat`, `created_at`, `updated_at`) VALUES
+(1, 'Polhukam', 'Jalan Merdeka Barat 15', '2015-07-04 07:34:30', '2015-07-04 07:34:30'),
+(2, 'Kominfo', 'Jalan Medan Merdeka Barat 10', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -63,7 +85,8 @@ INSERT INTO `migrations` (`migration`, `batch`) VALUES
 ('2015_06_09_062544_create_rapats_table', 1),
 ('2015_06_09_074144_create_pejabats_table', 1),
 ('2015_06_13_082708_create_kehadirans_table', 1),
-('2015_06_17_045357_create_undangans_table', 1);
+('2015_06_17_045357_create_undangans_table', 1),
+('2015_07_03_063744_create_instansis_table', 2);
 
 -- --------------------------------------------------------
 
@@ -91,17 +114,16 @@ CREATE TABLE IF NOT EXISTS `pejabats` (
   `alamat` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `telepon` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `pejabats`
 --
 
 INSERT INTO `pejabats` (`id`, `nama`, `jabatan`, `instansi`, `alamat`, `telepon`, `email`) VALUES
-(20, 'Dede', 'Dede', 'Kemdagri', 'das', '3213', 'dsadas'),
-(21, 'Aryya', 'Aryya', 'Kemdagri', 'dsadas', '321', 'Aryya'),
-(23, 'Junita', 'Cewek', 'polhukam', 'Polhukam', '13213', 'adsa@dasdsa.com'),
-(24, 'Sudib', 'Sudib', 'polhukam', 'dasdsa', '3213', 'dasdsadsa@dasdsa.com');
+(21, 'Aryya', 'Aryya', 'Kominfo', 'sdads,dasdsa,dsadas', '321', 'Aryya@polkam.go.id'),
+(24, 'Sudib', 'Sudib', 'Kominfo', 'dasdsa', '3213', 'dasdsadsa@dasdsa.com'),
+(25, 'Andre', 'Omah', 'Polhukam', 'dsadas', '0', 'andre@dsa.com');
 
 -- --------------------------------------------------------
 
@@ -179,6 +201,12 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `creat
 --
 
 --
+-- Indexes for table `instansis`
+--
+ALTER TABLE `instansis`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `password_resets`
 --
 ALTER TABLE `password_resets`
@@ -207,10 +235,15 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `instansis`
+--
+ALTER TABLE `instansis`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
 -- AUTO_INCREMENT for table `pejabats`
 --
 ALTER TABLE `pejabats`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=25;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=26;
 --
 -- AUTO_INCREMENT for table `rapats`
 --
