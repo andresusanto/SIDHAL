@@ -26,6 +26,7 @@
         $(document).ready(function () {
             $.getJSON( '{{ action("PejabatController@getJsonPejabat",$instansi) }}', function( data ) {
             }).done(function(data){
+
                 var datax = new Array();
                 var count = data.count;
                 var id = data.id;
@@ -52,7 +53,6 @@
                     var row = generaterow(i);
                     datax[i] = row;
                 }
-
                 var source =
                 {
                     localdata: datax,
@@ -212,32 +212,10 @@
                                 { text: '', datafield: 'id', width: 50,editable:false, hidden:true}
                             ]
                         });
-                $('#events').jqxPanel({ width: 300, height: 80 });
-                $("#jqxgrid").on("filter", function (event) {
-                    $("#events").jqxPanel('clearcontent');
-                    var filterinfo = $("#jqxgrid").jqxGrid('getfilterinformation');
-                    var eventData = "Triggered 'filter' event";
-                    for (i = 0; i < filterinfo.length; i++) {
-                        var eventData = "Filter Column: " + filterinfo[i].filtercolumntext;
-                        $('#events').jqxPanel('prepend', '<div style="margin-top: 5px;">' + eventData + '</div>');
-                    }
-                });
-                $('#clearfilteringbutton').jqxButton({ height: 25 });
-                $('#filterbackground').jqxCheckBox({ checked: true, height: 25 });
-                $('#filtericons').jqxCheckBox({ checked: false, height: 25 });
-                // clear the filtering.
-                $('#clearfilteringbutton').click(function () {
-                    $("#jqxgrid").jqxGrid('clearfilters');
-                });
-                // show/hide filter background
-                $('#filterbackground').on('change', function (event) {
-                    $("#jqxgrid").jqxGrid({ showfiltercolumnbackground: event.args.checked });
-                });
-                // show/hide filter icons
-                $('#filtericons').on('change', function (event) {
-                    $("#jqxgrid").jqxGrid({ autoshowfiltericon: !event.args.checked });
-                });
                 penomoran($('#jqxgrid').jqxGrid('getrows').length);
+
+
+
             });
         });
 
