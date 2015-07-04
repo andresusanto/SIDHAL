@@ -210,7 +210,8 @@
                                 { text: 'Instansi', datafield: 'instansi', width: 150, columntype:'dropdownlist',
                                     initeditor: function (row, cellvalue, editor) {
                                         editor.jqxDropDownList({ displayMember: 'nama', source: dropdownListAdapter }).bind('select', function (event) {
-                                            $('#jqxgrid').jqxGrid('setcellvalue',row,'alamat',alamat);
+                                            var args = event.args;
+                                            $('#jqxgrid').jqxGrid('setcellvalue',row,'alamat',dropdownListAdapter.records[args.index]['alamat']);
                                         });
                                     }
                                 },
