@@ -26,7 +26,18 @@
         $(document).ready(function () {
             $.getJSON( '{{ action("PejabatController@getJsonPejabat",$instansi) }}', function( data ) {
             }).done(function(data){
-
+                var urlInstansi = '{{ action("InstansiController@getData") }}';
+                var dropDownListSource =
+                {
+                    datatype: "json",
+                    datafields: [
+                        { name: 'nama' },
+                        { name: 'alamat' }
+                    ],
+                    id: 'id',
+                    url: urlInstansi
+                };
+                var dropdownListAdapter = new $.jqx.dataAdapter(dropDownListSource, { autoBind: true, async: false });
                 var datax = new Array();
                 var count = data.count;
                 var id = data.id;
@@ -196,7 +207,11 @@
                                 { text: 'No', datafield: 'no', width: 50 },
                                 { text: 'Nama', datafield: 'nama', width: 200 },
                                 { text: 'Jabatan', datafield: 'jabatan', width: 150 },
-                                { text: 'Instansi', datafield: 'instansi', width: 150 },
+                                { text: 'Instansi', datafield: 'instansi', width: 150, columntype:'dropdownlist',
+                                    initeditor: function (row, cellvalue, editor) {
+                                        editor.jqxDropDownList({ displayMember: 'nama', source: dropdownListAdapter });
+                                    }
+                                },
                                 { text: 'Alamat', datafield: 'alamat', width: 200, cellsalign: 'right' },
                                 { text: 'Telepon', datafield: 'telepon', width: 100, cellsalign: 'right', cellsformat: 'c2' },
                                 { text: 'Email', datafield: 'email',  width:150, cellsalign: 'right',validation: function (cell, value) {
