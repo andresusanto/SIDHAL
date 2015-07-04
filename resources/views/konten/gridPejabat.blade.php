@@ -209,7 +209,9 @@
                                 { text: 'Jabatan', datafield: 'jabatan', width: 150 },
                                 { text: 'Instansi', datafield: 'instansi', width: 150, columntype:'dropdownlist',
                                     initeditor: function (row, cellvalue, editor) {
-                                        editor.jqxDropDownList({ displayMember: 'nama', source: dropdownListAdapter });
+                                        editor.jqxDropDownList({ displayMember: 'nama', source: dropdownListAdapter }).bind('select', function (event) {
+                                            $('#jqxgrid').jqxGrid('setcellvalue',row,'alamat',alamat);
+                                        });
                                     }
                                 },
                                 { text: 'Alamat', datafield: 'alamat', width: 200, cellsalign: 'right' },
