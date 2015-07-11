@@ -106,6 +106,7 @@
                         }else{
                             var _action = "insert";
                         }
+
                         if((rowdata.nama) && (rowdata.jabatan) && (rowdata.instansi_id) && (rowdata.alamat) && (rowdata.telepon) && (rowdata.email)) {
                             var datatoupdate = "action=" + _action + "&nama=" + rowdata.nama
                                     + "&jabatan=" + rowdata.jabatan
