@@ -106,13 +106,14 @@
                         }else{
                             var _action = "insert";
                         }
-                        if((rowdata.nama) && (rowdata.jabatan) && (rowdata.instansi) && (rowdata.alamat) && (rowdata.telepon) && (rowdata.email)) {
+                        if((rowdata.nama) && (rowdata.jabatan) && (rowdata.instansi_id) && (rowdata.alamat) && (rowdata.telepon) && (rowdata.email)) {
                             var datatoupdate = "action=" + _action + "&nama=" + rowdata.nama
                                     + "&jabatan=" + rowdata.jabatan
-                                    + "&instansi_id=" + rowdata.instansi + "&" + "&alamat=" + rowdata.alamat
+                                    + "&instansi_id=" + rowdata.instansi_id + "&alamat=" + rowdata.alamat
                                     + "&telepon=" + rowdata.telepon + "&email=" + rowdata.email
                                     + "&" + $.param({_token: '{{csrf_token()}}'})
                                     + "&" + $.param({id: rowdata.id});
+                            alert(datatoupdate);
                             $.ajax({
                                 type: "POST",
                                 url: '{{ action('PejabatController@postCrudPejabat')}}',
@@ -210,7 +211,7 @@
                                 { text: 'Jabatan', datafield: 'jabatan', width: 150 },
                                 { text: 'Instansi', datafield: 'instansi_id', width: 150, columntype:'dropdownlist',
                                     initeditor: function (row, cellvalue, editor) {
-                                        editor.jqxDropDownList({ displayMember: 'nama', source: dropdownListAdapter, valueMember:'id'}).bind('select', function (event) {
+                                        editor.jqxDropDownList({ displayMember: 'nama', source: dropdownListAdapter, valueMember:'alamat'}).bind('select', function (event) {
                                             var args = event.args;
                                             $('#jqxgrid').jqxGrid('setcellvalue',row,'alamat',dropdownListAdapter.records[args.index]['alamat']);
                                         });
