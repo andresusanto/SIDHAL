@@ -38,13 +38,25 @@
                     id: 'id',
                     url: urlInstansi
                 };
+
                 var dropdownListAdapter = new $.jqx.dataAdapter(dropDownListSource, { autoBind: true, async: false });
+                function stringToId(input){
+                    var i;
+                    var idInstansi;
+                    for(i=0;i<dropdownListAdapter.records.length;i++){
+                        if(dropdownListAdapter.records[i]['nama']==input){
+                            idInstansi = dropdownListAdapter.records[i]['id'];
+
+                        }
+                    }
+                    return idInstansi;
+                }
                 var datax = new Array();
                 var count = data.count;
                 var id = data.id;
                 var nama = data.nama;
                 var jabatan = data.jabatan;
-                var instansi =  data.instansi_id;
+                var instansi =  data.instansi;
                 var alamat = data.alamat;
                 var telepon =  data.telepon;
                 var email = data.email;
@@ -108,10 +120,10 @@
                         }
 
 
-                        if((rowdata.nama) && (rowdata.jabatan) && (rowdata.instansi_id) && (rowdata.alamat) && (rowdata.telepon) && (rowdata.email)) {
+                        if((rowdata.nama) && (rowdata.jabatan) && (rowdata.instansi) && (rowdata.alamat) && (rowdata.telepon) && (rowdata.email)) {
                             var datatoupdate = "action=" + _action + "&nama=" + rowdata.nama
                                     + "&jabatan=" + rowdata.jabatan
-                                    + "&instansi_id=" + rowdata.instansi_id + "&alamat=" + rowdata.alamat
+                                    + "&instansi_id=" + stringToId(rowdata.instansi) + "&alamat=" + rowdata.alamat
                                     + "&telepon=" + rowdata.telepon + "&email=" + rowdata.email
                                     + "&" + $.param({_token: '{{csrf_token()}}'})
                                     + "&" + $.param({id: rowdata.id});
@@ -211,7 +223,7 @@
                                 { text: 'No', datafield: 'no', width: 50 },
                                 { text: 'Nama', datafield: 'nama', width: 200 },
                                 { text: 'Jabatan', datafield: 'jabatan', width: 150 },
-                                { text: 'Instansi', datafield: 'instansi_id', width: 150, columntype:'dropdownlist',
+                                { text: 'Instansi', datafield: 'instansi', width: 150, columntype:'dropdownlist',
                                     initeditor: function (row, cellvalue, editor) {
                                         editor.jqxDropDownList({ displayMember: 'nama', source: dropdownListAdapter, valueMember:'alamat'}).bind('select', function (event) {
                                             var args = event.args;

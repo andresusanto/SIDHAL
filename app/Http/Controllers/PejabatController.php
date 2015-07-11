@@ -10,6 +10,7 @@
 namespace App\Http\Controllers;
 use DB;
 use Input;
+use App\Instansi;
 class PejabatController extends Controller {
     public function __construct()
     {
@@ -36,12 +37,16 @@ class PejabatController extends Controller {
             array_push($listNama,$pejabat->nama);
             array_push($listJabatan,$pejabat->jabatan);
             array_push($listInstansi,$pejabat->instansi_id);
-            array_push($listInstansiNama,DB::table('instansis')->select('nama')->where('id',$pejabat->instansi_id)->get());
+            //DB::table('instansis')->select('nama')->where('id','=',1)->get()
+            $lin = DB::table('instansis')->select('nama')->where('id','=',$pejabat->instansi_id)->get();
+            foreach($lin as $ulin){
+                array_push($listInstansiNama,$ulin->nama);
+            }
             array_push($listAlamat,$pejabat->alamat);
             array_push($listTelepon,$pejabat->telepon);
             array_push($listEmail,$pejabat->email);
         }
-        return json_encode(array('count'=>count($listNama),'id'=>$listId,'nama'=>$listNama,'jabatan'=>$listJabatan,'instansi_id'=>$listInstansi,'alamat'=>$listAlamat,'telepon'=>$listTelepon,'email'=>$listEmail,'instansi_nama'=>$listInstansiNama));
+        return json_encode(array('count'=>count($listNama),'id'=>$listId,'nama'=>$listNama,'jabatan'=>$listJabatan,'instansi_id'=>$listInstansi,'alamat'=>$listAlamat,'telepon'=>$listTelepon,'email'=>$listEmail,'instansi'=>$listInstansiNama));
     }
 
     public function getPejabat($instansi)
