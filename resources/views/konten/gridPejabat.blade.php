@@ -57,6 +57,7 @@
                 var nama = data.nama;
                 var jabatan = data.jabatan;
                 var instansi =  data.instansi;
+                var instansi_id = data.instansi_id;
                 var alamat = data.alamat;
                 var telepon =  data.telepon;
                 var email = data.email;
@@ -127,7 +128,6 @@
                                     + "&telepon=" + rowdata.telepon + "&email=" + rowdata.email
                                     + "&" + $.param({_token: '{{csrf_token()}}'})
                                     + "&" + $.param({id: rowdata.id});
-                            alert(datatoupdate);
                             $.ajax({
                                 type: "POST",
                                 url: '{{ action('PejabatController@postCrudPejabat')}}',
