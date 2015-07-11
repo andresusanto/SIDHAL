@@ -24,13 +24,14 @@
     <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxgrid.pager.js')}}"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $.getJSON( '{{ action("PejabatController@getJsonPejabat",$instansi) }}', function( data ) {
+            $.getJSON( '{{ action("PejabatController@getJsonPejabat",$instansi_id) }}', function( data ) {
             }).done(function(data){
                 var urlInstansi = '{{ action("InstansiController@getData") }}';
                 var dropDownListSource =
                 {
                     datatype: "json",
                     datafields: [
+                        { name: 'id' },
                         { name: 'nama' },
                         { name: 'alamat' }
                     ],
@@ -43,7 +44,7 @@
                 var id = data.id;
                 var nama = data.nama;
                 var jabatan = data.jabatan;
-                var instansi =  data.instansi;
+                var instansi =  data.instansi_id;
                 var alamat = data.alamat;
                 var telepon =  data.telepon;
                 var email = data.email;
@@ -105,13 +106,15 @@
                         }else{
                             var _action = "insert";
                         }
-                        if((rowdata.nama) && (rowdata.jabatan) && (rowdata.instansi) && (rowdata.alamat) && (rowdata.telepon) && (rowdata.email)) {
+
+                        if((rowdata.nama) && (rowdata.jabatan) && (rowdata.instansi_id) && (rowdata.alamat) && (rowdata.telepon) && (rowdata.email)) {
                             var datatoupdate = "action=" + _action + "&nama=" + rowdata.nama
                                     + "&jabatan=" + rowdata.jabatan
-                                    + "&instansi=" + rowdata.instansi + "&" + "&alamat=" + rowdata.alamat
+                                    + "&instansi_id=" + rowdata.instansi_id + "&alamat=" + rowdata.alamat
                                     + "&telepon=" + rowdata.telepon + "&email=" + rowdata.email
                                     + "&" + $.param({_token: '{{csrf_token()}}'})
                                     + "&" + $.param({id: rowdata.id});
+                            alert(datatoupdate);
                             $.ajax({
                                 type: "POST",
                                 url: '{{ action('PejabatController@postCrudPejabat')}}',
@@ -207,9 +210,9 @@
                                 { text: 'No', datafield: 'no', width: 50 },
                                 { text: 'Nama', datafield: 'nama', width: 200 },
                                 { text: 'Jabatan', datafield: 'jabatan', width: 150 },
-                                { text: 'Instansi', datafield: 'instansi', width: 150, columntype:'dropdownlist',
+                                { text: 'Instansi', datafield: 'instansi_id', width: 150, columntype:'dropdownlist',
                                     initeditor: function (row, cellvalue, editor) {
-                                        editor.jqxDropDownList({ displayMember: 'nama', source: dropdownListAdapter }).bind('select', function (event) {
+                                        editor.jqxDropDownList({ displayMember: 'nama', source: dropdownListAdapter, valueMember:'alamat'}).bind('select', function (event) {
                                             var args = event.args;
                                             $('#jqxgrid').jqxGrid('setcellvalue',row,'alamat',dropdownListAdapter.records[args.index]['alamat']);
                                         });
