@@ -31,7 +31,7 @@
                 {
                     datatype: "json",
                     datafields: [
-                        {name: 'id'},
+                        { name: 'id' },
                         { name: 'nama' },
                         { name: 'alamat' }
                     ],
