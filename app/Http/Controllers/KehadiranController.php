@@ -40,7 +40,7 @@ class KehadiranController extends Controller {
 	{
 		$listPejabats = DB::table('kehadirans')
 						->join('pejabats', 'pejabat_id', '=', 'pejabats.id')
-						->select('pejabats.id', 'pejabats.nama', 'pejabats.jabatan', 'pejabats.instansi', 'kehadirans.hadir', 'kehadirans.keterangan')
+						->select('pejabats.id', 'pejabats.nama', 'pejabats.jabatan', 'pejabats.instansi_id', 'kehadirans.hadir', 'kehadirans.keterangan')
 						->where('rapat_id', '=', $id)
 						->get();
 					
