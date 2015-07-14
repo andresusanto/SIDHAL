@@ -10,6 +10,7 @@
 namespace App\Http\Controllers;
 use DB;
 use Input;
+use App\Instansi;
 class PejabatController extends Controller {
     public function __construct()
     {
@@ -17,41 +18,17 @@ class PejabatController extends Controller {
     }
 
     public function getJsonPejabat($instansi){
-        switch ($instansi) {
-            case 'polhukam':
-                $instansi = 'polhukam';
-                break;
-            case 'kemdagri':
-                $instansi = 'kemdagri';
-                break;
-            case 'kemlu':
-                $instansi = 'kemlu';
-                break;
-            case 'kemhan':
-                $instansi = 'kemhan';
-                break;
-            case 'kemenkumham':
-                $instansi = 'kemenkumham';
-                break;
-            case 'kejagung' :
-                $instansi = 'kejagung';
-                break;
-            case 'mabestni':
-                $instansi = 'mabestni';
-                break;
-            case 'mabespolri':
-                $instansi = 'mabespolri';
-                break;
-        }
+
         if($instansi != "all") {
-            $listPejabats = DB::table('pejabats')->select('id','nama', 'jabatan', 'instansi', 'alamat', 'telepon', 'email')->where('instansi', $instansi)->get();
+            $listPejabats = DB::table('pejabats')->select('id','nama', 'jabatan', 'instansi_id', 'alamat', 'telepon', 'email')->where('instansi_id', $instansi)->get();
         }else{
-            $listPejabats = DB::table('pejabats')->select('id','nama','jabatan','instansi','alamat','telepon','email')->get();
+            $listPejabats = DB::table('pejabats')->select('id','nama','jabatan','instansi_id','alamat','telepon','email')->get();
         }
         $listId = array();
         $listNama = array();
         $listJabatan = array();
         $listInstansi = array();
+        $listInstansiNama = array();
         $listAlamat = array();
         $listTelepon = array();
         $listEmail = array();
@@ -59,27 +36,32 @@ class PejabatController extends Controller {
             array_push($listId,$pejabat->id);
             array_push($listNama,$pejabat->nama);
             array_push($listJabatan,$pejabat->jabatan);
-            array_push($listInstansi,$pejabat->instansi);
+            array_push($listInstansi,$pejabat->instansi_id);
+            //DB::table('instansis')->select('nama')->where('id','=',1)->get()
+            $lin = DB::table('instansis')->select('nama')->where('id','=',$pejabat->instansi_id)->get();
+            foreach($lin as $ulin){
+                array_push($listInstansiNama,$ulin->nama);
+            }
             array_push($listAlamat,$pejabat->alamat);
             array_push($listTelepon,$pejabat->telepon);
             array_push($listEmail,$pejabat->email);
         }
-        return json_encode(array('count'=>count($listNama),'id'=>$listId,'nama'=>$listNama,'jabatan'=>$listJabatan,'instansi'=>$listInstansi,'alamat'=>$listAlamat,'telepon'=>$listTelepon,'email'=>$listEmail));
+        return json_encode(array('count'=>count($listNama),'id'=>$listId,'nama'=>$listNama,'jabatan'=>$listJabatan,'instansi_id'=>$listInstansi,'alamat'=>$listAlamat,'telepon'=>$listTelepon,'email'=>$listEmail,'instansi'=>$listInstansiNama));
     }
 
     public function getPejabat($instansi)
     {
-        return view('konten/gridPejabat', array('title'=>'Entry Pejabat Baru','instansi' => $instansi,'nav_pejabat'=>'','nav_'.$instansi=>''));
+        return view('konten/gridPejabat', array('title'=>'Entry Pejabat Baru','instansi_id' => $instansi,'nav_pejabat'=>'','nav_'.$instansi=>''));
     }
 
     public function getSuggestedPejabat(){
         $keyword = Input::get('query');
-        $suggestionList = DB::table('pejabats')->select('id','nama','instansi','jabatan')->where('nama','LIKE','%'.$keyword.'%')->get();
+        $suggestionList = DB::table('pejabats')->select('id','nama','instansi_id','jabatan')->where('nama','LIKE','%'.$keyword.'%')->get();
         $tmpSuggestion = array();
         $arraySuggestion['suggestions'] = array();
         foreach($suggestionList as $suggestion){
-            $tmpSuggestion['value'] = $suggestion->nama." dari ".$suggestion->instansi;
-            $tmpSuggestion['data'] = array('id'=>$suggestion->id,'nama'=>$suggestion->nama,'instansi'=>$suggestion->instansi,'jabatan'=>$suggestion->jabatan);
+            $tmpSuggestion['value'] = $suggestion->nama." dari ".Instansi::find($suggestion->instansi_id)->nama;
+            $tmpSuggestion['data'] = array('id'=>$suggestion->id,'nama'=>$suggestion->nama,'instansi'=>Instansi::find($suggestion->instansi_id)->nama,'jabatan'=>$suggestion->jabatan);
             array_push($arraySuggestion['suggestions'],$tmpSuggestion);
         }
         return json_encode($arraySuggestion);
@@ -94,7 +76,7 @@ class PejabatController extends Controller {
         $id = Input::get('id');
         $nama = Input::get('nama');
         $jabatan = Input::get('jabatan');
-        $instansi = Input::get('instansi');
+        $instansi = Input::get('instansi_id');
         $alamat = Input::get('alamat');
         $telepon = Input::get('telepon');
         $email = Input::get('email');
@@ -103,11 +85,11 @@ class PejabatController extends Controller {
                 $query = DB::table('pejabats')->where('id',$id)->delete();
                 break;
             case 'update':
-                $query = DB::table('pejabats')->where('id',$id)->update(['nama'=>$nama,'jabatan'=>$jabatan,'instansi'=>$instansi,'alamat' => $alamat, 'telepon' => $telepon,'email' => $email]);
+                $query = DB::table('pejabats')->where('id',$id)->update(['nama'=>$nama,'jabatan'=>$jabatan,'instansi_id'=>$instansi,'alamat' => $alamat, 'telepon' => $telepon,'email' => $email]);
                 return $id;
                 break;
             case 'insert':
-                $query = DB::table('pejabats')->insertGetId(['nama'=>$nama,'jabatan'=>$jabatan,'instansi'=>$instansi,'alamat' => $alamat, 'telepon' => $telepon,'email' => $email]);
+                $query = DB::table('pejabats')->insertGetId(['nama'=>$nama,'jabatan'=>$jabatan,'instansi_id'=>$instansi,'alamat' => $alamat, 'telepon' => $telepon,'email' => $email]);
                 return $query;
                 break;
         }

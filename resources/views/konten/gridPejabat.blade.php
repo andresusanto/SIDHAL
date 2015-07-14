@@ -24,26 +24,40 @@
     <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxgrid.pager.js')}}"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $.getJSON( '{{ action("PejabatController@getJsonPejabat",$instansi) }}', function( data ) {
+            $.getJSON( '{{ action("PejabatController@getJsonPejabat",$instansi_id) }}', function( data ) {
             }).done(function(data){
                 var urlInstansi = '{{ action("InstansiController@getData") }}';
                 var dropDownListSource =
                 {
                     datatype: "json",
                     datafields: [
+                        { name: 'id' },
                         { name: 'nama' },
                         { name: 'alamat' }
                     ],
                     id: 'id',
                     url: urlInstansi
                 };
+
                 var dropdownListAdapter = new $.jqx.dataAdapter(dropDownListSource, { autoBind: true, async: false });
+                function stringToId(input){
+                    var i;
+                    var idInstansi;
+                    for(i=0;i<dropdownListAdapter.records.length;i++){
+                        if(dropdownListAdapter.records[i]['nama']==input){
+                            idInstansi = dropdownListAdapter.records[i]['id'];
+
+                        }
+                    }
+                    return idInstansi;
+                }
                 var datax = new Array();
                 var count = data.count;
                 var id = data.id;
                 var nama = data.nama;
                 var jabatan = data.jabatan;
                 var instansi =  data.instansi;
+                var instansi_id = data.instansi_id;
                 var alamat = data.alamat;
                 var telepon =  data.telepon;
                 var email = data.email;
@@ -105,10 +119,12 @@
                         }else{
                             var _action = "insert";
                         }
+
+
                         if((rowdata.nama) && (rowdata.jabatan) && (rowdata.instansi) && (rowdata.alamat) && (rowdata.telepon) && (rowdata.email)) {
                             var datatoupdate = "action=" + _action + "&nama=" + rowdata.nama
                                     + "&jabatan=" + rowdata.jabatan
-                                    + "&instansi=" + rowdata.instansi + "&" + "&alamat=" + rowdata.alamat
+                                    + "&instansi_id=" + stringToId(rowdata.instansi) + "&alamat=" + rowdata.alamat
                                     + "&telepon=" + rowdata.telepon + "&email=" + rowdata.email
                                     + "&" + $.param({_token: '{{csrf_token()}}'})
                                     + "&" + $.param({id: rowdata.id});
@@ -209,7 +225,7 @@
                                 { text: 'Jabatan', datafield: 'jabatan', width: 150 },
                                 { text: 'Instansi', datafield: 'instansi', width: 150, columntype:'dropdownlist',
                                     initeditor: function (row, cellvalue, editor) {
-                                        editor.jqxDropDownList({ displayMember: 'nama', source: dropdownListAdapter }).bind('select', function (event) {
+                                        editor.jqxDropDownList({ displayMember: 'nama', source: dropdownListAdapter, valueMember:'alamat'}).bind('select', function (event) {
                                             var args = event.args;
                                             $('#jqxgrid').jqxGrid('setcellvalue',row,'alamat',dropdownListAdapter.records[args.index]['alamat']);
                                         });

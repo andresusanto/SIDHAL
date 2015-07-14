@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use DB;
 use Input;
 
+use App\Instansi;
+
 class KehadiranController extends Controller {
 
 	public function __construct()
@@ -40,7 +42,7 @@ class KehadiranController extends Controller {
 	{
 		$listPejabats = DB::table('kehadirans')
 						->join('pejabats', 'pejabat_id', '=', 'pejabats.id')
-						->select('pejabats.id', 'pejabats.nama', 'pejabats.jabatan', 'pejabats.instansi', 'kehadirans.hadir', 'kehadirans.keterangan')
+						->select('pejabats.id', 'pejabats.nama', 'pejabats.jabatan', 'pejabats.instansi_id', 'kehadirans.hadir', 'kehadirans.keterangan')
 						->where('rapat_id', '=', $id)
 						->get();
 					
@@ -50,20 +52,13 @@ class KehadiranController extends Controller {
         $listInstansi = array();
         $listHadir = array();
         $listKeterangan = array();
-		$hadir = 'T';
 		
 		foreach($listPejabats as $pejabat){
             array_push($listId,$pejabat->id);
             array_push($listNama,$pejabat->nama);
             array_push($listJabatan,$pejabat->jabatan);
-            array_push($listInstansi,$pejabat->instansi);
-			if($pejabat->hadir==1){
-				$hadir = 'Y';
-			}
-			else{
-				$hadir = 'T';
-			}
-            array_push($listHadir,$hadir);
+            array_push($listInstansi,Instansi::find($pejabat->instansi_id)->nama);
+            array_push($listHadir,$pejabat->hadir);
             array_push($listKeterangan,$pejabat->keterangan);
         }
 					
