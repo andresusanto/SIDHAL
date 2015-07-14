@@ -60,8 +60,8 @@ class PejabatController extends Controller {
         $tmpSuggestion = array();
         $arraySuggestion['suggestions'] = array();
         foreach($suggestionList as $suggestion){
-            $tmpSuggestion['value'] = $suggestion->nama." dari ".$suggestion->instansi_id;
-            $tmpSuggestion['data'] = array('id'=>$suggestion->id,'nama'=>$suggestion->nama,'instansi_id'=>$suggestion->instansi_id,'jabatan'=>$suggestion->jabatan);
+            $tmpSuggestion['value'] = $suggestion->nama." dari ".Instansi::find($suggestion->instansi_id)->nama;
+            $tmpSuggestion['data'] = array('id'=>$suggestion->id,'nama'=>$suggestion->nama,'instansi'=>Instansi::find($suggestion->instansi_id)->nama,'jabatan'=>$suggestion->jabatan);
             array_push($arraySuggestion['suggestions'],$tmpSuggestion);
         }
         return json_encode($arraySuggestion);
