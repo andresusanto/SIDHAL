@@ -124,16 +124,16 @@
 									var dataId = $('#jqxgrid').jqxGrid('getcellvalue',i-1,'id');
 									var dataKeterangan = $('#jqxgrid').jqxGrid('getcellvalue',i-1,'keterangan');
 									var dataHadir = $('#jqxgrid').jqxGrid('getcellvalue',i-1,'hadir');
+
+									if(typeof(datarow.keterangan)=="undefined"){
+										dataKeterangan = " ";
+									}
 									
 									if(dataHadir){
 										var valueHadir = 1;
 									}
 									else{
 										var valueHadir = 0;
-									}
-									
-									if(typeof(datarow.keterangan)=="undefined"){
-										dataKeterangan = " ";
 									}
 									
 									var dataKehadiran = "rapat_id={{ $id_rapat }}&pejabat_id=" + dataId + "&hadir=" + valueHadir + "&keterangan=" + dataKeterangan + "&" +$.param({_token: '{{csrf_token()}}'});
@@ -195,6 +195,7 @@
                 $('#jqxgrid').jqxGrid('setcellvalue',nomor,'nama',nama);
                 $('#jqxgrid').jqxGrid('setcellvalue',nomor,'jabatan',jabatan);
                 $('#jqxgrid').jqxGrid('setcellvalue',nomor,'instansi',instansi);
+                $('#jqxgrid').jqxGrid('setcellvalue',nomor,'keterangan','');
                 $('#jqxgrid').jqxGrid('setcellvalue',nomor,'hadir','');
             }else{
                 write(id,nama,jabatan,instansi,nomor+1);

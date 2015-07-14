@@ -20,6 +20,10 @@
 	
 	$('#tanggal').datepicker({dateFormat: "yy-mm-dd"});
 	$('#waktu').timepicker({ 'timeFormat': 'H:i WIB' });
+	
+	var pimpinanRapat = [<?php echo $pimpinan; ?>];
+	
+	$( "#pimpinan" ).autocomplete({source: pimpinanRapat});
 </script>
 @endsection
 

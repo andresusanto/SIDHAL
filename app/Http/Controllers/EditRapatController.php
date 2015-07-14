@@ -2,6 +2,7 @@
 
 use Request;
 use App\Rapat;
+use App\Pejabat;
 use Carbon\Carbon;
 
 class EditRapatController extends Controller {
@@ -16,7 +17,15 @@ class EditRapatController extends Controller {
 	{
 		$rapat = Rapat::find($id);
 		
-		return view('konten/editRapat', array('title'=>'Edit Rapat', 'nav_rapat'=>''))->with('rapat', $rapat);
+		$daftar_pejabat = Pejabat::all();
+		$pimpinan = "";
+		
+		foreach ($daftar_pejabat as $pejabat){
+			if ($pimpinan != "") $pimpinan .= ", ";
+			$pimpinan .= '"' . $pejabat->nama . ' (' . $pejabat->instansi . ')"';
+		}
+		
+		return view('konten/editRapat', array('title'=>'Edit Rapat', 'nav_rapat'=>'', 'pimpinan'=>$pimpinan, 'rapat'=>$rapat));
 	}
 
 	// Save changes
