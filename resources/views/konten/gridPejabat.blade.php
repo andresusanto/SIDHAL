@@ -15,11 +15,11 @@
     <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxdropdownlist.js')}}"></script>
     <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxgrid.js')}}"></script>
     <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxgrid.filter.js')}}"></script>
-    <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqwidgets/jqxgrid.sort.js')}}"></script>
-    <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqwidgets/jqxpanel.js')}}"></script>
-    <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqwidgets/globalize.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxgrid.sort.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxpanel.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/globalization/globalize.js')}}"></script>
     <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxgrid.selection.js')}}"></script>
-    <script type="text/javascript" src="{{ asset('jqwidgets/jqxgrid.sort.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxgrid.sort.js')}}"></script>
     <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxgrid.edit.js')}}"></script>
     <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxgrid.pager.js')}}"></script>
     <script type="text/javascript">
@@ -39,7 +39,7 @@
                     url: urlInstansi
                 };
 
-                var dropdownListAdapter = new $.jqx.dataAdapter(dropDownListSource, { autoBind: true, async: false });
+                var dropdownListAdapter = new $.jqx.dataAdapter(dropDownListSource, { autoBind: true, async: true });
                 function stringToId(input){
                     var i;
                     var idInstansi;
@@ -238,9 +238,6 @@
                                         return { result: false, message: "Isikan email dengan benar" };
                                     }
                                     return true;
-                                    },
-                                    initeditor: function (row, cellvalue, editor) {
-                                        editor.jqxNumberInput({ digits: 3 });
                                     }
                                 },
                                 { text: '', datafield: 'id', width: 50,editable:false, hidden:true}
