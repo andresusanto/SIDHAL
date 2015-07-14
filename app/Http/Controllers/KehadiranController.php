@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use DB;
 use Input;
 
+use App\Instansi;
+
 class KehadiranController extends Controller {
 
 	public function __construct()
@@ -18,10 +20,6 @@ class KehadiranController extends Controller {
 	public function postKehadiranPejabat()
 	{
 		$rapat_id = Input::get('rapat_id');
-		
-		// clear all pejabat based on rapat_id
-		$queryDel = DB::table('kehadirans')->where('rapat_id',$rapat_id)->delete();
-		
 		$pejabat_id = Input::get('pejabat_id');
 		$keterangan = Input::get('keterangan');
 		$hadir = Input::get('hadir');
@@ -32,11 +30,19 @@ class KehadiranController extends Controller {
 		return 1;
 	}
 	
+	public function postClearKehadiran()
+	{
+		$rapat_id = Input::get('rapat_id');
+		
+		// clear all pejabat based on rapat_id
+		$queryDel = DB::table('kehadirans')->where('rapat_id',$rapat_id)->delete();
+	}
+	
 	public function getJsonData($id)
 	{
 		$listPejabats = DB::table('kehadirans')
 						->join('pejabats', 'pejabat_id', '=', 'pejabats.id')
-						->select('pejabats.id', 'pejabats.nama', 'pejabats.jabatan', 'pejabats.instansi', 'kehadirans.hadir', 'kehadirans.keterangan')
+						->select('pejabats.id', 'pejabats.nama', 'pejabats.jabatan', 'pejabats.instansi_id', 'kehadirans.hadir', 'kehadirans.keterangan')
 						->where('rapat_id', '=', $id)
 						->get();
 					
@@ -46,20 +52,13 @@ class KehadiranController extends Controller {
         $listInstansi = array();
         $listHadir = array();
         $listKeterangan = array();
-		$hadir = 'T';
 		
 		foreach($listPejabats as $pejabat){
             array_push($listId,$pejabat->id);
             array_push($listNama,$pejabat->nama);
             array_push($listJabatan,$pejabat->jabatan);
-            array_push($listInstansi,$pejabat->instansi);
-			if($pejabat->hadir==1){
-				$hadir = 'Y';
-			}
-			else{
-				$hadir = 'T';
-			}
-            array_push($listHadir,$hadir);
+            array_push($listInstansi,Instansi::find($pejabat->instansi_id)->nama);
+            array_push($listHadir,$pejabat->hadir);
             array_push($listKeterangan,$pejabat->keterangan);
         }
 					

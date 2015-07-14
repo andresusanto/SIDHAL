@@ -112,21 +112,28 @@
 							// save kehadiran
                             $("#savebutton").on('click', function () {
 								var count =  $('#jqxgrid').jqxGrid('getdatainformation').rowscount;
+								var clearData = "rapat_id={{ $id_rapat }}&" +$.param({_token: '{{csrf_token()}}'});
+								$.ajax({
+									type: "POST",
+									url: "{{ action('KehadiranController@postClearKehadiran') }}",
+									data: clearData
+								});
+								
 								for(var i=1; i<=count; i++){
 									var datarow = $("#jqxgrid").jqxGrid('getrowdata', i-1);
 									var dataId = $('#jqxgrid').jqxGrid('getcellvalue',i-1,'id');
 									var dataKeterangan = $('#jqxgrid').jqxGrid('getcellvalue',i-1,'keterangan');
 									var dataHadir = $('#jqxgrid').jqxGrid('getcellvalue',i-1,'hadir');
+
+									if(typeof(datarow.keterangan)=="undefined"){
+										dataKeterangan = " ";
+									}
 									
-									if(dataHadir=='Y'){
+									if(dataHadir){
 										var valueHadir = 1;
 									}
 									else{
 										var valueHadir = 0;
-									}
-									
-									if(typeof(datarow.keterangan)=="undefined"){
-										dataKeterangan = " "
 									}
 									
 									var dataKehadiran = "rapat_id={{ $id_rapat }}&pejabat_id=" + dataId + "&hadir=" + valueHadir + "&keterangan=" + dataKeterangan + "&" +$.param({_token: '{{csrf_token()}}'});
@@ -141,10 +148,9 @@
 										
 									}
 								}
-								if(dataCount>=1){
-									alert("sukses memasukkan data");
-									window.location="{{ action('DaftarRapatController@getIndex') }}";
-								}
+								
+								alert("Data berhasil disimpan");
+								window.location="{{ action('DaftarRapatController@getIndex') }}";
 								
                             });
 
@@ -154,7 +160,7 @@
                             { text: 'Nama', datafield: 'nama', width: 200, editable:false },
                             { text: 'Jabatan', datafield: 'jabatan', width: 150, editable:false },
                             { text: 'Instansi', datafield: 'instansi', width: 150, editable:false },
-                            { text: 'Hadir (Y/T)', datafield: 'hadir', width: 100 },
+                            { text: 'Hadir (Y/T)', datafield: 'hadir', width: 100,columntype:'checkbox' },
                             { text: 'Keterangan', datafield: 'keterangan',width:250},
                             { text: '', datafield: 'id', editable:false, width:0, hidden:true}
                         ]
@@ -175,6 +181,7 @@
             type: 'GET',
             onSelect: function (suggestion) {
                 write(suggestion.data.id,suggestion.data.nama,suggestion.data.jabatan,suggestion.data.instansi,0);
+				document.getElementById("autocomplete-ajax").value = "";
             }
         });
 
@@ -188,6 +195,7 @@
                 $('#jqxgrid').jqxGrid('setcellvalue',nomor,'nama',nama);
                 $('#jqxgrid').jqxGrid('setcellvalue',nomor,'jabatan',jabatan);
                 $('#jqxgrid').jqxGrid('setcellvalue',nomor,'instansi',instansi);
+                $('#jqxgrid').jqxGrid('setcellvalue',nomor,'keterangan','');
                 $('#jqxgrid').jqxGrid('setcellvalue',nomor,'hadir','');
             }else{
                 write(id,nama,jabatan,instansi,nomor+1);

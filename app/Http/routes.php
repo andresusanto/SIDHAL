@@ -26,4 +26,5 @@ Route::controllers([
 	'editRapat' => 'EditRapatController',
 	'kehadiran' => 'KehadiranController',
 	'user' => 'UserController',
+	'instansi' => 'InstansiController',
 ]);

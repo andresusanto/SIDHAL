@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePejabatsTable extends Migration {
+class CreateInstansisTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,15 +12,12 @@ class CreatePejabatsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('pejabats', function(Blueprint $table)
+		Schema::create('instansis', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->string('nama');
-            $table->string('jabatan');
-            $table->integer('instansi_id')->unsigned();
-            $table->string('alamat');
-            $table->string('telepon');
-			$table->string('email');
+			$table->string('alamat');
+			$table->timestamps();
 		});
 	}
 
@@ -31,7 +28,7 @@ class CreatePejabatsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('pejabats');
+		Schema::drop('instansis');
 	}
 
 }

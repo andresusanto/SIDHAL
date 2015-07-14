@@ -14,17 +14,50 @@
     <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxlistbox.js')}}"></script>
     <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxdropdownlist.js')}}"></script>
     <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxgrid.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxgrid.filter.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqwidgets/jqxgrid.sort.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqwidgets/jqxpanel.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqwidgets/globalize.js')}}"></script>
     <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxgrid.selection.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('jqwidgets/jqxgrid.sort.js')}}"></script>
     <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxgrid.edit.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('/jqwidget/jqwidgets/jqxgrid.pager.js')}}"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $.getJSON( '{{ action("PejabatController@getJsonPejabat",$instansi) }}', function( data ) {
+            $.getJSON( '{{ action("PejabatController@getJsonPejabat",$instansi_id) }}', function( data ) {
             }).done(function(data){
+                var urlInstansi = '{{ action("InstansiController@getData") }}';
+                var dropDownListSource =
+                {
+                    datatype: "json",
+                    datafields: [
+                        { name: 'id' },
+                        { name: 'nama' },
+                        { name: 'alamat' }
+                    ],
+                    id: 'id',
+                    url: urlInstansi
+                };
+
+                var dropdownListAdapter = new $.jqx.dataAdapter(dropDownListSource, { autoBind: true, async: false });
+                function stringToId(input){
+                    var i;
+                    var idInstansi;
+                    for(i=0;i<dropdownListAdapter.records.length;i++){
+                        if(dropdownListAdapter.records[i]['nama']==input){
+                            idInstansi = dropdownListAdapter.records[i]['id'];
+
+                        }
+                    }
+                    return idInstansi;
+                }
+                var datax = new Array();
                 var count = data.count;
                 var id = data.id;
                 var nama = data.nama;
                 var jabatan = data.jabatan;
                 var instansi =  data.instansi;
+                var instansi_id = data.instansi_id;
                 var alamat = data.alamat;
                 var telepon =  data.telepon;
                 var email = data.email;
@@ -43,13 +76,12 @@
 
                 for (var i = 0; i < count; i++) {
                     var row = generaterow(i);
-                    data[i] = row;
+                    datax[i] = row;
                 }
-
                 var source =
                 {
-                    localdata: data,
-                    datatype: "local",
+                    localdata: datax,
+                    datatype: "array",
                     datafields:
                             [
                                 { name: 'id', type: 'integer' },
@@ -87,10 +119,12 @@
                         }else{
                             var _action = "insert";
                         }
+
+
                         if((rowdata.nama) && (rowdata.jabatan) && (rowdata.instansi) && (rowdata.alamat) && (rowdata.telepon) && (rowdata.email)) {
                             var datatoupdate = "action=" + _action + "&nama=" + rowdata.nama
                                     + "&jabatan=" + rowdata.jabatan
-                                    + "&instansi=" + rowdata.instansi + "&" + "&alamat=" + rowdata.alamat
+                                    + "&instansi_id=" + stringToId(rowdata.instansi) + "&alamat=" + rowdata.alamat
                                     + "&telepon=" + rowdata.telepon + "&email=" + rowdata.email
                                     + "&" + $.param({_token: '{{csrf_token()}}'})
                                     + "&" + $.param({id: rowdata.id});
@@ -111,12 +145,45 @@
                         commit(true);
                     }
                 };
+                var pagerrenderer = function () {
+                    var element = $("<div style='margin-top: 5px; width: 100%; height: 100%;'></div>");
+                    var paginginfo = $("#jqxgrid").jqxGrid('getpaginginformation');
+                    for (i = 0; i < paginginfo.pagescount; i++) {
+                        // add anchor tag with the page number for each page.
+                        var anchor = $("<a style='padding: 5px;' href='#" + i + "'>" + i + "</a>");
+                        anchor.appendTo(element);
+                        anchor.click(function (event) {
+                            // go to a page.
+                            var pagenum = parseInt($(event.target).text());
+                            $("#jqxgrid").jqxGrid('gotopage', pagenum);
+                        });
+                    }
+                    return element;
+                }
                 var dataAdapter = new $.jqx.dataAdapter(source);
+                var addfilter = function () {
+                    var filtergroup = new $.jqx.filter();
+                    var filter_or_operator = 1;
+                    var filtervalue = 'Andrew';
+                    var filtercondition = 'equal';
+                    var filter1 = filtergroup.createfilter('stringfilter', filtervalue, filtercondition);
+
+                    filtergroup.addfilter(filter_or_operator, filter1);
+                    // add the filters.
+                    $("#jqxgrid").jqxGrid('addfilter', 'instansi', filtergroup);
+                    // apply the filters.
+                    $("#jqxgrid").jqxGrid('applyfilters');
+                }
+                var adapter = new $.jqx.dataAdapter(source);
                 $("#jqxgrid").jqxGrid(
                         {
                             source: dataAdapter,
                             autoheight: true,
                             autowidth:true,
+                            filterable: true,
+                            autoshowfiltericon: true,
+                            pageable: true,
+                            //pagerrenderer: pagerrenderer,
                             editable: true,
                             showtoolbar: true,
                             rendertoolbar: function (toolbar) {
@@ -128,13 +195,17 @@
                                 container.append('<input style="margin-left: 5px;" id="deleterowbutton" type="button" value="Hapus Data Pejabat" />');
                                 container.append('<input style="margin-left: 5px;display:none;" id="updaterowbutton" type="button" value="Update Selected Row" />');
                                 $("#addrowbutton").jqxButton();
+                                $("#addrowbutton").click(function () {
+                                    $("#jqxgrid").jqxGrid("addrow", null, {}, "first");
+                                });
                                 $("#deleterowbutton").jqxButton();
 
                                 // create new row.
                                 $("#addrowbutton").on('click', function () {
-                                    var datarow = generaterow();
-                                    var commit = $("#jqxgrid").jqxGrid('addrow', null, datarow);
-
+                                    var row = {};
+                                    row["id"] = $('#jqxgrid').jqxGrid('getrows').length+1;
+                                    var datarow = row;
+                                    var commit = true;
                                 });
 
                                 // delete row.
@@ -152,20 +223,44 @@
                                 { text: 'No', datafield: 'no', width: 50 },
                                 { text: 'Nama', datafield: 'nama', width: 200 },
                                 { text: 'Jabatan', datafield: 'jabatan', width: 150 },
-                                { text: 'Instansi', datafield: 'instansi', width: 150 },
+                                { text: 'Instansi', datafield: 'instansi', width: 150, columntype:'dropdownlist',
+                                    initeditor: function (row, cellvalue, editor) {
+                                        editor.jqxDropDownList({ displayMember: 'nama', source: dropdownListAdapter, valueMember:'alamat'}).bind('select', function (event) {
+                                            var args = event.args;
+                                            $('#jqxgrid').jqxGrid('setcellvalue',row,'alamat',dropdownListAdapter.records[args.index]['alamat']);
+                                        });
+                                    }
+                                },
                                 { text: 'Alamat', datafield: 'alamat', width: 200, cellsalign: 'right' },
                                 { text: 'Telepon', datafield: 'telepon', width: 100, cellsalign: 'right', cellsformat: 'c2' },
-                                { text: 'Email', datafield: 'email',  width:150, cellsalign: 'right' },
+                                { text: 'Email', datafield: 'email',  width:150, cellsalign: 'right',validation: function (cell, value) {
+                                    if (!isValidEmailAddress(value)) {
+                                        return { result: false, message: "Isikan email dengan benar" };
+                                    }
+                                    return true;
+                                    },
+                                    initeditor: function (row, cellvalue, editor) {
+                                        editor.jqxNumberInput({ digits: 3 });
+                                    }
+                                },
                                 { text: '', datafield: 'id', width: 50,editable:false, hidden:true}
                             ]
                         });
                 penomoran($('#jqxgrid').jqxGrid('getrows').length);
+
+
+
             });
         });
 
 
     </script>
     <script>
+        function isValidEmailAddress(emailAddress) {
+            var pattern = new RegExp(/^[+a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i);
+            // alert( pattern.test(emailAddress) );
+            return pattern.test(emailAddress);
+        };
         function penomoran(nomor){
             if(nomor>=0){
                 $('#jqxgrid').jqxGrid('setcellvalue',nomor,'no',nomor+1);
@@ -196,7 +291,7 @@
 </div>
 
 <div class="wrapper wrapper-content animated fadeInRight">   
-	<div class="row">
+	<div class="row" id="jqxWidget">
         <div id="jqxgrid" class="col-lg-12">
         </div>
 	</div>
